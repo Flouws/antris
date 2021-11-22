@@ -17,6 +17,7 @@ module.exports = {
       address: null,
       picture: null,
       roleId: 1,
+      isActive: null,
     }, {
       uuid: 'b841cebb-1e0d-4974-aba4-82f4618c714a',
       name: 'hospital',
@@ -25,6 +26,7 @@ module.exports = {
       address: 'Jl. Mangga, Komplek Durian, Desa Mars, Kec Venus, Kota Bumi. ',
       picture: null,
       roleId: 2,
+      isActive: 1,
     }]);
   },
 
