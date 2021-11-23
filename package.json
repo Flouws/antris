@@ -4,7 +4,7 @@
   "description": "Antris is a project for SIB Dicoding Capstone 2021.",
   "main": "index.js",
   "scripts": {
-    "backend": "node ./src/backend/app.js",
+    "start": "node ./src/backend/app.js",
     "backend-dev": "nodemon ./src/backend/app.js",
     "start-dev": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
