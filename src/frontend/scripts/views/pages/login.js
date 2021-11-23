@@ -1,16 +1,9 @@
-class Login extends HTMLElement {
+/* eslint-disable max-len */
 
-  constructor() {
-    super();
-  }
-
-  connectedCallback() {
-    this.render();
-  }
-
+const Login = {
   async render() {
-    this.innerHTML = `
-  <section class="vh-100">
+    return `
+    <section class="vh-100">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
@@ -50,9 +43,13 @@ class Login extends HTMLElement {
             </div>
         </div>
     </div>
-  </section>
-       `;
-  }
-}
+    </section>
+          `;
+  },
 
-customElements.define("login-page", Login);
+  async afterRender() {
+  },
+};
+
+export default Login;
+

@@ -1,8 +1,18 @@
 import 'regenerator-runtime';
 import 'bootstrap';
 import '../styles/main.scss';
+import './component/nav-bar.js';
+import '../styles/main.css';
+import App from './views/app.js';
 
-import '../component/login-page.js'
-import '../component/register-page.js'
+const app = new App({
+  content: document.querySelector('#mainContent'),
+});
 
-console.log('Hello Coders!');
+window.addEventListener('hashchange', () => {
+  app.renderPage();
+});
+
+window.addEventListener('load', () => {
+  app.renderPage();
+});
