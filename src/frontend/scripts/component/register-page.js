@@ -1,15 +1,16 @@
+/* eslint-disable require-jsdoc */
+/* eslint-disable max-len */
 class Register extends HTMLElement {
+  constructor() {
+    super();
+  }
 
-    constructor() {
-      super();
-    }
-  
-    connectedCallback() {
-      this.render();
-    }
-  
-    async render() {
-      this.innerHTML = `
+  connectedCallback() {
+    this.render();
+  }
+
+  async render() {
+    this.innerHTML = `
   <section class="vh-100">
       <div class="container-fluid h-custom">
           <div class="row d-flex justify-content-center align-items-center h-100">
@@ -19,7 +20,7 @@ class Register extends HTMLElement {
               </div>
               <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                   <form>
-                      <div class="form-outline mb-4">
+                      <div class="form-outline mb-4 mt-4">
                           <input type="email" id="register-email" class="form-control form-control-lg"
                               placeholder="Enter a valid email address" />
                       </div>
@@ -62,7 +63,7 @@ class Register extends HTMLElement {
       </div>
   </section>
          `;
-    }
   }
-  
-  customElements.define("register-page", Register);
+}
+
+customElements.define('register-page', Register);
