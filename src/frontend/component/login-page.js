@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 class Login extends HTMLElement {
-
   constructor() {
     super();
   }
@@ -55,4 +56,4 @@ class Login extends HTMLElement {
   }
 }
 
-customElements.define("login-page", Login);
+customElements.define('login-page', Login);

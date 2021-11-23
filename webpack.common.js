@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/frontend/scripts/index.js'),
@@ -13,9 +14,9 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader",
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
       {
@@ -32,6 +33,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/frontend/templates/index.html'),
       filename: 'index.html',
@@ -47,6 +52,6 @@ module.exports = {
   ],
   devServer: {
     inline: false,
-    contentBase: './dist'
+    contentBase: './dist',
   },
 };
