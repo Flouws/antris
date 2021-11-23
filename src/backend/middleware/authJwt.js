@@ -18,11 +18,11 @@ verifyToken = async (req, res, next) => {
 
   try {
     jwt.verify(token, process.env.APP_KEY);
-  } catch (err) {
+  } catch (error) {
     return res.status(401).json({
       error: {
         code: 401,
-        message: 'Unauthorized.',
+        message: error.message,
       },
     });
   }
@@ -44,31 +44,35 @@ isUser = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, process.env.APP_KEY);
 
-    const user = await User.findOne({
-      where: {
-        uuid: decodedToken.uuid,
-      },
-    });
+    try {
+      const user = await User.findOne({
+        where: {
+          uuid: decodedToken.uuid,
+        },
+        include: Role,
+      });
 
-    const userRole = await Role.findOne({
-      where: {
-        id: user.roleId,
-      },
-    });
-
-    if (userRole.name !== 'user') {
-      return res.status(403).json({
+      if (user.role.name !== 'user') {
+        return res.status(403).json({
+          error: {
+            code: 403,
+            message: 'Access denied!. Required user role.',
+          },
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
         error: {
-          code: 403,
-          message: 'Access denied!. Required user role.',
+          code: 500,
+          message: error.message,
         },
       });
     }
-  } catch (err) {
+  } catch (error) {
     return res.status(401).json({
       error: {
         code: 401,
-        message: 'Unauthorized.',
+        message: error.message,
       },
     });
   }
@@ -90,31 +94,35 @@ isHospital = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, process.env.APP_KEY);
 
-    const user = await User.findOne({
-      where: {
-        uuid: decodedToken.uuid,
-      },
-    });
+    try {
+      const user = await User.findOne({
+        where: {
+          uuid: decodedToken.uuid,
+        },
+        include: Role,
+      });
 
-    const userRole = await Role.findOne({
-      where: {
-        id: user.roleId,
-      },
-    });
-
-    if (userRole.name !== 'hospital') {
-      return res.status(403).json({
+      if (user.role.name !== 'hospital') {
+        return res.status(403).json({
+          error: {
+            code: 403,
+            message: 'Access denied!. Required user role.',
+          },
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
         error: {
-          code: 403,
-          message: 'Access denied!. Required user role.',
+          code: 500,
+          message: error.message,
         },
       });
     }
-  } catch (err) {
+  } catch (error) {
     return res.status(401).json({
       error: {
         code: 401,
-        message: 'Unauthorized.',
+        message: error.message,
       },
     });
   }

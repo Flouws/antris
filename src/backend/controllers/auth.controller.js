@@ -70,6 +70,7 @@ exports.signin = async (req, res) => {
       where: {
         email: req.body.email,
       },
+      include: Role,
     });
 
     if (!user) {
@@ -92,12 +93,6 @@ exports.signin = async (req, res) => {
       });
     }
 
-    const userRole = await Role.findOne({
-      where: {
-        id: user.roleId,
-      },
-    });
-
     const accessToken = jwt.sign({
       uuid: user.uuid,
     }, process.env.APP_KEY, {
@@ -109,7 +104,7 @@ exports.signin = async (req, res) => {
         code: 200,
         data: {
           accessToken: accessToken,
-          role: userRole.name,
+          role: user.role.name,
           user: {
             uuid: user.uuid,
             name: user.name,
