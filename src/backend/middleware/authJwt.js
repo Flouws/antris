@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 require('dotenv').config();
+const {baseResponse} = require('../base/index');
 const jwt = require('jsonwebtoken');
 const db = require('../database/models');
 const User = db.users;
@@ -8,23 +10,13 @@ verifyToken = async (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (!token) {
-    return res.status(403).json({
-      error: {
-        code: 403,
-        message: 'Access denied!. No access token provided.',
-      },
-    });
+    return baseResponse.error(res, 403, 'Access denied!. No access token provided.');
   }
 
   try {
     jwt.verify(token, process.env.APP_KEY);
   } catch (error) {
-    return res.status(401).json({
-      error: {
-        code: 401,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 401, error.message);
   }
   next();
 };
@@ -33,12 +25,7 @@ isUser = async (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (!token) {
-    return res.status(403).json({
-      error: {
-        code: 403,
-        message: 'Access denied!. No access token provided.',
-      },
-    });
+    return baseResponse.error(res, 403, 'Access denied!. No access token provided.');
   }
 
   try {
@@ -53,28 +40,13 @@ isUser = async (req, res, next) => {
       });
 
       if (user.role.name !== 'user') {
-        return res.status(403).json({
-          error: {
-            code: 403,
-            message: 'Access denied!. Required user role.',
-          },
-        });
+        return baseResponse.error(res, 403, 'Access denied!. Required user role.');
       }
     } catch (error) {
-      return res.status(500).json({
-        error: {
-          code: 500,
-          message: error.message,
-        },
-      });
+      return baseResponse.error(res, 500, error.message);
     }
   } catch (error) {
-    return res.status(401).json({
-      error: {
-        code: 401,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 401, error.message);
   }
   next();
 };
@@ -83,12 +55,7 @@ isHospital = async (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (!token) {
-    return res.status(403).json({
-      error: {
-        code: 403,
-        message: 'Access denied!. No access token provided.',
-      },
-    });
+    return baseResponse.error(res, 403, 'Access denied!. No access token provided.');
   }
 
   try {
@@ -103,28 +70,13 @@ isHospital = async (req, res, next) => {
       });
 
       if (user.role.name !== 'hospital') {
-        return res.status(403).json({
-          error: {
-            code: 403,
-            message: 'Access denied!. Required user role.',
-          },
-        });
+        return baseResponse.error(res, 403, 'Access denied!. Required user role.');
       }
     } catch (error) {
-      return res.status(500).json({
-        error: {
-          code: 500,
-          message: error.message,
-        },
-      });
+      return baseResponse.error(res, 500, error.message);
     }
   } catch (error) {
-    return res.status(401).json({
-      error: {
-        code: 401,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 401, error.message);
   }
   next();
 };
