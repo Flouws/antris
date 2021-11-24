@@ -10,10 +10,10 @@ const authRoute = require('./auth.route.js');
 router.use('/auth', authRoute);
 
 const userRoute = require('./user.route.js');
-router.use('/user', [
-  authJwt.verifyToken,
-  authJwt.isUser,
-], userRoute);
+router.use('/user', [authJwt.isUser], userRoute);
+
+const hospitalRoute = require('./hospital.route.js');
+router.use('/hospital', [authJwt.isHospital], hospitalRoute);
 
 router.all('*', (req, res) => {
   return baseResponse.error(res, 404, '404 Not Found');
