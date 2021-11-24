@@ -4,6 +4,6 @@ const {user} = require('../controllers');
 
 router.get('/', user.home);
 router.get('/profile', user.getProfile);
-router.patch('/profile/edit', user.editProfile);
+router.patch('/profile', user.editProfile);
 
 module.exports = router;
