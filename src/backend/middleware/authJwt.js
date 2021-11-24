@@ -70,7 +70,7 @@ isHospital = async (req, res, next) => {
       });
 
       if (user.role.name !== 'hospital') {
-        return baseResponse.error(res, 403, 'Access denied!. Required user role.');
+        return baseResponse.error(res, 403, 'Access denied!. Required hospital role.');
       }
     } catch (error) {
       return baseResponse.error(res, 500, error.message);
