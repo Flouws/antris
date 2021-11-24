@@ -41,6 +41,46 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+exports.editProfile = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  const required = [
+    'name',
+    'password',
+  ];
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    required.forEach((requiredItem) => {
+      if (!req.body[requiredItem]) {
+        throw new Error(`Should contain ${requiredItem}`);
+      }
+    });
+
+    await User.update({
+      name: req.body.name,
+      password: hashPassword(req.body.password),
+      address: req.body.address,
+      picture: req.body.picture,
+    }, {
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: 'Profile updated successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
