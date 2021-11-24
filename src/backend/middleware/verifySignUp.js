@@ -1,3 +1,4 @@
+const {baseResponse} = require('../base/index');
 const db = require('../database/models');
 const User = db.users;
 const Role = db.roles;
@@ -21,20 +22,10 @@ checkDuplicateEmail = async (req, res, next) => {
     });
 
     if (user) {
-      return res.status(500).json({
-        error: {
-          code: 500,
-          message: 'Email is already in use.',
-        },
-      });
+      return baseResponse.error(res, 400, 'Email is already in use.');
     }
   } catch (error) {
-    return res.status(500).json({
-      error: {
-        code: 500,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 500, error.message);
   }
   next();
 };
@@ -58,20 +49,10 @@ checkRoleExist = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(400).json({
-        error: {
-          code: 400,
-          message: 'Role id is not valid.',
-        },
-      });
+      return baseResponse.error(res, 400, 'Role id is not valid.');
     }
   } catch (error) {
-    return res.status(500).json({
-      error: {
-        code: 500,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 500, error.message);
   }
   next();
 };

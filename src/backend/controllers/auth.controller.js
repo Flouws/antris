@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 require('dotenv').config();
+const {baseResponse} = require('../base/index');
 const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
@@ -35,21 +36,11 @@ exports.signup = async (req, res) => {
       isActive: req.body.isActive,
     });
 
-    return res.status(200).json({
-      success: {
-        code: 200,
-        data: {
-          message: 'User was created successfully.',
-        },
-      },
+    return baseResponse.ok(res, {
+      message: 'User was created successfully.',
     });
   } catch (error) {
-    return res.status(500).json({
-      error: {
-        code: 500,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 500, error.message);
   }
 };
 
@@ -70,33 +61,18 @@ exports.signin = async (req, res) => {
       where: {
         email: req.body.email,
       },
+      include: Role,
     });
 
     if (!user) {
-      return res.status(404).json({
-        error: {
-          code: 404,
-          message: 'User not found.',
-        },
-      });
+      return baseResponse.error(res, 404, 'User not found.');
     }
 
     const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
     if (!passwordIsValid) {
-      return res.status(401).json({
-        error: {
-          code: 401,
-          message: 'Invalid password!',
-        },
-      });
+      return baseResponse.error(res, 401, 'Invalid password!');
     }
-
-    const userRole = await Role.findOne({
-      where: {
-        id: user.roleId,
-      },
-    });
 
     const accessToken = jwt.sign({
       uuid: user.uuid,
@@ -104,28 +80,18 @@ exports.signin = async (req, res) => {
       expiresIn: parseInt(process.env.APP_SESSION_TIME),
     });
 
-    return res.status(200).json({
-      success: {
-        code: 200,
-        data: {
-          accessToken: accessToken,
-          role: userRole.name,
-          user: {
-            uuid: user.uuid,
-            name: user.name,
-            email: user.email,
-            address: user.address,
-            picture: user.picture,
-          },
-        },
+    return baseResponse.ok(res, {
+      accessToken: accessToken,
+      role: user.role.name,
+      user: {
+        uuid: user.uuid,
+        name: user.name,
+        email: user.email,
+        address: user.address,
+        picture: user.picture,
       },
     });
   } catch (error) {
-    return res.status(500).json({
-      error: {
-        code: 500,
-        message: error.message,
-      },
-    });
+    return baseResponse.error(res, 500, error.message);
   }
 };
