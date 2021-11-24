@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 require('dotenv').config();
 const {baseResponse} = require('../base/index');
 const bcrypt = require('bcrypt');
@@ -48,23 +49,13 @@ exports.editProfile = async (req, res) => {
     return baseResponse.error(res, 403, 'No access token provided.');
   }
 
-  const required = [
-    'name',
-    'password',
-  ];
-
   try {
     const decodedToken = jwt.decode(token);
-
-    required.forEach((requiredItem) => {
-      if (!req.body[requiredItem]) {
-        throw new Error(`Should contain ${requiredItem}`);
-      }
-    });
+    const password = (req.body.password ? hashPassword(req.body.password) : undefined);
 
     await User.update({
       name: req.body.name,
-      password: hashPassword(req.body.password),
+      password: password,
       address: req.body.address,
       picture: req.body.picture,
     }, {
