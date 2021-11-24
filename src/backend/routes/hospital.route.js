@@ -4,6 +4,6 @@ const {hospital} = require('../controllers');
 
 router.get('/', hospital.home);
 router.get('/profile', hospital.getProfile);
-
+router.patch('/profile', hospital.editProfile);
 
 module.exports = router;
