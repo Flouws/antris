@@ -74,6 +74,30 @@ exports.editProfile = async (req, res) => {
   }
 };
 
+exports.deleteProfile = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    await User.destroy({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: 'Profile deleted successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
