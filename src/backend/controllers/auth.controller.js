@@ -6,32 +6,45 @@ const db = require('../database/models');
 const User = db.users;
 const Role = db.roles;
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const hashPassword = (password) => {
   return bcrypt.hashSync(password, parseInt(process.env.APP_ROUND_SALT));
 };
 
 exports.signup = async (req, res) => {
+  const deleteImage = () => {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+  };
+
   const required = [
     'name',
     'email',
     'password',
     'roleId',
   ];
-
   try {
     required.forEach((requiredItem) => {
       if (!req.body[requiredItem]) {
         throw new Error(`Should contain ${requiredItem}`);
       }
     });
+  } catch (error) {
+    deleteImage();
+    return baseResponse.error(res, 400, error.message);
+  }
+
+  try {
+    const picture = (req.file ? req.file.filename : undefined);
 
     await User.create({
       name: req.body.name,
       email: req.body.email,
       password: hashPassword(req.body.password),
       address: req.body.address,
-      picture: req.body.picture,
+      picture: picture,
       roleId: req.body.roleId,
       isActive: req.body.isActive,
     });
@@ -40,6 +53,7 @@ exports.signup = async (req, res) => {
       message: 'User was created successfully.',
     });
   } catch (error) {
+    deleteImage();
     return baseResponse.error(res, 500, error.message);
   }
 };

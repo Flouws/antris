@@ -39,6 +39,10 @@ isUser = async (req, res, next) => {
         include: Role,
       });
 
+      if (!user) {
+        return baseResponse.error(res, 404, 'User not found.');
+      }
+
       if (user.role.name !== 'user') {
         return baseResponse.error(res, 403, 'Access denied!. Required user role.');
       }
@@ -68,6 +72,10 @@ isHospital = async (req, res, next) => {
         },
         include: Role,
       });
+
+      if (!user) {
+        return baseResponse.error(res, 404, 'User not found.');
+      }
 
       if (user.role.name !== 'hospital') {
         return baseResponse.error(res, 403, 'Access denied!. Required hospital role.');
