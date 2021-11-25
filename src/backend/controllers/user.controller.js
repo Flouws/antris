@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 
 const hashPassword = (password) => {
   return bcrypt.hashSync(password, parseInt(process.env.APP_ROUND_SALT));
@@ -52,12 +54,23 @@ exports.editProfile = async (req, res) => {
   try {
     const decodedToken = jwt.decode(token);
     const password = (req.body.password ? hashPassword(req.body.password) : undefined);
+    const picture = (req.file ? req.file.filename : undefined);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    if (picture && user.picture && fs.existsSync(path.join(__dirname, `../public/uploads/users/pictures/${user.picture}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/users/pictures/${user.picture}`));
+    }
 
     await User.update({
       name: req.body.name,
       password: password,
       address: req.body.address,
-      picture: req.body.picture,
+      picture: picture,
     }, {
       where: {
         uuid: decodedToken.uuid,
@@ -81,6 +94,16 @@ exports.deleteProfile = async (req, res) => {
 
   try {
     const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    if (user.picture && fs.existsSync(path.join(__dirname, `../public/uploads/users/pictures/${user.picture}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/users/pictures/${user.picture}`));
+    }
 
     await User.destroy({
       where: {
