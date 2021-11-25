@@ -1,6 +1,7 @@
 # ignore
 node_modules/
 dist/
+src/backend/public/uploads
 
 # Logs
 logs
