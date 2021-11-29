@@ -17,8 +17,25 @@ Antris is a project for SIB Dicoding Capstone 2021.
 
 ## Getting Started
 
-1. TBA
-2. TBA 2
+1. Make sure you have mariaDB installed and running in your vm or server.
+2. Rename [.env.example] to [.env] and configure your environment.
+3. Run code below sequentially.
+```sh
+Initializing dependencies
+# npm install
+
+Initializing database
+# npx sequelize db:create
+# npx sequelize db:migrate
+# npx sequelize db:seed:all
+
+Build frontend
+# npm run build
+
+Running program
+# npm run start
+
+```
 
 ## LICENSE
 
