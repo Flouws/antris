@@ -18,6 +18,9 @@ router.use('/user', [authJwt.isUser], userRoute);
 const hospitalRoute = require('./hospital.route.js');
 router.use('/hospital', [authJwt.isHospital], hospitalRoute);
 
+const hospitalsRoute = require('./hospitals.route.js');
+router.use('/hospitals', hospitalsRoute);
+
 router.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 router.all('*', (req, res) => {
