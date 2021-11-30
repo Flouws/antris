@@ -1,6 +1,4 @@
-/* eslint-disable max-len */
-
-const Login = {
+const Dashboard = {
   async render() {
     return `
 
@@ -11,6 +9,6 @@ const Login = {
   },
 };
 
-export default Login;
+export default Dashboard;
 
 
