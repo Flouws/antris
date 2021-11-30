@@ -10,9 +10,12 @@ class NavigationBar extends HTMLElement {
   }
 
   async render() {
+    const dashboardLink = '#/dashboard';
+    const profileLink = '#/profile';
+
     this.innerHTML = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-    <a class="navbar-brand" href="#">ANTRIS</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+    <a class="navbar-brand" href="/">ANTRIS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -20,10 +23,10 @@ class NavigationBar extends HTMLElement {
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Dashboard</a>
+          <a class="nav-link" href="${dashboardLink}">Dashboard</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Rumah Sakit
           </a>
@@ -34,11 +37,11 @@ class NavigationBar extends HTMLElement {
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Profil</a>
+          <a class="nav-link" href="${profileLink}">Profil</a>
         </li>
       </ul>
     </div>
-    </nav>
+  </nav>
          `;
   }
 }
