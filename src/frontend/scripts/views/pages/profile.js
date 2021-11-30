@@ -50,7 +50,7 @@ const Profile = {
                 </tr>
                 <tr>
                   <th>Password</th>
-                  <td><a href="" class="link-primary" data-toggle="modal" data-target="#changePasswordModal">Change Password</a></td>
+                  <td><a href="" class="link-primary" data-toggle="modal" data-target="#changePasswordModal">Change Password</a></td> // TODO: Tambahin fitur change password
                 </tr>
               </tbody>
             </table>
