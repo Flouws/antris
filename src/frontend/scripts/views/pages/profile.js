@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const Profile = {
   async render() {
-    // TODO: nanti better bikin model user aja
+    // TODO: bikin user model
     const firstName = 'Nicholas Stancio';
     const lastName = 'Saka';
     const gender = 'Laki-laki';
@@ -10,6 +10,7 @@ const Profile = {
     const email = 'nicholas.stanciosaka@gmail.com';
     const phone = '0811 9898601';
 
+    // TODO: improve design
     return `
   <div class="container" id="profile">
     <form>
