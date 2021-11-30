@@ -13,4 +13,77 @@
 
 .skip-link:focus {
     top: 0;
- }
+}
+
+/* other */
+.avatar-xl img {
+    width: 100%;
+    max-width: 200px;
+    /* vertical-align: top; */
+}
+
+.rounded-circle {
+    border-radius: 50%;
+}
+
+.text-muted {
+    color: #aeb0b4;
+}
+
+.text-muted {
+    font-weight: 300;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #4d5154;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #eef0f3;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#profile th {
+    width: 150px;
+}
+
+#profile h2 {
+    margin: 0px;
+}
+
+#profile h3 {
+    font-size: 14px;
+    margin: 0px 0px 25px;
+}
+
+#profile-edit-icon{
+    vertical-align: middle;
+    margin: 0px 5px 5px;
+    cursor:pointer
+}
+
+#error-page {
+    min-height: 100vh;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+    #profile {
+        font-size: 3.2vw;
+    }
+
+    #profile th {
+        width: 30%;
+    }
+}
+

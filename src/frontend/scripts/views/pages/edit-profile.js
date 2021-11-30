@@ -1,14 +1,12 @@
-const Dashboard = {
+const EditProfile = {
   async render() {
     return `
-
-    `;
+  
+      `;
   },
 
   async afterRender() {
   },
 };
 
-export default Dashboard;
-
-
+export default EditProfile;
