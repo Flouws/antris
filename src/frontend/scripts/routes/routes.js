@@ -6,7 +6,7 @@ import Error from '../views/pages/error';
 import EditProfile from '../views/pages/edit-profile';
 
 const routes = {
-  '/': Profile, // default page TODO: Balikin ke login abis selesai develop
+  '/': Dashboard, // default page TODO: Balikin ke login abis selesai develop
   '/login': Login,
   '/register': Register,
   '/dashboard': Dashboard,
