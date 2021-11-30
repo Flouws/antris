@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
+import {changePasswordBody} from '../templates/template-creator';
 class ChangePassword extends HTMLElement {
   constructor() {
     super();
@@ -11,39 +12,20 @@ class ChangePassword extends HTMLElement {
 
   async render() {
     this.innerHTML = `
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-10 col-xl-8 mx-auto">
-        <form>
-          <div class="row mb-4">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="inputPassword4">Old Password</label>
-                <input type="password" class="form-control" id="inputPassword5" />
-              </div>
-              <div class="form-group">
-                <label for="inputPassword5">New Password</label>
-                <input type="password" class="form-control" id="inputPassword5" />
-              </div>
-              <div class="form-group">
-                <label for="inputPassword6">Confirm Password</label>
-                <input type="password" class="form-control" id="inputPassword6" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <p class="mb-2">Password requirements</p>
-              <p class="small text-muted mb-2">To create a new password, you have to meet all of the following
-                requirements:</p>
-              <ul class="small text-muted pl-4 mb-0">
-                <li>Minimum 8 character</li>
-                <li>At least one special character</li>
-                <li>At least one number</li>
-                <li>Can’t be the same as a previous password</li>
-              </ul>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Save Change</button>
-        </form>
+  <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Password</h5>
+          <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+        </div>
+        <div class="modal-body">
+          ${changePasswordBody}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>

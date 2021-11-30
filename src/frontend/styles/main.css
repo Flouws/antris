@@ -73,6 +73,10 @@
     min-height: 100vh;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 480px) {
     #profile {
         font-size: 3.2vw;

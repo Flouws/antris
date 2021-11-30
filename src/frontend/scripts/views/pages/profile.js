@@ -24,7 +24,7 @@ const Profile = {
         <div class="col-sm">
           <div class="row align-items-center">
             <div class="col">
-              <h2 class="mb-1">${firstName} ${lastName} <img src="./images/icons8-edit-24.png" alt="Edit Icon"  id="profile-edit-icon"/></h2>
+              <h2 class="mb-1">${firstName} ${lastName}</h2>
               <h3 class="">Banten, Tangerang Selatan</h3>
             </div>
           </div>
@@ -47,6 +47,10 @@ const Profile = {
                 <tr>
                   <th>Alamat</th>
                   <td>${alamat}</td>
+                </tr>
+                <tr>
+                  <th>Password</th>
+                  <td><a href="" class="link-primary" data-toggle="modal" data-target="#changePasswordModal">Change Password</a></td>
                 </tr>
               </tbody>
             </table>
