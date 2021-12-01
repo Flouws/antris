@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 /* eslint-disable valid-jsdoc */
 /* eslint-disable require-jsdoc */
 'use strict';
@@ -5,7 +6,7 @@ const {
   Model,
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class polys extends Model {
+  class polyActiveDays extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,19 +14,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      polys.belongsTo(models.users);
-      polys.hasOne(models.polyActiveDays);
+      polyActiveDays.belongsTo(models.polys);
     }
   };
-  polys.init({
-    userId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    doctor: DataTypes.STRING,
-    capacity: DataTypes.INTEGER,
+  polyActiveDays.init({
+    polyId: DataTypes.INTEGER,
+    monday: DataTypes.INTEGER(1),
+    tuesday: DataTypes.INTEGER(1),
+    wednesday: DataTypes.INTEGER(1),
+    thursday: DataTypes.INTEGER(1),
+    friday: DataTypes.INTEGER(1),
+    saturday: DataTypes.INTEGER(1),
+    sunday: DataTypes.INTEGER(1),
   }, {
     sequelize,
-    modelName: 'polys',
+    modelName: 'polyActiveDays',
     timestamps: true,
   });
-  return polys;
+  return polyActiveDays;
 };
