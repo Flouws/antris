@@ -7,7 +7,7 @@ const changePasswordBody = `
         <div class="col-md-6">
           <div class="form-group">
             <label for="inputPassword4">Old Password</label>
-            <input type="password" class="form-control" id="inputPassword5" />
+            <input type="password" class="form-control" id="inputPassword4" />
           </div>
           <div class="form-group">
             <label for="inputPassword5">New Password</label>
