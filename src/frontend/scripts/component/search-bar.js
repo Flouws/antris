@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
+
+// TODO: Rapihin & Masukin ke dashboard
 class SearchBar extends HTMLElement {
   constructor() {
     super();
