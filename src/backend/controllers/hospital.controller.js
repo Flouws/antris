@@ -168,6 +168,48 @@ exports.addPoly = async (req, res) => {
   }
 };
 
+exports.getPoly = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.id,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    return baseResponse.ok(res, {
+      poly: {
+        id: poly.id,
+        name: poly.name,
+        doctor: poly.doctor,
+        capacity: poly.capacity,
+        createdAt: poly.createdAt,
+        updatedAt: poly.updatedAt,
+      },
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.editPoly = async (req, res) => {
   const token = req.headers['x-access-token'];
 
