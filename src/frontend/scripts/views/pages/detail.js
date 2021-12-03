@@ -87,32 +87,32 @@ const Detail = {
 export default Detail;
 
 
-{/* <div class="col-sm-6 col-xl-4 mt-4">
-<div class="card text-center border-0 rounded-3">
-  <div class="card-body">
-    <i class="ti-bookmark-alt icon-box medium rounded-3 mb-4"></i>
-    <h3 class="h5 mb-3">Education</h3>
-    <p class="mb-0">University of defgtion, fecat complete ME of synage</p>
-  </div>
-</div>
-</div>
+// <div class="col-sm-6 col-xl-4 mt-4">
+// <div class="card text-center border-0 rounded-3">
+//   <div class="card-body">
+//     <i class="ti-bookmark-alt icon-box medium rounded-3 mb-4"></i>
+//     <h3 class="h5 mb-3">Education</h3>
+//     <p class="mb-0">University of defgtion, fecat complete ME of synage</p>
+//   </div>
+// </div>
+// </div>
 
-<div class="col-sm-6 col-xl-4 mt-4">
-<div class="card text-center border-0 rounded-3">
-  <div class="card-body">
-    <i class="ti-pencil-alt icon-box medium rounded-3 mb-4"></i>
-    <h3 class="h5 mb-3">Career Start</h3>
-    <p class="mb-0">After complete engineer join HU Signage Ltd as a project manager</p>
-  </div>
-</div>
-</div>
+// <div class="col-sm-6 col-xl-4 mt-4">
+// <div class="card text-center border-0 rounded-3">
+//   <div class="card-body">
+//     <i class="ti-pencil-alt icon-box medium rounded-3 mb-4"></i>
+//     <h3 class="h5 mb-3">Career Start</h3>
+//     <p class="mb-0">After complete engineer join HU Signage Ltd as a project manager</p>
+//   </div>
+// </div>
+// </div>
 
-<div class="col-sm-6 col-xl-4 mt-4">
-<div class="card text-center border-0 rounded-3">
-  <div class="card-body">
-    <i class="ti-medall-alt icon-box medium rounded-3 mb-4"></i>
-    <h3 class="h5 mb-3">Experience</h3>
-    <p class="mb-0">About 20 years of experience and professional in signage</p>
-  </div>
-</div>
-</div> */}
+// <div class="col-sm-6 col-xl-4 mt-4">
+// <div class="card text-center border-0 rounded-3">
+//   <div class="card-body">
+//     <i class="ti-medall-alt icon-box medium rounded-3 mb-4"></i>
+//     <h3 class="h5 mb-3">Experience</h3>
+//     <p class="mb-0">About 20 years of experience and professional in signage</p>
+//   </div>
+// </div>
+// </div>
