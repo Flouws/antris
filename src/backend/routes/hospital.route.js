@@ -8,4 +8,10 @@ router.get('/profile', hospital.getProfile);
 router.patch('/profile', [upload.userProfileUpload], hospital.editProfile);
 router.delete('/profile', hospital.deleteProfile);
 
+router.post('/poly', hospital.addPoly);
+router.get('/poly', hospital.getAllPoly);
+router.get('/poly/:id', hospital.getPoly);
+router.patch('/poly/:id', hospital.editPoly);
+router.delete('/poly/:id', hospital.deletePoly);
+
 module.exports = router;
