@@ -10,7 +10,7 @@ router.delete('/profile', hospital.deleteProfile);
 
 // router.get('/poly', hospital.addPoly);
 router.post('/poly', hospital.addPoly);
-// router.patch('/poly', [upload.userProfileUpload], hospital.editProfile);
+router.patch('/poly/:id', hospital.editPoly);
 // router.delete('/poly', hospital.deleteProfile);
 
 module.exports = router;
