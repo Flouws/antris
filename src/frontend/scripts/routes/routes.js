@@ -4,6 +4,7 @@ import Dashboard from '../views/pages/dashboard';
 import Profile from '../views/pages/profile';
 import Error from '../views/pages/error';
 import EditProfile from '../views/pages/edit-profile';
+import Detail from '../views/pages/detail';
 
 const routes = {
   '/': Dashboard, // default page TODO: Balikin ke login abis selesai develop
@@ -13,6 +14,7 @@ const routes = {
   '/profile': Profile,
   // '/edit_profile': EditProfile, // TODO: namanya bener ga? ganti editProfile?
   '/error': Error, // TODO: Connect error to bad routes
+  '/detail/:id': Detail,
 };
 
 export default routes;
