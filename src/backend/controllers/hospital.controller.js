@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
+const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
@@ -162,6 +163,47 @@ exports.addPoly = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: 'Poly created successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getAllPoly = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findAll({
+      where: {
+        userId: {
+          [Op.eq]: [user.id],
+        },
+      },
+      attributes: {
+        exclude: [
+          'userId',
+        ],
+      },
+    });
+
+    if (!poly[0]) {
+      return baseResponse.error(res, 404, 'You don\'t have any poly.');
+    }
+
+    return baseResponse.ok(res, {
+      polys: poly,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
