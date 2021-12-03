@@ -4,6 +4,7 @@ const {baseResponse} = require('../base/index');
 const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
+const Poly = db.polys;
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
@@ -115,6 +116,52 @@ exports.deleteProfile = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: 'Profile deleted successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.addPoly = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  const required = [
+    'name',
+    'doctor',
+    'capacity',
+  ];
+  try {
+    required.forEach((requiredItem) => {
+      if (!req.body[requiredItem]) {
+        throw new Error(`Should contain ${requiredItem}`);
+      }
+    });
+  } catch (error) {
+    return baseResponse.error(res, 400, error.message);
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    await Poly.create({
+      userId: user.id,
+      name: req.body.name,
+      doctor: req.body.doctor,
+      capacity: req.body.capacity,
+    });
+
+    return baseResponse.ok(res, {
+      message: 'Poly created successfully.',
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
