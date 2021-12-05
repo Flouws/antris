@@ -456,6 +456,67 @@ exports.getPolyActiveDay = async (req, res) => {
   }
 };
 
+exports.editPolyActiveDay = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: {
+          [Op.eq]: [req.params.polyId],
+        },
+      },
+    });
+
+    if (!polyActiveDay) {
+      return baseResponse.error(res, 404, `Active day for poly with id ${req.params.polyId} is not found.`);
+    }
+
+    await PolyActiveDays.update({
+      monday: req.body.monday,
+      tuesday: req.body.tuesday,
+      wednesday: req.body.wednesday,
+      thursday: req.body.thursday,
+      friday: req.body.friday,
+      saturday: req.body.saturday,
+      sunday: req.body.sunday,
+    }, {
+      where: {
+        polyId: req.params.polyId,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Active day for poly with id ${req.params.polyId} has been updated successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
