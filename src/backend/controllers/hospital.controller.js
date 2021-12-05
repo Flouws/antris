@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
+const PolyActiveDays = db.polyActiveDays;
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -334,6 +335,37 @@ exports.deletePoly = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: 'Poly deleted successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.addPolyActiveDay = async (req, res) => {
+  try {
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: req.params.polyId,
+      },
+    });
+
+    if (polyActiveDay) {
+      return baseResponse.error(res, 400, `Active day for poly with id ${req.params.polyId} already available.`);
+    }
+
+    await PolyActiveDays.create({
+      polyId: req.params.polyId,
+      monday: req.body.monday,
+      tuesday: req.body.tuesday,
+      wednesday: req.body.wednesday,
+      thursday: req.body.thursday,
+      friday: req.body.friday,
+      saturday: req.body.saturday,
+      sunday: req.body.sunday,
+    });
+
+    return baseResponse.ok(res, {
+      message: `Active day for poly with id ${req.params.polyId} has been created successfully.`,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
