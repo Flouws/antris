@@ -17,6 +17,6 @@ router.delete('/poly/:id', hospital.deletePoly);
 router.post('/poly/:polyId/active-day', hospital.addPolyActiveDay);
 router.get('/poly/:polyId/active-day', hospital.getPolyActiveDay);
 router.patch('/poly/:polyId/active-day', hospital.editPolyActiveDay);
-// router.delete('/poly/:polyId/active-day', hospital.tbd);
+router.delete('/poly/:polyId/active-day', hospital.deletePolyActiveDay);
 
 module.exports = router;
