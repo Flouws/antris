@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
+const PolyActiveDays = db.polyActiveDays;
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -334,6 +335,235 @@ exports.deletePoly = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: 'Poly deleted successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.addPolyActiveDay = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: req.params.polyId,
+      },
+    });
+
+    if (polyActiveDay) {
+      return baseResponse.error(res, 400, `Active day for poly with id ${req.params.polyId} already available.`);
+    }
+
+    await PolyActiveDays.create({
+      polyId: req.params.polyId,
+      monday: req.body.monday,
+      tuesday: req.body.tuesday,
+      wednesday: req.body.wednesday,
+      thursday: req.body.thursday,
+      friday: req.body.friday,
+      saturday: req.body.saturday,
+      sunday: req.body.sunday,
+    });
+
+    return baseResponse.ok(res, {
+      message: `Active day for poly with id ${req.params.polyId} has been created successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getPolyActiveDay = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: {
+          [Op.eq]: [req.params.polyId],
+        },
+      },
+    });
+
+    if (!polyActiveDay) {
+      return baseResponse.error(res, 404, `Active day for poly with id ${req.params.polyId} is not found.`);
+    }
+
+    return baseResponse.ok(res, {
+      polyActiveDay: {
+        id: polyActiveDay.id,
+        polyId: polyActiveDay.polyId,
+        monday: (polyActiveDay.monday > 0 ) ? true : false,
+        tuesday: (polyActiveDay.tuesday > 0 ) ? true : false,
+        wednesday: (polyActiveDay.wednesday > 0 ) ? true : false,
+        thursday: (polyActiveDay.thursday > 0 ) ? true : false,
+        friday: (polyActiveDay.friday > 0 ) ? true : false,
+        saturday: (polyActiveDay.saturday > 0 ) ? true : false,
+        sunday: (polyActiveDay.sunday > 0 ) ? true : false,
+        createdAt: polyActiveDay.createdAt,
+        updatedAt: polyActiveDay.updatedAt,
+      },
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.editPolyActiveDay = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: {
+          [Op.eq]: [req.params.polyId],
+        },
+      },
+    });
+
+    if (!polyActiveDay) {
+      return baseResponse.error(res, 404, `Active day for poly with id ${req.params.polyId} is not found.`);
+    }
+
+    await PolyActiveDays.update({
+      monday: req.body.monday,
+      tuesday: req.body.tuesday,
+      wednesday: req.body.wednesday,
+      thursday: req.body.thursday,
+      friday: req.body.friday,
+      saturday: req.body.saturday,
+      sunday: req.body.sunday,
+    }, {
+      where: {
+        polyId: req.params.polyId,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Active day for poly with id ${req.params.polyId} has been updated successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.deletePolyActiveDay = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const polyActiveDay = await PolyActiveDays.findOne({
+      where: {
+        polyId: {
+          [Op.eq]: [req.params.polyId],
+        },
+      },
+    });
+
+    if (!polyActiveDay) {
+      return baseResponse.error(res, 404, `Active day for poly with id ${req.params.polyId} is not found.`);
+    }
+
+    await PolyActiveDays.destroy({
+      where: {
+        polyId: req.params.polyId,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Active day for poly with id ${req.params.polyId} has been deleted successfully.`,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
