@@ -72,6 +72,9 @@ const Profile = {
       </div>
     </form>
   </div>
+
+  <!-- Modal -->
+  <change-password></change-password>
       `;
   },
 
