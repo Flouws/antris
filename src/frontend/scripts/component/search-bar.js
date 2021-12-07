@@ -34,7 +34,7 @@ class SearchBar extends HTMLElement {
 
     $('#searchSelect').append(options);
 
-    $('#searchSelect').on('change', function(e) {
+    $('#searchSelect').on('change', () => {
       // TODO: gabung dengan backend
       const webId = 'test';
       const selectedValue = $('#searchSelect').val();

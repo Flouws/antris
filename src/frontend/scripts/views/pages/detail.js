@@ -42,23 +42,70 @@ const Detail = {
         <div class="ps-lg-1-6 ps-xl-5">
           <div class="mb-5 wow fadeIn">
             <div class="text-start mb-1-6 wow fadeIn">
-              <h2 class="h1 mb-0 text-primary">About</h2>
+              <h2 class="h1 mb-0 text-primary">Tentang ${rsName}</h2>
             </div>
             <p>Deskripsi Singkat RS</p>
             <p class="mb-0">${rsDesc}</p>
           </div>
           <div class="mb-5 wow fadeIn">
             <div class="text-start mb-1-6 wow fadeIn">
-              <h2 class="mb-0 text-primary">Doctors</h2>
+              <h2 class="mb-0 text-primary">Dokter ${rsName}</h2>
             </div>
             <div class="row mt-n4" id="doctorList">
 
             </div>
           </div>
-          <button type="button" class="btn btn-primary btn-lg btn-block">Buat Janji</button>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="makeAppointmentButton" data-toggle="modal" data-target="#makeAppointmentModal">Buat Appointment</button>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="makeAppointmentModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Buat Appointment</h5>
+            <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+          </div>
+          <div class="modal-body">
+
+            <form class="was-validated">
+
+              <div class="form-group mb-2">
+                <label>Rumah Sakit</label>
+                <select class="form-select" id="makeAppointmentRSList">
+                </select>
+              </div>
+
+              <div class="form-group mb-2">
+                <label>Dokter</label>
+                <select class="form-select" required id="makeAppointmentDoctorList">
+                  <option value="" selected disabled>Pilih Dokter</option>
+                </select>
+                <div class="invalid-feedback">Mohon Dokter waktu yang tersedia</div>
+              </div>
+
+              <div class="form-group mb-2">
+                <label>Waktu</label>
+                <select class="form-select" required id="makeAppointmentTimeList">
+                  <option value="" selected disabled>Pilih Waktu</option>
+                </select>
+                <div class="invalid-feedback">Mohon pilih waktu yang tersedia</div>
+              </div>
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Buat Appointment</button>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
       `;
   },
@@ -72,8 +119,8 @@ const Detail = {
       <div class="card text-center border-0 rounded-3">
         <div class="card-body">
           <i class="ti-pencil-alt icon-box medium rounded-3 mb-4"></i>
-          <h3 class="h5 mb-3">Career Start</h3>
-          <p class="mb-0">After complete engineer join HU Signage Ltd as a project manager</p>
+          <h3 class="h5 mb-3">dr. Andreas Gunawan</h3>
+          <p class="mb-0">Specialisasi bla bla bla bla bla bla bal Specialisasi bla bla bla bla bla bla bal</p>
         </div>
       </div>
     </div>
@@ -81,6 +128,34 @@ const Detail = {
     for (let i = 0; i < 6; i++) {
       $('#doctorList').append(doctorList);
     }
+    $('#makeAppointmentButton').on('click', () => {
+      console.log('click');
+    });
+
+    // Modal
+    // TODO: Connect Backend
+    const modalRSList = ['RSUD Tangerang Selatan', 'Sari Asih Ciputat Hospital', 'RSIA Permata Sarana Husada'];
+    const modalDoctorList = ['dr. A', 'dr. B', 'dr. C'];
+    const modalTimeList = ['11.00', '12.00', '14.00'];
+
+    // makeAppointmentRSList, makeAppointmentDoctorList, makeAppointmentTimeList
+    const rsTemp = [];
+    const doctorTemp = [];
+    const timeTemp = [];
+
+    modalRSList.forEach((data) => {
+      rsTemp.push(`<option selected>${data}</option>`);
+    });
+    modalDoctorList.forEach((data) => {
+      doctorTemp.push(`<option selected>${data}</option>`);
+    });
+    modalTimeList.forEach((data) => {
+      timeTemp.push(`<option selected>${data}</option>`);
+    });
+
+    $('#makeAppointmentRSList').append(rsTemp);
+    $('#makeAppointmentDoctorList').append(doctorTemp);
+    $('#makeAppointmentTimeList').append(timeTemp);
   },
 };
 
