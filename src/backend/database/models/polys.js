@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       polys.belongsTo(models.users);
-      polys.hasOne(models.polyActiveDays);
     }
   };
   polys.init({
