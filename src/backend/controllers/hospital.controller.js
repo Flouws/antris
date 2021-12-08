@@ -573,6 +573,7 @@ exports.editAppointment = async (req, res) => {
     const appointment = await Appointment.findOne({
       where: {
         id: req.params.appointmentId,
+        polyId: poly.id,
       },
     });
 
@@ -583,7 +584,7 @@ exports.editAppointment = async (req, res) => {
     const appointments = await Appointment.findAll({
       where: {
         id: {
-          [Op.ne]: req.params.appointmentId,
+          [Op.ne]: appointment.id,
         },
         polyId: poly.id,
         day: (req.body.day ? req.body.day : appointment.day),
