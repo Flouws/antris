@@ -19,6 +19,6 @@ router.post('/poly/:polyId/appointment', hospital.addAppointment);
 router.get('/poly/:polyId/appointment', hospital.getAllAppointment);
 router.get('/poly/:polyId/appointment/:appointmentId', hospital.getAppointment);
 router.patch('/poly/:polyId/appointment/:appointmentId', hospital.editAppointment);
-// router.delete('/poly/:id', hospital.tba);
+router.delete('/poly/:polyId/appointment/:appointmentId', hospital.deleteAppointment);
 
 module.exports = router;
