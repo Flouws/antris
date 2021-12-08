@@ -470,6 +470,56 @@ exports.getAllAppointment = async (req, res) => {
   }
 };
 
+exports.getAppointment = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const appointment = await Appointment.findOne({
+      where: {
+        id: {
+          [Op.eq]: [req.params.appointmentId],
+        },
+        polyId: {
+          [Op.eq]: [poly.id],
+        },
+      },
+    });
+
+    if (!appointment) {
+      return baseResponse.error(res, 404, `Appointment not found for poly id ${poly.id} and appointment id ${req.params.appointmentId}`);
+    }
+
+    return baseResponse.ok(res, {
+      appointment: appointment,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',

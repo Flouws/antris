@@ -16,7 +16,7 @@ router.delete('/poly/:id', hospital.deletePoly);
 
 router.post('/poly/:polyId/appointment', hospital.addAppointment);
 router.get('/poly/:polyId/appointment', hospital.getAllAppointment);
-// router.get('/poly/:id', hospital.tba);
+router.get('/poly/:polyId/appointment/:appointmentId', hospital.getAppointment);
 // router.patch('/poly/:id', hospital.tba);
 // router.delete('/poly/:id', hospital.tba);
 
