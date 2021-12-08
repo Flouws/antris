@@ -3,6 +3,7 @@ require('dotenv').config();
 const {baseResponse} = require('../base/index');
 const db = require('../database/models');
 const User = db.users;
+const Poly = db.polys;
 const {Op} = require('sequelize');
 
 exports.getAll = async (req, res) => {
@@ -50,6 +51,15 @@ exports.getOne = async (req, res) => {
         'address',
         'picture',
       ],
+      include: {
+        model: Poly,
+        attributes: [
+          'id',
+          'name',
+          'doctor',
+          'capacity',
+        ],
+      },
     });
 
     if (!user) {
