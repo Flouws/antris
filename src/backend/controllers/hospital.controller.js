@@ -520,6 +520,103 @@ exports.getAppointment = async (req, res) => {
   }
 };
 
+exports.editAppointment = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  const required = [
+    'timeStart',
+    'timeEnd',
+  ];
+  try {
+    required.forEach((requiredItem) => {
+      if (!req.body[requiredItem]) {
+        throw new Error(`Should contain ${requiredItem}`);
+      }
+    });
+    if (req.body.day && req.body.day < 1 || req.body.day > 7) {
+      throw new Error('Field \'day\' must contain a value between 1 - 7.');
+    }
+    if (req.body.timeStart > req.body.timeEnd) {
+      throw new Error('\'timeStart\' must be not greater than \'timeEnd\'');
+    }
+    if (req.body.timeStart === req.body.timeEnd) {
+      throw new Error('\'timeStart\' must be not equals than \'timeEnd\'');
+    }
+  } catch (error) {
+    return baseResponse.error(res, 400, error.message);
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    const appointment = await Appointment.findOne({
+      where: {
+        id: req.params.appointmentId,
+      },
+    });
+
+    if (!appointment) {
+      return baseResponse.error(res, 404, `Appointment not found for poly id ${poly.id} and appointment id ${req.params.appointmentId}`);
+    }
+
+    const appointments = await Appointment.findAll({
+      where: {
+        id: {
+          [Op.ne]: req.params.appointmentId,
+        },
+        polyId: poly.id,
+        day: (req.body.day ? req.body.day : appointment.day),
+        timeStart: {
+          [Op.lte]: [req.body.timeEnd],
+        },
+        timeEnd: {
+          [Op.gte]: [req.body.timeStart],
+        },
+      },
+    });
+    if (appointments[0]) {
+      return baseResponse.error(res, 404, `There is a time conflict with appointment id ${appointments[0].id}`);
+    }
+
+    await Appointment.update({
+      day: req.body.day,
+      timeStart: req.body.timeStart,
+      timeEnd: req.body.timeEnd,
+    }, {
+      where: {
+        id: req.params.appointmentId,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Appointment for poly with id ${poly.id} has been updated successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',

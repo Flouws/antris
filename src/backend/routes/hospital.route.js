@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable new-cap */
 const router = require('express').Router();
 const {hospital} = require('../controllers');
@@ -17,7 +18,7 @@ router.delete('/poly/:id', hospital.deletePoly);
 router.post('/poly/:polyId/appointment', hospital.addAppointment);
 router.get('/poly/:polyId/appointment', hospital.getAllAppointment);
 router.get('/poly/:polyId/appointment/:appointmentId', hospital.getAppointment);
-// router.patch('/poly/:id', hospital.tba);
+router.patch('/poly/:polyId/appointment/:appointmentId', hospital.editAppointment);
 // router.delete('/poly/:id', hospital.tba);
 
 module.exports = router;
