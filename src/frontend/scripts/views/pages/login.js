@@ -6,7 +6,7 @@ const Login = {
   async render() {
     $('nav').empty(); // remove navbar
     return `
-    <section class="vh-100">
+    <section class="vh-80 d-flex flex-row align-items-center">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
@@ -14,7 +14,7 @@ const Login = {
                     class="img-fluid" alt="Gambar Antris">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
+                <form  class="mb-4">
                     <div class="form-outline mb-2">
                         <label>Email</label>
                         <input type="email" id="loginEmail" class="form-control form-control-lg"
@@ -73,6 +73,7 @@ const Login = {
         }).then((response) => response.json())
             .then((json) => {
               if (json.success) {
+                sessionStorage.setItem('accessToken', json.success.data.accessToken);
                 window.location.href = '#/dashboard';
               } else if (json.error) {
                 $('#loginApiInvalid').html(json.error.message);

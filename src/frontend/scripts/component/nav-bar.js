@@ -40,9 +40,9 @@ class NavigationBar extends HTMLElement {
           <li class="nav-item">
             <a class="nav-link" href="${profileLink}">Profil</a>
           </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right" id="logoutMobile">
-          <li><a href="${loginLink}"><img src="./images/icons8-logout-28.png"></img> Logout</a></li>
+          <li class="nav-item" id="logoutMobile">
+            <a class="nav-link" href="${loginLink}">Logout</a>
+          </li>
         </ul>
       </div>
       <ul class="nav navbar-nav navbar-right" id="logoutDesktop">

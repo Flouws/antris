@@ -31,6 +31,10 @@ label {
     font-weight: 500;
 }
 
+.vh-80{
+    min-height: 80vh;
+}
+
 /* Main Content */
 
 /* TODO: Not working */
