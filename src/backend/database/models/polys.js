@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       polys.belongsTo(models.users);
+      polys.hasMany(models.appointments);
     }
   };
   polys.init({
