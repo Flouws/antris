@@ -35,6 +35,12 @@ label {
     min-height: 80vh;
 }
 
+/* Search Bar */
+search-bar{
+    display: none;
+    margin: 40px;
+}
+
 /* Main Content */
 
 /* TODO: Not working */
