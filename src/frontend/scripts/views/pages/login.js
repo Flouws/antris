@@ -66,7 +66,7 @@ const Login = {
         emailInvalidId: '#loginEmailInvalid', passwordInvalidId: '#loginPasswordInvalid'});
 
       if (checkErrorVal === true) {
-        fetch(`${API_ENDPOINT.SIGN_IN}`, {
+        fetch(API_ENDPOINT.SIGN_IN, {
           method: 'POST',
           body: JSON.stringify(user),
           headers: {'Content-type': 'application/json'},

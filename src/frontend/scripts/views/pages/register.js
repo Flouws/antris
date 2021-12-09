@@ -104,13 +104,14 @@ const Register = {
       });
 
       if (checkErrorVal === true) {
-        fetch(`${API_ENDPOINT.SIGN_UP}`, {
+        fetch(API_ENDPOINT.SIGN_UP, {
           method: 'POST',
           body: JSON.stringify(user),
           headers: {'Content-type': 'application/json'},
         }).then((response) => response.json())
             .then((json) => {
               if (json.success) {
+                sessionStorage.setItem('accessToken', json.success.data.accessToken);
                 window.location.href = '#/dashboard';
               } else if (json.error) {
                 $('#registerApiInvalid').html(json.error.message);
