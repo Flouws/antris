@@ -4,6 +4,7 @@ const {baseResponse} = require('../base/index');
 const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
+const Appointments = db.appointments;
 const {Op} = require('sequelize');
 
 exports.getAll = async (req, res) => {
@@ -59,6 +60,15 @@ exports.getOne = async (req, res) => {
           'doctor',
           'capacity',
         ],
+        include: {
+          model: Appointments,
+          attributes: [
+            'id',
+            'day',
+            'timeStart',
+            'timeEnd',
+          ],
+        },
       },
     });
 
