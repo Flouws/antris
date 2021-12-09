@@ -3,7 +3,7 @@ const Error = {
     const errorType = '404';
     const errorDesc = 'The page you are looking for was not found.';
 
-    $('nav-bar').empty(); // remove navbar
+    $('nav').empty(); // remove navbar
 
     return `
   <div class="d-flex flex-row align-items-center" id="error-page">
