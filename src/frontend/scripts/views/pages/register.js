@@ -44,12 +44,6 @@ const Register = {
                         <div class="invalid-feedback" id="registerRePasswordInvalid"></div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-check mb-0">
-                        </div>
-                        <a href="#!" class="text-body">Forgot password?</a>
-                    </div>
-
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="button" class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;" id="RegisterButton">Register</button>
