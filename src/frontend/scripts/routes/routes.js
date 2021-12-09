@@ -7,7 +7,7 @@ import EditProfile from '../views/pages/edit-profile';
 import Detail from '../views/pages/detail';
 
 const routes = {
-  '/': Dashboard, // default page TODO: Balikin ke login abis selesai develop
+  '/': Register, // default page TODO: Balikin ke login abis selesai develop
   '/login': Login,
   '/register': Register,
   '/dashboard': Dashboard,
