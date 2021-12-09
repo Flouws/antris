@@ -31,7 +31,20 @@ label {
     font-weight: 500;
 }
 
+/* Main Content */
+
+/* TODO: Not working */
+#mainContent {
+    min-height: 100%;
+    height: 100%;
+}
+
 /* Profile Page */
+
+#profile { 
+    min-height: 100%;
+    height: 100%;
+}
 
 #profile th {
     width: 150px;
@@ -73,6 +86,34 @@ label {
 
     #profile th {
         width: 30%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #profile {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+}
+
+/* TODO: Maybe cari better way kalo ada waktu */
+@media screen and (min-width: 992px) {
+    #logoutDesktop {
+        display: block;
+    }
+
+    #logoutMobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    #logoutDesktop {
+        display: none;
+    }
+
+    #logoutMobile {
+        display: block;
     }
 }
 

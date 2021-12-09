@@ -12,9 +12,9 @@ const Profile = {
 
     // TODO: improve design
     return `
-  <div class="container" id="profile">
+  <div class="container shadow-lg p-3 bg-white rounded" id="profile">
     <form>
-      <div class="row mt-5 align-items-center">
+      <div class="row mt-3 align-items-center">
         <div class="col-md-4 text-center mb-5">
           <div class="avatar avatar-xl">
             <img src="${userImageSrc}" alt="profile picture"
