@@ -164,6 +164,15 @@ exports.getOnePoly = async (req, res) => {
         'doctor',
         'capacity',
       ],
+      include: {
+        model: Appointments,
+        attributes: [
+          'id',
+          'day',
+          'timeStart',
+          'timeEnd',
+        ],
+      },
     });
 
     if (!poly) {
