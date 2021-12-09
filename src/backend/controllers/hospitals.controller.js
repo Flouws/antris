@@ -112,6 +112,15 @@ exports.getAllPoly = async (req, res) => {
         'doctor',
         'capacity',
       ],
+      include: {
+        model: Appointments,
+        attributes: [
+          'id',
+          'day',
+          'timeStart',
+          'timeEnd',
+        ],
+      },
     });
 
     if (!polys[0]) {
