@@ -33,10 +33,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/frontend/templates/index.html'),
       filename: 'index.html',
@@ -48,6 +44,10 @@ module.exports = {
           to: path.resolve(__dirname, 'dist/'),
         },
       ],
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
     }),
   ],
   devServer: {
