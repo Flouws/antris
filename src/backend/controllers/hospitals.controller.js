@@ -186,3 +186,56 @@ exports.getOnePoly = async (req, res) => {
     return baseResponse.error(res, 500, error.message);
   }
 };
+
+exports.getAllAppointment = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        uuid: req.params.uuid,
+        roleId: {
+          [Op.eq]: [2],
+        },
+        isActive: {
+          [Op.gte]: [1],
+        },
+      },
+    });
+
+    if (!user) {
+      return baseResponse.error(res, 404, 'Hospital not found.');
+    }
+
+    const poly = await Poly.findOne({
+      where: {
+        id: req.params.polyId,
+        userId: user.id,
+      },
+    });
+
+    if (!poly) {
+      return baseResponse.error(res, 404, `Poly not found for hospital uuid '${user.uuid}' and poly id '${req.params.polyId}'.`);
+    }
+
+    const appointments = await Appointments.findAll({
+      where: {
+        polyId: poly.id,
+      },
+      attributes: [
+        'id',
+        'day',
+        'timeStart',
+        'timeEnd',
+      ],
+    });
+
+    if (!appointments[0]) {
+      return baseResponse.error(res, 404, `Poly for hospital uuid '${user.uuid}' and poly id '${poly.id}' has no any appointment.`);
+    }
+
+    return baseResponse.ok(res, {
+      appointments: appointments,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};

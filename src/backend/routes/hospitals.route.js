@@ -6,5 +6,6 @@ router.get('/', hospitals.getAll);
 router.get('/:uuid', hospitals.getOne);
 router.get('/:uuid/poly', hospitals.getAllPoly);
 router.get('/:uuid/poly/:polyId', hospitals.getOnePoly);
+router.get('/:uuid/poly/:polyId/appointment', hospitals.getAllAppointment);
 
 module.exports = router;
