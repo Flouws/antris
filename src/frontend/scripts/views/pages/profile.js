@@ -1,20 +1,35 @@
 /* eslint-disable max-len */
+import API_ENDPOINT from '../../global/api-endpoint';
+
 const Profile = {
   async render() {
-    // TODO: bikin user model
-    const firstName = 'Nicholas Stancio';
-    const lastName = 'Saka';
-    const gender = 'Laki-laki';
-    const alamat = 'Jl. Raya Grand Boulevard BSD CIty, Sampora, Kec. Cisauk, Tangerang, Banten 15345';
+    const user = await fetch(API_ENDPOINT.GET_PROFILE, {
+      method: 'GET',
+      headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+    }).then((response) => response.json())
+        .then((json) => {
+          if (json.success) {
+            return json.success.data.user;
+          } else if (json.error) {
+            window.location.href = '#/login';
+          }
+        })
+        .catch((err) => {
+        });
+
+    const firstName = user.name.split(' ').slice(0, -1).join(' ');
+    const lastName = user.name.split(' ').slice(-1).join(' ');
+    const city = user.address.split(',').slice(0, -1).slice(-1).join(',');
+
+    // TODO: implement change profile image and add phone number
     const userImageSrc = 'https://bootdey.com/img/Content/avatar/avatar6.png';
-    const email = 'nicholas.stanciosaka@gmail.com';
     const phone = '0811 9898601';
 
     // TODO: improve design
     return `
-  <div class="container" id="profile">
+  <div class="container shadow-lg p-3 bg-white rounded" id="profile">
     <form>
-      <div class="row mt-5 align-items-center">
+      <div class="row mt-3 align-items-center">
         <div class="col-md-4 text-center mb-5">
           <div class="avatar avatar-xl">
             <img src="${userImageSrc}" alt="profile picture"
@@ -25,7 +40,7 @@ const Profile = {
           <div class="row align-items-center">
             <div class="col">
               <h2 class="mb-1">${firstName} ${lastName}</h2>
-              <h3 class="">Banten, Tangerang Selatan</h3>
+              <h3 class="">${city}</h3>
             </div>
           </div>
           <div class="col-sm">
@@ -41,12 +56,8 @@ const Profile = {
                   <td>${lastName}</td>
                 </tr>
                 <tr>
-                  <th>Jenis Kelamin</th>
-                  <td>${gender}</td>
-                </tr>
-                <tr>
                   <th>Alamat</th>
-                  <td>${alamat}</td>
+                  <td>${user.address}</td>
                 </tr>
                 <tr>
                   <th>Password</th>
@@ -59,7 +70,7 @@ const Profile = {
               <tbody>
                 <tr>
                   <th>Email</th>
-                  <td>${email}</td>
+                  <td>${user.email}</td>
                 </tr>
                 <tr>
                   <th>Phone</th>

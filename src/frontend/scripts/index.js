@@ -12,6 +12,13 @@ import './component/search-bar.js';
 import '../styles/main.css';
 import App from './views/app.js';
 
+// import 'bootstrap';
+// import 'bootstrap/dist/css/bootstrap.css';
+// require('bootstrap');
+// require('bootstrap/dist/css/bootstrap.css');
+// require('bootstrap-select/js/bootstrap-select');
+// require('bootstrap-select/dist/css/bootstrap-select.css');
+
 const app = new App({
   content: document.querySelector('#mainContent'),
 });

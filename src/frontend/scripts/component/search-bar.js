@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
+import API_ENDPOINT from '../global/api-endpoint';
 
 // TODO: Rapihin & Masukin ke dashboard
 class SearchBar extends HTMLElement {
@@ -17,7 +18,9 @@ class SearchBar extends HTMLElement {
   <div class="container">
     <form class="">
       <select class="selectpicker form-control me-2" data-live-search="true" id="searchSelect">
-
+        <option selected="selected" disabled>Pilih Rumah Sakit</option>
+        <option>nyoba</option>
+        <option>nyoba</option>
       </select>
     </form>
   </div>
@@ -25,20 +28,32 @@ class SearchBar extends HTMLElement {
   }
 
   async afterRender() {
-    // const optionSiloamKarawaci = 'optionSiloamKarawaci';
-    // <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-    // <option data-tokens="mustard">Burger, Shake and a Smile</option>
-    // <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-    const options = [`<option>Siloam Hospitals</option>`,
-      `<option>RSUD Tangerang Selatan</option>`]; // TODO: connect ke backend
+    const hospitalOptions = [];
+    const hospital = await fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
+      method: 'GET',
+    }).then((response) => response.json())
+        .then((json) => {
+          console.log(json); // TODO: Buang kalo gapake
+          if (json.success) {
+            return json.success.data.hospitals;
+          } else if (json.error) {
+            window.location.href = '#/login';
+          }
+        })
+        .catch((err) => {
+        });
 
-    $('#searchSelect').append(options);
+    hospital.forEach((element) => {
+      hospitalOptions.push(`<option>${element.name}</option>`);
+    });
+
+    $('#searchSelect').append(hospitalOptions);
+    // $('#searchSelect').selectpicker('refresh');
 
     $('#searchSelect').on('change', () => {
-      // TODO: gabung dengan backend
       const webId = 'test';
       const selectedValue = $('#searchSelect').val();
-      console.log(selectedValue);
+      // console.log(selectedValue);
 
       window.location.href = `#/detail/${webId}`;
     });
