@@ -37,25 +37,25 @@ const changePasswordBody = `
 </div>
 `;
 
-const polyCard = `
+const polyCard = ({polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg', polyName, polyDoctor, polyDesc, polyCapacity}) => `
 <div class="profile-card-4 text-center">
-  <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" class="img img-responsive">
+  <img src="${polyImage}" class="img img-responsive" alt="poly image">
   <div class="profile-content">
     <div class="profile-name">
-      John Doe
-      <p>@johndoedesigner</p>
+      ${polyName}
+      <p>${polyDoctor}</p>
     </div>
-    <div class="profile-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</div>
+    <div class="profile-description">${polyDesc}</div>
     <div class="d-flex align-content-center flex-wrap ">
       <div class="col">
         <div class="profile-overview">
           <p>CAPACITY</p>
-          <h4>1000</h4>
+          <h4>${polyCapacity}</h4>
         </div>
       </div>
-      <div class="abc">
+      <div class="poly-card-mid">
         <div class="profile-overview">
-          <button type="button" class="btn btn-primary btn-sm" id="tes">Make Appointment</button>
+          <button type="button" class="btn btn-primary btn-sm" id="">Make Appointment</button> <!-- TODO: Ganti ID -->
         </div>
       </div>
     </div>

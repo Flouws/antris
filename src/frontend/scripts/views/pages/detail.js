@@ -146,9 +146,10 @@ const Detail = {
         });
 
     hospitalData.polys.forEach((polyData) => {
-      const poly = polyCard;
+      // const poly = polyCard;
 
-      polys.push(poly);
+      polys.push(polyCard({polyImage: 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg', polyName: polyData.name,
+        polyDoctor: polyData.doctor, polyDesc: polyData.desc, polyCapacity: polyData.capacity}));
     });
 
     $('#polyCard').append(polys);
