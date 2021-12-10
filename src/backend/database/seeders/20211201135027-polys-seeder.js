@@ -7,10 +7,12 @@ module.exports = {
       name: 'teeth',
       doctor: 'Dr. Lorem Ipsum',
       capacity: 100,
+      description: 'Please Dolor Sit Amet ',
     }, {
       userId: 2,
       name: 'heart',
       doctor: 'Dr. Dolor Sit Amet',
+      description: 'Today doctor is Dolor Sit Amet',
       capacity: 50,
     }]);
   },
