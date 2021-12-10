@@ -22,6 +22,8 @@ exports.getAll = async (req, res) => {
         'uuid',
         'name',
         'address',
+        'phone',
+        'description',
         'picture',
       ],
     });
@@ -50,6 +52,8 @@ exports.getOne = async (req, res) => {
         'uuid',
         'name',
         'address',
+        'phone',
+        'description',
         'picture',
       ],
       include: {

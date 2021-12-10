@@ -37,6 +37,8 @@ exports.getProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         address: user.address,
+        phone: user.phone,
+        description: user.description,
         picture: user.picture,
         isActive: (user.isActive && user.isActive > 0 ? true : false),
         createdAt: user.createdAt,
@@ -74,6 +76,8 @@ exports.editProfile = async (req, res) => {
       name: req.body.name,
       password: password,
       address: req.body.address,
+      phone: req.body.phone,
+      description: req.body.description,
       picture: picture,
       isActive: req.body.isActive,
     }, {
