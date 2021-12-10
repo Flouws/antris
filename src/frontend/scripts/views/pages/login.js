@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import API_ENDPOINT from '../../global/api-endpoint';
+import api from '../../global/api';
 import checkError from '../../global/error-handling';
 
 const Login = {
@@ -62,26 +62,13 @@ const Login = {
         password: $('#loginPassword').val(),
       };
 
-      const checkErrorVal = checkError({register: false, user: user,
-        emailInvalidId: '#loginEmailInvalid', passwordInvalidId: '#loginPasswordInvalid'});
+      const checkErrorVal = checkError({
+        register: false, user: user,
+        emailInvalidId: '#loginEmailInvalid', passwordInvalidId: '#loginPasswordInvalid',
+      });
 
       if (checkErrorVal === true) {
-        fetch(API_ENDPOINT.SIGN_IN, {
-          method: 'POST',
-          body: JSON.stringify(user),
-          headers: {'Content-type': 'application/json'},
-        }).then((response) => response.json())
-            .then((json) => {
-              if (json.success) {
-                sessionStorage.setItem('accessToken', json.success.data.accessToken);
-                window.location.href = '#/dashboard';
-              } else if (json.error) {
-                $('#loginApiInvalid').html(json.error.message);
-                $('#loginApiInvalid').show();
-              }
-            })
-            .catch((err) => {
-            });
+        api.signIn(user);
       }
     });
   },

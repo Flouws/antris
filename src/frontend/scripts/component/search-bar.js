@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import API_ENDPOINT from '../global/api-endpoint';
+import api from '../global/api';
 
 // TODO: Rapihin & Masukin ke dashboard
 class SearchBar extends HTMLElement {
@@ -25,19 +25,7 @@ class SearchBar extends HTMLElement {
   async afterRender() {
     // const hospitals = [{id: 'aid', text: 'a'}, {id: 'bid', text: 'b'}]; // Dummy data
     const hospitals = [];
-    const hospitalData = await fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
-      method: 'GET',
-    }).then((response) => response.json())
-        .then((json) => {
-          // console.log(json); // TODO: Buang kalo gapake
-          if (json.success) {
-            return json.success.data.hospitals;
-          } else if (json.error) {
-            window.location.href = '#/login';
-          }
-        })
-        .catch((err) => {
-        });
+    const hospitalData = await api.getAllHospitals;
 
     hospitalData.forEach((element) => {
       const hospital = {

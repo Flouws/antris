@@ -37,7 +37,11 @@ const changePasswordBody = `
 </div>
 `;
 
-const polyCard = ({polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg', polyName, polyDoctor, polyDesc, polyCapacity}) => `
+const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => {
+  if (polyImage === null) {
+    polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg'; // TODO: Cari gambar yang cocok
+  }
+  return `
 <div class="profile-card-4 text-center">
   <img src="${polyImage}" class="img img-responsive" alt="poly image">
   <div class="profile-content">
@@ -55,13 +59,14 @@ const polyCard = ({polyImage = 'http://envato.jayasankarkr.in/code/profile/asset
       </div>
       <div class="poly-card-mid">
         <div class="profile-overview">
-          <button type="button" class="btn btn-primary btn-sm" id="">Make Appointment</button> <!-- TODO: Ganti ID -->
+          <button type="button" class="btn btn-primary btn-sm" id="" data-toggle="modal" data-target="#makeAppointmentModal">Make Appointment</button> <!-- TODO: Ganti ID -->
         </div>
       </div>
     </div>
   </div>
 </div>
 `;
+};
 
 export {
   changePasswordBody,

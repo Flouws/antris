@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
-import API_ENDPOINT from '../../global/api-endpoint';
+import api from '../../global/api';
 import checkError from '../../global/error-handling';
 
 const Register = {
@@ -104,22 +104,7 @@ const Register = {
       });
 
       if (checkErrorVal === true) {
-        fetch(API_ENDPOINT.SIGN_UP, {
-          method: 'POST',
-          body: JSON.stringify(user),
-          headers: {'Content-type': 'application/json'},
-        }).then((response) => response.json())
-            .then((json) => {
-              if (json.success) {
-                sessionStorage.setItem('accessToken', json.success.data.accessToken);
-                window.location.href = '#/dashboard';
-              } else if (json.error) {
-                $('#registerApiInvalid').html(json.error.message);
-                $('#registerApiInvalid').show();
-              }
-            })
-            .catch((err) => {
-            });
+        api.signUp(user);
       }
     });
   },
