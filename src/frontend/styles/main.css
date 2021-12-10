@@ -41,6 +41,10 @@ search-bar{
     margin: 40px;
 }
 
+#searchBar{
+    width: 100%;
+}
+
 /* Main Content */
 
 /* TODO: Not working */

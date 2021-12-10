@@ -16,20 +16,15 @@ class SearchBar extends HTMLElement {
   async render() {
     this.innerHTML = `
   <div class="container">
-    <form class="">
-      <select class="selectpicker form-control me-2" data-live-search="true" id="searchSelect">
-        <option selected="selected" disabled>Pilih Rumah Sakit</option>
-        <option>nyoba</option>
-        <option>nyoba</option>
-      </select>
-    </form>
+    <select class="js-example-responsive" id="searchBar">
+    </select>
   </div>
     `;
   }
 
   async afterRender() {
-    const hospitalOptions = [];
-    const hospital = await fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
+    const hospitals = [{id: 'aid', text: 'a'}, {id: 'bid', text: 'b'}];
+    const hospitalData = await fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
       method: 'GET',
     }).then((response) => response.json())
         .then((json) => {
@@ -43,19 +38,26 @@ class SearchBar extends HTMLElement {
         .catch((err) => {
         });
 
-    hospital.forEach((element) => {
-      hospitalOptions.push(`<option>${element.name}</option>`);
+    hospitalData.forEach((element) => {
+      // hospitals.push(`<option>${element.name}</option>`);
+      const hospital = {
+        id: element.uuid,
+        text: element.name,
+      };
+      hospitals.push(hospital);
     });
 
-    $('#searchSelect').append(hospitalOptions);
-    // $('#searchSelect').selectpicker('refresh');
 
-    $('#searchSelect').on('change', () => {
-      const webId = 'test';
-      const selectedValue = $('#searchSelect').val();
-      // console.log(selectedValue);
+    $('#searchBar').select2({
+      placeholder: 'Select Hospital',
+      data: hospitals,
+    });
 
-      window.location.href = `#/detail/${webId}`;
+    $('#searchBar').on('select2:select', (e) => {
+      const uuid = e.params.data.id;
+      window.location.href = `#/detail/${uuid}`;
+
+      // console.log(uuid); // TODO: Bug dimana datanya muncul 2 kali
     });
   }
 }

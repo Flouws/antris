@@ -113,6 +113,7 @@ const Detail = {
   async afterRender() {
     const url = UrlParser.parseActiveUrlWithoutCombiner();
     console.log(url);
+
     // const restaurantData = await RestaurantSource.detailRestaurant(url.id);
     const doctorList = [`
     <div class="col-sm-6 col-xl-4 mt-4">
