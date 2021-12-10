@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 /* eslint-disable valid-jsdoc */
 /* eslint-disable require-jsdoc */
 'use strict';
@@ -23,9 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
     },
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: DataTypes.STRING(156),
     password: DataTypes.STRING,
     address: DataTypes.STRING,
+    phone: DataTypes.STRING(15),
+    description: DataTypes.TEXT,
     picture: DataTypes.STRING,
     roleId: DataTypes.INTEGER,
     isActive: DataTypes.INTEGER,

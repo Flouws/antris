@@ -15,6 +15,8 @@ module.exports = {
       email: 'user@email.com',
       password: hashPassword('user'),
       address: null,
+      phone: '081234567890',
+      description: null,
       picture: null,
       roleId: 1,
       isActive: null,
@@ -25,6 +27,8 @@ module.exports = {
       password: hashPassword('hospital'),
       address: 'Jl. Mangga, Komplek Durian, Desa Mars, Kec Venus, Kota Bumi. ',
       picture: null,
+      phone: '089876543210',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       roleId: 2,
       isActive: 1,
     }]);

@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     doctor: DataTypes.STRING,
     capacity: DataTypes.INTEGER,
+    description: DataTypes.TEXT,
+    picture: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'polys',

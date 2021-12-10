@@ -22,6 +22,8 @@ exports.getAll = async (req, res) => {
         'uuid',
         'name',
         'address',
+        'phone',
+        'description',
         'picture',
       ],
     });
@@ -50,6 +52,8 @@ exports.getOne = async (req, res) => {
         'uuid',
         'name',
         'address',
+        'phone',
+        'description',
         'picture',
       ],
       include: {
@@ -59,6 +63,7 @@ exports.getOne = async (req, res) => {
           'name',
           'doctor',
           'capacity',
+          'description',
         ],
         include: {
           model: Appointments,
@@ -111,6 +116,7 @@ exports.getAllPoly = async (req, res) => {
         'name',
         'doctor',
         'capacity',
+        'description',
       ],
       include: {
         model: Appointments,
@@ -163,6 +169,7 @@ exports.getOnePoly = async (req, res) => {
         'name',
         'doctor',
         'capacity',
+        'description',
       ],
       include: {
         model: Appointments,

@@ -34,6 +34,14 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: null,
       },
+      phone: {
+        type: Sequelize.STRING(15),
+        defaultValue: null,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        defaultValue: null,
+      },
       picture: {
         type: Sequelize.STRING,
         defaultValue: null,

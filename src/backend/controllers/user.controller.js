@@ -34,6 +34,7 @@ exports.getProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         address: user.address,
+        phone: user.phone,
         picture: user.picture,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -70,6 +71,7 @@ exports.editProfile = async (req, res) => {
       name: req.body.name,
       password: password,
       address: req.body.address,
+      phone: req.body.phone,
       picture: picture,
     }, {
       where: {
