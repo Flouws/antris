@@ -164,6 +164,7 @@ exports.addPoly = async (req, res) => {
       name: req.body.name,
       doctor: req.body.doctor,
       capacity: req.body.capacity,
+      description: req.body.description,
     });
 
     return baseResponse.ok(res, {
@@ -236,6 +237,11 @@ exports.getPoly = async (req, res) => {
         id: req.params.id,
         userId: user.id,
       },
+      attributes: {
+        exclude: [
+          'userId',
+        ],
+      },
     });
 
     if (!poly) {
@@ -243,14 +249,7 @@ exports.getPoly = async (req, res) => {
     }
 
     return baseResponse.ok(res, {
-      poly: {
-        id: poly.id,
-        name: poly.name,
-        doctor: poly.doctor,
-        capacity: poly.capacity,
-        createdAt: poly.createdAt,
-        updatedAt: poly.updatedAt,
-      },
+      poly: poly,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
@@ -288,6 +287,7 @@ exports.editPoly = async (req, res) => {
       name: req.body.name,
       doctor: req.body.doctor,
       capacity: req.body.capacity,
+      description: req.body.description,
     }, {
       where: {
         id: req.params.id,
