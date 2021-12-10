@@ -4,17 +4,6 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 
 const userProfileUploadSetting = {
-  fileFilter: (req, file, cb) => {
-    if (!file.mimetype.includes('image')) {
-      return cb(new Error(`Field [${file.fieldname}] must be an image.`), false);
-    }
-    return cb(null, true);
-  },
-
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5 MB
-  },
-
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       const dir = path.join(__dirname, '../public/uploads/users/pictures');
@@ -26,6 +15,42 @@ const userProfileUploadSetting = {
       cb(null, uniqueSuffix);
     },
   }),
+
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.includes('image')) {
+      return cb(new Error(`Field [${file.fieldname}] must be an image.`), false);
+    }
+    return cb(null, true);
+  },
+
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB
+  },
+};
+
+const polyPictureUploadSetting = {
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const dir = path.join(__dirname, '../public/uploads/polys/pictures');
+      mkdirp.sync(dir);
+      cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+      cb(null, uniqueSuffix);
+    },
+  }),
+
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.includes('image')) {
+      return cb(new Error(`Field [${file.fieldname}] must be an image.`), false);
+    }
+    return cb(null, true);
+  },
+
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB
+  },
 };
 
 const userProfileUpload = multer({
@@ -34,8 +59,15 @@ const userProfileUpload = multer({
   limits: userProfileUploadSetting.limits,
 }).single('picture');
 
+const polyPictureUpload = multer({
+  storage: polyPictureUploadSetting.storage,
+  fileFilter: polyPictureUploadSetting.fileFilter,
+  limits: polyPictureUploadSetting.limits,
+}).single('picture');
+
 const upload = {
   userProfileUpload: userProfileUpload,
+  polyPictureUpload: polyPictureUpload,
 };
 
 module.exports = upload;

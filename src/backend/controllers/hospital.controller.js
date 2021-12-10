@@ -129,6 +129,12 @@ exports.deleteProfile = async (req, res) => {
 };
 
 exports.addPoly = async (req, res) => {
+  const deleteImage = () => {
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+  };
+
   const token = req.headers['x-access-token'];
 
   if (!token) {
@@ -147,11 +153,13 @@ exports.addPoly = async (req, res) => {
       }
     });
   } catch (error) {
+    deleteImage();
     return baseResponse.error(res, 400, error.message);
   }
 
   try {
     const decodedToken = jwt.decode(token);
+    const picture = (req.file ? req.file.filename : undefined);
 
     const user = await User.findOne({
       where: {
@@ -165,12 +173,14 @@ exports.addPoly = async (req, res) => {
       doctor: req.body.doctor,
       capacity: req.body.capacity,
       description: req.body.description,
+      picture: picture,
     });
 
     return baseResponse.ok(res, {
       message: 'Poly created successfully.',
     });
   } catch (error) {
+    deleteImage();
     return baseResponse.error(res, 500, error.message);
   }
 };
@@ -265,6 +275,7 @@ exports.editPoly = async (req, res) => {
 
   try {
     const decodedToken = jwt.decode(token);
+    const picture = (req.file ? req.file.filename : undefined);
 
     const user = await User.findOne({
       where: {
@@ -283,11 +294,16 @@ exports.editPoly = async (req, res) => {
       return baseResponse.error(res, 404, 'Poly not found.');
     }
 
+    if (picture && poly.picture && fs.existsSync(path.join(__dirname, `../public/uploads/polys/pictures/${poly.picture}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/polys/pictures/${poly.picture}`));
+    }
+
     await Poly.update({
       name: req.body.name,
       doctor: req.body.doctor,
       capacity: req.body.capacity,
       description: req.body.description,
+      picture: picture,
     }, {
       where: {
         id: req.params.id,
@@ -328,6 +344,10 @@ exports.deletePoly = async (req, res) => {
 
     if (!poly) {
       return baseResponse.error(res, 404, 'Poly not found.');
+    }
+
+    if (poly.picture && fs.existsSync(path.join(__dirname, `../public/uploads/polys/pictures/${poly.picture}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/polys/pictures/${poly.picture}`));
     }
 
     await Poly.destroy({
