@@ -12,8 +12,8 @@ module.exports = {
       userId: 2,
       name: 'heart',
       doctor: 'Dr. Dolor Sit Amet',
-      description: 'Today doctor is Dolor Sit Amet',
       capacity: 50,
+      description: 'Today doctor is Dolor Sit Amet',
     }]);
   },
 
