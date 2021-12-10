@@ -64,6 +64,7 @@ exports.getOne = async (req, res) => {
           'doctor',
           'capacity',
           'description',
+          'picture',
         ],
         include: {
           model: Appointments,
@@ -117,6 +118,7 @@ exports.getAllPoly = async (req, res) => {
         'doctor',
         'capacity',
         'description',
+        'picture',
       ],
       include: {
         model: Appointments,
@@ -170,6 +172,7 @@ exports.getOnePoly = async (req, res) => {
         'doctor',
         'capacity',
         'description',
+        'picture',
       ],
       include: {
         model: Appointments,
