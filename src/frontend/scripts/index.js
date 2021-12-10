@@ -6,10 +6,12 @@ import 'regenerator-runtime';
 
 
 import '../styles/main.scss';
+import '../styles/main.css';
+import '../styles/check.css';
 import './component/nav-bar.js';
 import './component/change-password.js';
 import './component/search-bar.js';
-import '../styles/main.css';
+
 import App from './views/app.js';
 
 // import 'bootstrap';
