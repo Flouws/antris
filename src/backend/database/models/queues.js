@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       queues.belongsTo(models.users);
       queues.belongsTo(models.appointments);
-      // queues.belongsTo(models.queueStatuses);
+      queues.belongsTo(models.queueStatuses);
     }
   };
   queues.init({
