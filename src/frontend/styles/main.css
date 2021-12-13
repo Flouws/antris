@@ -35,10 +35,24 @@ label {
     min-height: 80vh;
 }
 
+/* #tes{
+    max-width: 175px;
+    margin: auto;
+    max-height: 35px;
+} */
+
+.poly-card-mid {
+    margin: auto;
+}
+
 /* Search Bar */
 search-bar{
     display: none;
     margin: 40px;
+}
+
+#searchBar{
+    width: 100%;
 }
 
 /* Main Content */
@@ -98,6 +112,8 @@ search-bar{
         width: 30%;
     }
 }
+
+
 
 @media screen and (min-width: 768px) {
     #profile {

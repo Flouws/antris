@@ -1,21 +1,9 @@
 /* eslint-disable max-len */
-import API_ENDPOINT from '../../global/api-endpoint';
+import api from '../../global/api';
 
 const Profile = {
   async render() {
-    const user = await fetch(API_ENDPOINT.GET_PROFILE, {
-      method: 'GET',
-      headers: {'x-access-token': sessionStorage.getItem('accessToken')},
-    }).then((response) => response.json())
-        .then((json) => {
-          if (json.success) {
-            return json.success.data.user;
-          } else if (json.error) {
-            window.location.href = '#/login';
-          }
-        })
-        .catch((err) => {
-        });
+    const user = await api.getProfile; // TODO: Turunin ke after render soalnya kalo login pertama gadapet apinya
 
     const firstName = user.name.split(' ').slice(0, -1).join(' ');
     const lastName = user.name.split(' ').slice(-1).join(' ');

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import API_ENDPOINT from '../global/api-endpoint';
+import api from '../global/api';
 
 // TODO: Rapihin & Masukin ke dashboard
 class SearchBar extends HTMLElement {
@@ -16,46 +16,35 @@ class SearchBar extends HTMLElement {
   async render() {
     this.innerHTML = `
   <div class="container">
-    <form class="">
-      <select class="selectpicker form-control me-2" data-live-search="true" id="searchSelect">
-        <option selected="selected" disabled>Pilih Rumah Sakit</option>
-        <option>nyoba</option>
-        <option>nyoba</option>
-      </select>
-    </form>
+    <select class="js-example-responsive" id="searchBar">
+    </select>
   </div>
     `;
   }
 
   async afterRender() {
-    const hospitalOptions = [];
-    const hospital = await fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
-      method: 'GET',
-    }).then((response) => response.json())
-        .then((json) => {
-          console.log(json); // TODO: Buang kalo gapake
-          if (json.success) {
-            return json.success.data.hospitals;
-          } else if (json.error) {
-            window.location.href = '#/login';
-          }
-        })
-        .catch((err) => {
-        });
+    // const hospitals = [{id: 'aid', text: 'a'}, {id: 'bid', text: 'b'}]; // Dummy data
+    const hospitals = [];
+    const hospitalData = await api.getAllHospitals;
 
-    hospital.forEach((element) => {
-      hospitalOptions.push(`<option>${element.name}</option>`);
+    hospitalData.forEach((element) => {
+      const hospital = {
+        id: element.uuid,
+        text: element.name,
+      };
+      hospitals.push(hospital);
     });
 
-    $('#searchSelect').append(hospitalOptions);
-    // $('#searchSelect').selectpicker('refresh');
+    $('#searchBar').select2({
+      placeholder: 'Select Hospital',
+      data: hospitals,
+    });
 
-    $('#searchSelect').on('change', () => {
-      const webId = 'test';
-      const selectedValue = $('#searchSelect').val();
-      // console.log(selectedValue);
+    $('#searchBar').on('select2:select', (e) => {
+      const uuid = e.params.data.id;
+      window.location.href = `#/detail/${uuid}`;
 
-      window.location.href = `#/detail/${webId}`;
+      // console.log(uuid); // TODO: Kalo udah selected, gabisa pilih itu lagi. soalnya udah 'selected'
     });
   }
 }
