@@ -1,8 +1,6 @@
 /* eslint-disable require-jsdoc */
 function dayConverter(day) {
   switch (day) {
-    case 0:
-      return ('Minggu');
     case 1:
       return ('Senin');
     case 2:
@@ -15,6 +13,8 @@ function dayConverter(day) {
       return ('Jumat');
     case 6:
       return ('Sabtu');
+    case 7:
+      return ('Minggu');
   }
 }
 
