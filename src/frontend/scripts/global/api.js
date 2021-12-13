@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable new-cap */
 /* eslint-disable require-jsdoc */
 import API_ENDPOINT from '../global/api-endpoint.js';
@@ -8,7 +9,7 @@ const api = {
   signIn: (user) => signIn(user),
   signUp: (user) => signUp(user),
   getProfile: getProfile(),
-
+  getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
 };
 
 function getAllHospitals() {
@@ -90,6 +91,17 @@ function getProfile() {
         } else if (json.error) {
           window.location.href = '#/login';
         }
+      })
+      .catch((err) => {
+      });
+}
+
+function getDetailsOneHospitalPoly({hospitalUuid, polyId}) {
+  return fetch(API_ENDPOINT.GET_DETAILS_ONE_HOSPITAL_POLY({hospitalUuid, polyId}), {
+    method: 'GET',
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
       })
       .catch((err) => {
       });

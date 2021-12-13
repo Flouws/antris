@@ -3,7 +3,7 @@ import api from '../../global/api';
 
 const Profile = {
   async render() {
-    const user = await api.getProfile;
+    const user = await api.getProfile; // TODO: Turunin ke after render soalnya kalo login pertama gadapet apinya
 
     const firstName = user.name.split(' ').slice(0, -1).join(' ');
     const lastName = user.name.split(' ').slice(-1).join(' ');

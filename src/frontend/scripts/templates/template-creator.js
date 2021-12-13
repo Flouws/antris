@@ -59,7 +59,7 @@ const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => 
       </div>
       <div class="poly-card-mid">
         <div class="profile-overview">
-          <button type="button" class="btn btn-primary btn-sm" id="" data-toggle="modal" data-target="#makeAppointmentModal">Make Appointment</button> <!-- TODO: Ganti ID -->
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#makeAppointmentModal">Make Appointment</button>
         </div>
       </div>
     </div>

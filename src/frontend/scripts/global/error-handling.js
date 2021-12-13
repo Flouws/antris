@@ -104,4 +104,16 @@ function checkAddress({user, cityInvalidId, zipInvalidId, addressInvalidId}) {
   }
 }
 
-export default checkError;
+// not used
+function checkMakeAppointmentModalTimeInvalid(invalidId) {
+  if (null) {
+    $(invalidId).hide();
+    return true;
+  } else {
+    $(invalidId).html('This polyclinic has no available appointment');
+    $(invalidId).show();
+    return false;
+  }
+}
+
+export {checkError, checkMakeAppointmentModalTimeInvalid};

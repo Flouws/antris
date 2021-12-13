@@ -13,24 +13,24 @@ const makeAppointmentModal = `
 
                     <div class="form-group mb-2">
                         <label>Rumah Sakit</label>
-                        <select class="form-select" id="makeAppointmentRSSelect">
+                        <select class="form-select" id="makeAppointmentModalRSSelect" disabled>
                         </select>
                     </div>
 
                     <div class="form-group mb-2">
                         <label>Poliklinik</label>
-                        <select class="form-select" required id="makeAppointmentPolySelect">
-                            <option value="" selected disabled>Pilih poliklinik</option>
+                        <select class="form-select" required id="makeAppointmentModalPolySelect">
+                            <option selected disabled>Pilih poliklinik</option>
                         </select>
                         <div class="invalid-feedback">Mohon pilih poliklinik yang tersedia</div>
                     </div>
 
                     <div class="form-group mb-2">
                         <label>Waktu Tersedia</label>
-                        <select class="form-select" required id="makeAppointmentTimeSelect">
+                        <select class="form-select" required id="makeAppointmentModalTimeSelect">
                             <option value="" selected disabled>Pilih Waktu</option>
                         </select>
-                        <div class="invalid-feedback">Mohon pilih waktu yang tersedia</div>
+                        <div class="invalid-feedback" id="makeAppointmentModalTimeInvalid">Mohon pilih waktu yang tersedia</div>
                     </div>
 
                 </form>

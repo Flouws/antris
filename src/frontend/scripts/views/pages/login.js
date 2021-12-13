@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import api from '../../global/api';
-import checkError from '../../global/error-handling';
+import {checkError} from '../../global/error-handling';
 
 const Login = {
   async render() {
