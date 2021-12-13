@@ -7,6 +7,7 @@ module.exports = {
       appointmentId: 1,
       date: '2021-12-12',
       queue: 1,
+      isAssurance: 1,
       queueStatusId: 1,
     }, {
       userId: 1,

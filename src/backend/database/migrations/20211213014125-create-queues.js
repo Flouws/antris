@@ -20,6 +20,9 @@ module.exports = {
       queue: {
         type: Sequelize.INTEGER,
       },
+      isAssurance: {
+        type: Sequelize.INTEGER,
+      },
       picture1: {
         type: Sequelize.STRING,
       },
@@ -37,6 +40,9 @@ module.exports = {
       },
       queueStatusId: {
         type: Sequelize.INTEGER,
+      },
+      rejectMessage: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

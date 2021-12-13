@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       queues.belongsTo(models.users);
       queues.belongsTo(models.appointments);
-      // queues.belongsTo(models.queueStatuses);
+      queues.belongsTo(models.queueStatuses);
     }
   };
   queues.init({
@@ -23,12 +23,14 @@ module.exports = (sequelize, DataTypes) => {
     appointmentId: DataTypes.INTEGER,
     date: DataTypes.DATEONLY,
     queue: DataTypes.INTEGER,
+    isAssurance: DataTypes.INTEGER,
     picture1: DataTypes.STRING,
     picture2: DataTypes.STRING,
     picture3: DataTypes.STRING,
     picture4: DataTypes.STRING,
     picture5: DataTypes.STRING,
     queueStatusId: DataTypes.INTEGER,
+    rejectMessage: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'queues',
