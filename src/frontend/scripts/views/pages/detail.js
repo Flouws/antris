@@ -6,7 +6,6 @@ import {polyCard} from '../../templates/template-creator';
 import {makeAppointmentModal} from '../../templates/template-modal';
 import api from '../../global/api';
 import {dayConverter} from '../../global/public-function';
-import {checkMakeAppointmentModalTimeInvalid} from '../../global/error-handling';
 
 const Detail = {
   // TODO: Rapihin Design
@@ -91,9 +90,6 @@ const Detail = {
 
     hospitalNames.push(`<option selected>${thisHospitalData.name}</option>`);
     // polyNames.push(`<option selected>${thisHospitalData.polyData}</option>`); // TODO: bikin fitur biar poly yang mau, langsung keselected
-
-    // TODO: Connect Backend
-    // id teeth selected, show time for teeth, else .., else please pick polyclinic
 
     $( '#makeAppointmentModalPolySelect' ).on( 'change', async () => {
       const selectedPoly = $('#makeAppointmentModalPolySelect :selected').val();
