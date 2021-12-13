@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       users.belongsTo(models.roles);
       users.hasMany(models.polys);
+      users.hasMany(models.queues);
     }
   };
   users.init({

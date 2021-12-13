@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       appointments.belongsTo(models.polys);
+      appointments.hasMany(models.queues);
     }
   };
   appointments.init({
