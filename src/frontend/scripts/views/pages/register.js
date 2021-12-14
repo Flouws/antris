@@ -6,7 +6,7 @@ import {checkError} from '../../global/error-handling';
 const Register = {
   async render() {
     $('nav-bar').hide(); // remove navbar
-    $('page-bar').hide(); // remove pagebar
+    $('bread-crumb').hide(); // remove pagebar
     return `
     <section class="vh-90 d-flex flex-row align-items-center">
       <div class="container-fluid h-custom">

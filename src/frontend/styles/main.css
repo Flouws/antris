@@ -56,10 +56,14 @@ search-bar{
 
 /* Page Bar */
 #pageBar a{
+    color: #adb8ff;
+}
+
+#pageBar {
     color: #ffffff;
 }
 
-.page-bar-dark{
+.bread-crumb-dark{
     background-color: #3d4852;
 }
 

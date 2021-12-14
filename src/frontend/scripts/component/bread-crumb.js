@@ -13,7 +13,7 @@ class PageBar extends HTMLElement {
     const pageBarType = 'dark'; // light, dark, primary
 
     this.innerHTML = `
-        <nav class="navbar navbar-expand-lg navbar-light page-bar-${pageBarType}">
+        <nav class="navbar navbar-expand-lg navbar-light bread-crumb-${pageBarType}">
             <span class="px-3" id="pageBar">
             </span>
         </nav>
@@ -21,6 +21,6 @@ class PageBar extends HTMLElement {
   }
 }
 
-customElements.define('page-bar', PageBar);
+customElements.define('bread-crumb', PageBar);
 
 

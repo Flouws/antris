@@ -1,9 +1,13 @@
 /* eslint-disable max-len */
 import api from '../../global/api';
+import {appendPages} from '../../global/public-function';
 
 const Profile = {
   async render() {
     // TODO: improve design
+    const pages = [{link: '#/dashboard', text: 'Dashboard'}];
+    appendPages({pages, lastPageText: 'Profile'});
+
     return `
   <div class="container shadow-lg p-3 bg-white rounded" id="profile">
     

@@ -8,7 +8,7 @@ import '../styles/check.css';
 import './component/nav-bar';
 import './component/change-password';
 import './component/search-bar';
-import './component/page-bar';
+import './component/bread-crumb';
 
 import App from './views/app.js';
 

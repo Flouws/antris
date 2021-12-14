@@ -4,7 +4,7 @@ import '../../component/search-bar.js';
 const Dashboard = {
 
   async render() {
-    $('page-bar').hide(); // remove pagebar
+    $('bread-crumb').hide(); // remove pagebar
 
     const role = sessionStorage.getItem('role');
 
@@ -14,7 +14,7 @@ const Dashboard = {
       `;
     } else if (role === 'hospital') {
       return `
-
+        <a href="#/profile">To profile</a>
       `;
     }
   },
