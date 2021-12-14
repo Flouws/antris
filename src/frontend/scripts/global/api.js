@@ -4,13 +4,19 @@
 import API_ENDPOINT from '../global/api-endpoint.js';
 
 const api = {
-  getAllHospitals: getAllHospitals(),
+  getAllHospitals: getAllHospitals,
   getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
   signIn: (user) => signIn(user),
   signUp: (user) => signUp(user),
-  getProfile: getProfile(),
+  getUserProfile: getUserProfile,
+  getHospitalProfile: getHospitalProfile,
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
+  run: run,
 };
+
+function run() {
+  console.log('jalan');
+}
 
 function getAllHospitals() {
   return fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
@@ -20,7 +26,7 @@ function getAllHospitals() {
         if (json.success) {
           return json.success.data.hospitals;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -35,7 +41,7 @@ function getDetailsOneHospital(uuid) {
         if (json.success) {
           return json.success.data.hospital;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -82,8 +88,8 @@ function signUp(user) {
       });
 }
 
-function getProfile() {
-  return fetch(API_ENDPOINT.GET_PROFILE, {
+function getUserProfile() {
+  return fetch(API_ENDPOINT.GET_USER_PROFILE, {
     method: 'GET',
     headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
@@ -91,7 +97,24 @@ function getProfile() {
         if (json.success) {
           return json.success.data.user;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getHospitalProfile() {
+  return fetch(API_ENDPOINT.GET_HOSPITAL_PROFILE, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          console.log(json.success.data.user);
+          return json.success.data.user;
+        } else if (json.error) {
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
