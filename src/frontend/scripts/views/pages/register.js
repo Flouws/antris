@@ -5,7 +5,7 @@ import {checkError} from '../../global/error-handling';
 
 const Register = {
   async render() {
-    $('nav').empty(); // remove navbar
+    $('nav-bar').hide(); // remove navbar
     return `
     <section class="vh-90 d-flex flex-row align-items-center">
       <div class="container-fluid h-custom">

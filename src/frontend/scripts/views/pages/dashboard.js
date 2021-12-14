@@ -4,7 +4,6 @@ import '../../component/search-bar.js';
 const Dashboard = {
 
   async render() {
-    $('nav').html('<nav-bar></nav-bar>');
     const role = sessionStorage.getItem('role');
 
     if (role === 'user') {
@@ -13,7 +12,7 @@ const Dashboard = {
       `;
     } else if (role === 'hospital') {
       return `
-        
+
       `;
     }
   },
