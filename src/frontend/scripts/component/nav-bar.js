@@ -11,7 +11,7 @@ class NavigationBar extends HTMLElement {
 
   async render() {
     const dashboardLink = '#/dashboard';
-    const antrisLink = '#/profile';
+    const antrisLink = '#/antris';
     const loginLink = '#/login';
     const navType = 'dark'; // light, dark, primary
 
