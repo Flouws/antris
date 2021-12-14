@@ -9,7 +9,7 @@ dbConfig.sequelize.database = process.env.DB_NAME;
 dbConfig.sequelize.host = process.env.DB_HOST;
 dbConfig.sequelize.dialect = process.env.DB_DIALECT;
 dbConfig.sequelize.port = process.env.DB_PORT;
-dbConfig.sequelize.timezone = process.env.APP_TIMEZONE;
+dbConfig.sequelize.timezone = process.env.APP_TIMEZONE_CODE;
 dbConfig.sequelize.define = {
   charset: 'utf8mb4',
   dialectOptions: {
