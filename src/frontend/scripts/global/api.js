@@ -50,7 +50,9 @@ function signIn(user) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
+          sessionStorage.clear();
           sessionStorage.setItem('accessToken', json.success.data.accessToken);
+          sessionStorage.setItem('role', json.success.data.role);
           window.location.href = '#/dashboard';
         } else if (json.error) {
           $('#loginApiInvalid').html(json.error.message);
@@ -69,8 +71,8 @@ function signUp(user) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          sessionStorage.setItem('accessToken', json.success.data.accessToken);
-          window.location.href = '#/dashboard';
+          alert(json.success.data.message);
+          window.location.href = '#/login';
         } else if (json.error) {
           $('#registerApiInvalid').html(json.error.message);
           $('#registerApiInvalid').show();
