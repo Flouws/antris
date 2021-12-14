@@ -127,20 +127,22 @@ exports.deleteProfile = async (req, res) => {
 
 exports.addQueue = async (req, res) => {
   const deleteImage = () => {
-    if (req.files.picture1) {
-      fs.unlinkSync(req.files.picture1[0].path);
-    }
-    if (req.files.picture2) {
-      fs.unlinkSync(req.files.picture2[0].path);
-    }
-    if (req.files.picture3) {
-      fs.unlinkSync(req.files.picture3[0].path);
-    }
-    if (req.files.picture4) {
-      fs.unlinkSync(req.files.picture4[0].path);
-    }
-    if (req.files.picture5) {
-      fs.unlinkSync(req.files.picture5[0].path);
+    if (req.files) {
+      if (req.files.picture1) {
+        fs.unlinkSync(req.files.picture1[0].path);
+      }
+      if (req.files.picture2) {
+        fs.unlinkSync(req.files.picture2[0].path);
+      }
+      if (req.files.picture3) {
+        fs.unlinkSync(req.files.picture3[0].path);
+      }
+      if (req.files.picture4) {
+        fs.unlinkSync(req.files.picture4[0].path);
+      }
+      if (req.files.picture5) {
+        fs.unlinkSync(req.files.picture5[0].path);
+      }
     }
   };
 
