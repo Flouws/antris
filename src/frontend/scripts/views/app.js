@@ -13,6 +13,7 @@ class App {
     const page = routes[url];
 
     $('nav-bar').show(); // Show navbar on all pages
+    $('page-bar').show(); // Show pagebar on all pages
 
     this._content.innerHTML = await page.render();
     await page.afterRender();

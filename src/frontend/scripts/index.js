@@ -1,11 +1,14 @@
 import 'regenerator-runtime';
 import 'bootstrap';
+
 import '../styles/main.scss';
 import '../styles/main.css';
 import '../styles/check.css';
-import './component/nav-bar.js';
-import './component/change-password.js';
-import './component/search-bar.js';
+
+import './component/nav-bar';
+import './component/change-password';
+import './component/search-bar';
+import './component/page-bar';
 
 import App from './views/app.js';
 

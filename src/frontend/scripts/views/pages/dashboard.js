@@ -4,6 +4,8 @@ import '../../component/search-bar.js';
 const Dashboard = {
 
   async render() {
+    $('page-bar').hide(); // remove pagebar
+
     const role = sessionStorage.getItem('role');
 
     if (role === 'user') {

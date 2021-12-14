@@ -54,8 +54,13 @@ search-bar{
     margin: 40px;
 }
 
-nav-bar{
-    
+/* Page Bar */
+#pageBar a{
+    color: #ffffff;
+}
+
+.page-bar-dark{
+    background-color: #3d4852;
 }
 
 #searchBar{
