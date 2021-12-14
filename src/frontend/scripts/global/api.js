@@ -111,7 +111,6 @@ function getHospitalProfile() {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          console.log(json.success.data.user);
           return json.success.data.user;
         } else if (json.error) {
           // window.location.href = '#/login';

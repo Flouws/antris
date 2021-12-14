@@ -23,8 +23,7 @@ class SearchBar extends HTMLElement {
   }
 
   async afterRender() {
-    // const hospitals = [{id: 'aid', text: 'a'}, {id: 'bid', text: 'b'}]; // Dummy data
-    const hospitals = [];
+    const hospitals = [{id: 'first', text: 'Find Hospitals'}];
     const hospitalData = await api.getAllHospitals();
 
     hospitalData.forEach((element) => {
