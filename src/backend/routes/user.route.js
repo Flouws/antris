@@ -9,6 +9,7 @@ router.get('/profile', user.getProfile);
 router.patch('/profile', [upload.userProfileUpload], user.editProfile);
 router.delete('/profile', user.deleteProfile);
 
+router.get('/queue/', user.getAllQueue);
 router.post('/queue/', [upload.queuePicturesUpload], user.addQueue);
 
 module.exports = router;
