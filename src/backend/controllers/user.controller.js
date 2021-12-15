@@ -629,6 +629,59 @@ exports.getByDateQueue = async (req, res) => {
   }
 };
 
+exports.deleteQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        id: req.params.queueId,
+        userId: user.id,
+      },
+      include: {
+        model: QueueStatus,
+        attributes: [
+          'id',
+          'name',
+        ],
+      },
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `Queue for id [${req.params.queueId}] not found.`);
+    }
+
+    if (queue.queueStatusId !== 0) {
+      return baseResponse.error(res, 400, `Cannot delete queue because queue status with id [${queue.id}] is [${queue.queueStatus.name}].`);
+    }
+
+    await Queue.destroy({
+      where: {
+        id: req.params.queueId,
+        userId: user.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: 'Queue deleted successfully.',
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
