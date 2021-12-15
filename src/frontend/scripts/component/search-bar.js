@@ -3,6 +3,7 @@
 import api from '../global/api';
 
 // TODO: Rapihin & Masukin ke dashboard
+// TODO: Ganti searchbar ke bootstarp v.5
 class SearchBar extends HTMLElement {
   constructor() {
     super();

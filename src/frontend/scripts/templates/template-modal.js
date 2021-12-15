@@ -105,12 +105,43 @@ const addPolyModal = () => `
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add polyclinic</h5>
+                    <h5 class="modal-title">Add Polyclinic</h5>
                     <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
                 </div>
                 <div class="modal-body">
 
-    
+
+                <div class="form-group row">
+                    <label for="addPolyModalName" class="col-sm-2 col-form-label">Polyclinic</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="addPolyModalName">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                    <label for="addPolyModalDoctor" class="col-sm-2 col-form-label">Doctor</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="addPolyModalDoctor">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3">
+                    <label for="addPolyModalCapacity" class="col-sm-2 col-form-label">Capacity</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="addPolyModalCapacity">
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="addPolyModalDescription">Description</label>
+                    <textarea class="form-control mt-2" id="addPolyModalDescription" rows="3" placeholder="Enter description"></textarea>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label for="addPolyModalImage" class="form-label">Polyclinic Image</label>
+                    <input class="form-control" type="file" id="addPolyModalImage">
+                </div>
+
 
                 </div>
                 <div class="modal-footer">

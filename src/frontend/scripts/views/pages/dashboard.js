@@ -47,6 +47,7 @@ const Dashboard = {
   },
 
   async afterRender() {
+    // Edit Hospital Profile (Modal)
     $('#editHospitalModalSave').on('click', async () => {
       const data = {
         name: $('#editHospitalModalName').val(),
@@ -66,27 +67,43 @@ const Dashboard = {
       // console.log(data);
     });
 
-    const tes = $('#editHospitalModalImage').val();
-    console.log(tes);
+    // Add Polyclinic (Modal)
+    $('#addPolyModalSave').on('click', async () => {
+      const data = {
+        name: $('#addPolyModalName').val(),
+        doctor: $('#addPolyModalDoctor').val(),
+        capacity: $('#addPolyModalCapacity').val(),
+        description: $('#addPolyModalDescription').val(),
+        // picture: $('#editHospitalModalImage').val(),
+        picture: new File([$('#addPolyModalImage').prop('files')], $('#addPolyModalImage').val().split('\\').pop()),
+      };
+      const formData = serialize(data);
 
-    // TODO: ilangin empty card kalo poly > 0
+      for (const pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+      }
+
+      // await api.editHospitalProfile(formData.entries());
+      // console.log(data);
+    });
+
+    // Poly cards TODO: ilangin empty card kalo poly > 0
     $('#dashboardPolyCardHolder').append(`
       <div class="row row-cols-1 row-cols-md-2 g-4 mx-1 mb-3">
 
         <div class="col">
           <div class="card h-100">
-          <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" class="card-img-top" alt="Foto Poly">
-          <div class="card-body">
-            <h5 class="card-title mb-0">Poliklinik kesesatan</h5>
-            <small class="text-muted">Dokter Andreas</small>
-            <p class="card-text">Deskripsi dari dokter</p>
-          </div>
+            <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" class="card-img-top" alt="Foto Poly">
+            <div class="card-body">
+              <h5 class="card-title mb-0">Poliklinik kesesatan</h5>
+              <small class="text-muted">Dokter Andreas</small>
+              <p class="card-text">Deskripsi dari dokter</p>
+            </div>
           </div>
         </div>
 
         ${addPolyCard}
         ${emptyCard}
-
 
       </div>
     `);

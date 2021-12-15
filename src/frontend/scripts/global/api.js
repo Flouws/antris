@@ -13,6 +13,7 @@ const api = {
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
   editHospitalProfile: (data) => editHospitalProfile(data),
   getProfileImage: (pictName) => getProfileImage(pictName),
+  addPoly: (poly) => addPoly(poly),
   run: run,
 };
 
@@ -162,6 +163,25 @@ function getProfileImage(pictName) {
         //   return json.success.data.hospitals;
         // } else if (json.error) {
         //   // window.location.href = '#/login';
+        // }
+      })
+      .catch((err) => {
+      });
+}
+
+function addPoly(poly) {
+  return fetch(API_ENDPOINT.SIGN_UP, {
+    method: 'POST',
+    body: JSON.stringify(poly),
+    headers: {'Content-type': 'application/json', 'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        // if (json.success) {
+        //   alert(json.success.data.message);
+        //   window.location.href = '#/login';
+        // } else if (json.error) {
+        //   $('#registerApiInvalid').html(json.error.message);
+        //   $('#registerApiInvalid').show();
         // }
       })
       .catch((err) => {

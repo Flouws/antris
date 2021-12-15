@@ -129,6 +129,10 @@ search-bar{
     cursor: pointer
 }
 
+.justify-content-around{
+    justify-content: space-around;
+}
+
 /* Error Page */
 
 #error-page {
