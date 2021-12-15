@@ -77,12 +77,18 @@ const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVa
                 </div>
 
                 <div class="form-group mt-2">
+                    <label for="editHospitalModalImage" class="form-label">Profile Image</label>
+                    <input class="form-control" type="file" id="editHospitalModalImage">
+                </div>
+
+                <div class="form-group mt-3">
                     <label for="editHospitalModalDesc">Description</label>
-                    <input type="text" class="form-control mt-2" id="editHospitalModalDesc" placeholder="Enter description"> <!-- TODO: Buat biar bisa wrap -->
+                    <textarea class="form-control mt-2" id="editHospitalModalDesc" rows="3" placeholder="Enter description"></textarea>
                     <div class="form-text">
                         Kosongkan jika deskripsi tetap sama
                     </div>
                 </div>
+
 
             </div>
             <div class="modal-footer">

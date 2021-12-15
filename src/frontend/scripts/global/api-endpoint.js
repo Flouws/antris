@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import CONFIG from './config';
 
 const API_ENDPOINT = {
@@ -10,6 +11,9 @@ const API_ENDPOINT = {
   GET_DETAILS_ONE_HOSPITAL_POLY: ({hospitalUuid, polyId}) =>
     `${CONFIG.BASE_URL}/hospitals/${hospitalUuid}/poly/${polyId}/appointment`,
   EDIT_HOSPITAL_PROFILE: `${CONFIG.BASE_URL}/hospital/profile`,
+  GET_PROFILE_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/users/pictures/${pictName}`,
+  GET_POLY_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/polys/pictures/${pictName}`,
+  GET_QUEUE_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/queues/pictures/${pictName}`,
 };
 
 export default API_ENDPOINT;

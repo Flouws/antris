@@ -12,6 +12,7 @@ const api = {
   getHospitalProfile: getHospitalProfile,
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
   editHospitalProfile: (data) => editHospitalProfile(data),
+  getProfileImage: (pictName) => getProfileImage(pictName),
   run: run,
 };
 
@@ -135,8 +136,8 @@ function getDetailsOneHospitalPoly({hospitalUuid, polyId}) {
 function editHospitalProfile(data) {
   return fetch(API_ENDPOINT.EDIT_HOSPITAL_PROFILE, {
     method: 'PATCH',
-    body: JSON.stringify(data),
-    headers: {'Content-type': 'application/json', 'x-access-token': sessionStorage.getItem('accessToken')},
+    body: data,
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
@@ -146,6 +147,22 @@ function editHospitalProfile(data) {
         } else if (json.error) {
           alert(json.error.message);
         }
+      })
+      .catch((err) => {
+      });
+}
+
+function getProfileImage(pictName) {
+  return fetch(API_ENDPOINT.GET_PROFILE_IMAGE(pictName), {
+    method: 'GET',
+  }).then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        // if (json.success) {
+        //   return json.success.data.hospitals;
+        // } else if (json.error) {
+        //   // window.location.href = '#/login';
+        // }
       })
       .catch((err) => {
       });

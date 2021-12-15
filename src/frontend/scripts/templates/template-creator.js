@@ -69,11 +69,12 @@ const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => 
 };
 
 const detailBody = ({thisHospitalData, city}) => { // TODO: Fix design
+  console.log(thisHospitalData);
   return `
   <div class="row justify-content-center">
     <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
       <div class="card border-0 shadow">
-        <img src="https://www.bootdey.com/img/Content/avatar/avatar6.png" alt="Gambar RS">
+        <img src="${thisHospitalData.image}" alt="Gambar RS">
         <div class="card-body p-1-9 p-xl-5">
           <div class="mb-4">
             <h3 class="h4 mb-0">${thisHospitalData.name}</h3>

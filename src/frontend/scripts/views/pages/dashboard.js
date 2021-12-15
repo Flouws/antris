@@ -3,6 +3,7 @@
 import '../../component/search-bar.js';
 import api from '../../global/api.js';
 import {addPolyModal, editHospitalModal} from '../../templates/template-modal.js';
+import {serialize} from 'object-to-formdata';
 
 const Dashboard = {
 
@@ -22,6 +23,7 @@ const Dashboard = {
 
         <div class="card flex-fill mx-3 my-4 width-500">
           <div class="card-body d-flex justify-content-center">
+          <!-- TODO: panggil detail page dia, jgn bikin baru -->
             <h2><a href="#/edit_hospital_profile">RS Janji jiwa </a><a data-toggle="modal" data-target="#editHospitalModal" class="pointer"><img src="./images/edit-24.png" alt="edit"/></a></h2>
           </div>
             <hr class="mt-0 mx-3">
@@ -51,9 +53,21 @@ const Dashboard = {
         address: $('#editHospitalModalAddress').val(),
         phone: $('#editHospitalModalPhone').val(),
         description: await checkDesc($('#editHospitalModalDesc').val()),
+        // picture: $('#editHospitalModalImage').val(),
+        picture: new File([$('#editHospitalModalImage').prop('files')], $('#editHospitalModalImage').val().split('\\').pop()),
       };
-      await api.editHospitalProfile(data);
+      const formData = serialize(data);
+
+      for (const pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+      }
+
+      await api.editHospitalProfile(formData.entries());
+      // console.log(data);
     });
+
+    const tes = $('#editHospitalModalImage').val();
+    console.log(tes);
 
     // TODO: ilangin empty card kalo poly > 0
     $('#dashboardPolyCardHolder').append(`
