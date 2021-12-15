@@ -572,6 +572,17 @@ exports.addQueue = async (req, res) => {
     }
 
     const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const dayToday = new Date(dateToday).getDay();
+    if (dayToday !== 0) {
+      if (dayToday !== appointment.day) {
+        return baseResponse.error(res, 400, `Current date [${dayToday}] is not valid for appointment date [${appointment.id}] for appointment id [${appointment.id}].`);
+      }
+    } else {
+      if (dayToday !== appointment.day-7) {
+        return baseResponse.error(res, 400, `Current date [${dayToday}] is not valid for appointment date [${appointment.day}] for appointment id [${appointment.id}].`);
+      }
+    }
+
     const queueHighestToday = await Queue.findOne({
       where: {
         appointmentId: appointment.id,
