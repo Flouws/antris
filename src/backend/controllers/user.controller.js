@@ -667,6 +667,22 @@ exports.deleteQueue = async (req, res) => {
       return baseResponse.error(res, 400, `Cannot delete queue because queue status with id [${queue.id}] is [${queue.queueStatus.name}].`);
     }
 
+    if (queue.picture1 && fs.existsSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture1}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture1}`));
+    }
+    if (queue.picture2 && fs.existsSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture2}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture2}`));
+    }
+    if (queue.picture3 && fs.existsSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture3}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture3}`));
+    }
+    if (queue.picture4 && fs.existsSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture4}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture4}`));
+    }
+    if (queue.picture5 && fs.existsSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture5}`))) {
+      fs.unlinkSync(path.join(__dirname, `../public/uploads/queues/pictures/${queue.picture5}`));
+    }
+
     await Queue.destroy({
       where: {
         id: req.params.queueId,
