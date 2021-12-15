@@ -38,7 +38,56 @@ const makeAppointmentModal = `
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Buat Appointment</button>
+                <button type="button" class="btn btn-primary">Buat Appointment</button> // TODO: Konek ke backend
+            </div>
+        </div>
+    </div>
+</div>
+`;
+
+const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVal, editHospitalModalPhoneVal}) => `
+<div class="modal fade" id="editHospitalModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <label for="editHospitalModalName" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext px-1" id="editHospitalModalName" value="${editHospitalModalNameVal}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="editHospitalModalAddress" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext px-1" id="editHospitalModalAddress" value="${editHospitalModalAddressVal}"> <!-- TODO: Buat terpisah. addr, city, zip -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="editHospitalModalPhone" class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext px-1" id="editHospitalModalPhone" value="${editHospitalModalPhoneVal}">
+                    </div>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label for="editHospitalModalDesc">Description</label>
+                    <input type="text" class="form-control mt-2" id="editHospitalModalDesc" placeholder="Enter description"> <!-- TODO: Buat biar bisa wrap -->
+                    <div class="form-text">
+                        Kosongkan jika deskripsi tetap sama
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editHospitalModalSave" data-dismiss="modal">Save Changes</button>
             </div>
         </div>
     </div>
@@ -48,4 +97,5 @@ const makeAppointmentModal = `
 
 export {
   makeAppointmentModal,
+  editHospitalModal,
 };

@@ -14,6 +14,7 @@ class App {
 
     $('nav-bar').show(); // Show navbar on all pages
     $('bread-crumb').show(); // Show pagebar on all pages
+    $('#pageBar').empty();
 
     this._content.innerHTML = await page.render();
     await page.afterRender();

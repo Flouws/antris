@@ -9,12 +9,12 @@ const Profile = {
     appendPages({pages, lastPageText: 'Profile'});
 
     return `
-  <div class="container shadow-lg p-3 bg-white rounded" id="profile">
-    
-  </div>
+        <div class="container shadow-lg p-3 bg-white rounded" id="profile">
+          
+        </div>
 
-  <!-- Modal -->
-  <change-password></change-password>
+        <!-- Modal -->
+        <change-password></change-password>
       `;
   },
 

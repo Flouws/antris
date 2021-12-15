@@ -24,6 +24,7 @@ function appendPages({pages, lastPageText}) {
     $('#pageBar').append(`<a href="${page.link}">${page.text}</a>`);
     $('#pageBar').append(' <img src="./images/icons8-right-20.png" alt="arrow"/> ');
   });
+
   $('#pageBar').append(lastPageText);
 }
 

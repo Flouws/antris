@@ -109,6 +109,7 @@ const Register = {
         picture: null,
         roleId: getRoleId($('#registerCheckBox').is(':checked')),
         isActive: getisActive($('#registerCheckBox').is(':checked')),
+        description: 'No description yet',
       };
       const rePassword = $('#registerPasswordConfirm').val();
       console.log(user);

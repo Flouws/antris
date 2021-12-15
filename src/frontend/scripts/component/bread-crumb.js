@@ -22,5 +22,3 @@ class PageBar extends HTMLElement {
 }
 
 customElements.define('bread-crumb', PageBar);
-
-

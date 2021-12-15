@@ -11,6 +11,7 @@ const api = {
   getUserProfile: getUserProfile,
   getHospitalProfile: getHospitalProfile,
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
+  editHospitalProfile: (data) => editHospitalProfile(data),
   run: run,
 };
 
@@ -126,6 +127,23 @@ function getDetailsOneHospitalPoly({hospitalUuid, polyId}) {
   }).then((response) => response.json())
       .then((json) => {
         return json;
+      })
+      .catch((err) => {
+      });
+}
+
+function editHospitalProfile(data) {
+  return fetch(API_ENDPOINT.EDIT_HOSPITAL_PROFILE, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {'Content-type': 'application/json', 'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          // TODO: bikin kaya popup kecil yang gausah dipencet: 'berhasil update profil'
+        } else if (json.error) {
+          alert(json.error.message);
+        }
       })
       .catch((err) => {
       });

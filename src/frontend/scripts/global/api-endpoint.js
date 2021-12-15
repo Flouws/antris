@@ -9,6 +9,7 @@ const API_ENDPOINT = {
   GET_DETAILS_ONE_HOSPITAL: (uuid) => `${CONFIG.BASE_URL}/hospitals/${uuid}`,
   GET_DETAILS_ONE_HOSPITAL_POLY: ({hospitalUuid, polyId}) =>
     `${CONFIG.BASE_URL}/hospitals/${hospitalUuid}/poly/${polyId}/appointment`,
+  EDIT_HOSPITAL_PROFILE: `${CONFIG.BASE_URL}/hospital/profile`,
 };
 
 export default API_ENDPOINT;
