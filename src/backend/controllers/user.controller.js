@@ -305,6 +305,97 @@ exports.getQueue = async (req, res) => {
   }
 };
 
+exports.getTodayQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queues = await Queue.findAll({
+      where: {
+        date: dateToday,
+        userId: user.id,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: {
+              exclude: [
+                'id',
+                'email',
+                'password',
+                'roleId',
+                'isActive',
+                'createdAt',
+                'updatedAt',
+              ],
+            },
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any queue today [${dateToday}].`);
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.addQueue = async (req, res) => {
   const deleteImage = () => {
     if (req.files) {
