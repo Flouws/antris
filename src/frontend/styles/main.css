@@ -73,6 +73,28 @@ search-bar{
     width: 100%;
 }
 
+.add-poly-card{
+    background-color: #f0f0f0;
+    transition: transform .2s; /* Animation */
+    min-height: 280px;
+}
+
+.empty-poly-card{
+    border: 0;
+    min-height: 280px;
+    cursor: default;
+}
+
+.add-poly-card-img{
+    margin: auto;
+}
+
+.add-poly-card:hover {
+    transform: scale(1.025);
+  }
+
+
+
 /* Main Content */
 
 /* TODO: Not working */
@@ -131,7 +153,11 @@ search-bar{
     }
 }
 
-
+@media screen and (max-width: 767px) {
+    #emptyCard{
+        display: none;
+    }
+}
 
 @media screen and (min-width: 768px) {
     #profile {

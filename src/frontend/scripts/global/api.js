@@ -141,6 +141,8 @@ function editHospitalProfile(data) {
       .then((json) => {
         if (json.success) {
           // TODO: bikin kaya popup kecil yang gausah dipencet: 'berhasil update profil'
+          // data-dismiss="modal"
+          // $('#editHospitalModalSave').attr(data-dismiss, 'modal'); // TODO: ???
         } else if (json.error) {
           alert(json.error.message);
         }

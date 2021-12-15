@@ -94,8 +94,31 @@ const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVa
 </div>
 `;
 
+const addPolyModal = () => `
+    <div class="modal fade" id="addPolyModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add polyclinic</h5>
+                    <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+                </div>
+                <div class="modal-body">
+
+    
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addPolyModalSave" data-dismiss="modal">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
 
 export {
   makeAppointmentModal,
   editHospitalModal,
+  addPolyModal,
 };

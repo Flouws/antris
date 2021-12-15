@@ -42,29 +42,29 @@ const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => 
     polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg'; // TODO: Cari gambar yang cocok
   }
   return `
-<div class="profile-card-4 text-center">
-  <img src="${polyImage}" class="img img-responsive" alt="poly image">
-  <div class="profile-content">
-    <div class="profile-name">
-      ${polyName}
-      <p>${polyDoctor}</p>
-    </div>
-    <div class="profile-description">${polyDesc}</div>
-    <div class="d-flex align-content-center flex-wrap ">
-      <div class="col">
-        <div class="profile-overview">
-          <p>CAPACITY</p>
-          <h4>${polyCapacity}</h4>
+    <div class="profile-card-4 text-center">
+      <img src="${polyImage}" class="img img-responsive" alt="poly image">
+      <div class="profile-content">
+        <div class="profile-name">
+          ${polyName}
+          <p>${polyDoctor}</p>
+        </div>
+        <div class="profile-description">${polyDesc}</div>
+        <div class="d-flex align-content-center flex-wrap ">
+          <div class="col">
+            <div class="profile-overview">
+              <p>CAPACITY</p>
+              <h4>${polyCapacity}</h4>
+            </div>
+          </div>
+          <div class="poly-card-mid">
+            <div class="profile-overview">
+              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#makeAppointmentModal">Make Appointment</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="poly-card-mid">
-        <div class="profile-overview">
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#makeAppointmentModal">Make Appointment</button>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
 `;
 };
 
