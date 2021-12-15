@@ -145,7 +145,6 @@ exports.getAllQueue = async (req, res) => {
     const queues = await Queue.findAll({
       where: {
         userId: user.id,
-        userId: user.id,
       },
       attributes: {
         exclude: [
@@ -210,6 +209,96 @@ exports.getAllQueue = async (req, res) => {
 
     return baseResponse.ok(res, {
       queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        id: req.params.queueId,
+        userId: user.id,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: {
+              exclude: [
+                'id',
+                'email',
+                'password',
+                'roleId',
+                'isActive',
+                'createdAt',
+                'updatedAt',
+              ],
+            },
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `Queue for id [${req.params.queueId}] not found.`);
+    }
+
+    return baseResponse.ok(res, {
+      queue: queue,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
