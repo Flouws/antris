@@ -64,6 +64,7 @@ const EditHospitalProfile = {
     // ${editHospitalModal({editHospitalModalNameVal: hospitalData.name, editHospitalModalAddressVal: hospitalData.address, editHospitalModalPhoneVal: hospitalData.phone})}
     // `);
 
+    const polys = [];
     const hospitalData = await api.getHospitalProfile();
     const thisHospitalData = await api.getDetailsOneHospital(hospitalData.uuid);
 

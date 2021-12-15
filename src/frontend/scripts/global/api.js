@@ -159,19 +159,7 @@ function editHospitalProfile(data) {
 }
 
 function getProfileImage(pictName) {
-  return fetch(API_ENDPOINT.GET_PROFILE_IMAGE(pictName), {
-    method: 'GET',
-  }).then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        // if (json.success) {
-        //   return json.success.data.hospitals;
-        // } else if (json.error) {
-        //   // window.location.href = '#/login';
-        // }
-      })
-      .catch((err) => {
-      });
+  return API_ENDPOINT.GET_PROFILE_IMAGE(pictName);
 }
 
 function addPoly(poly) {
