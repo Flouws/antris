@@ -137,14 +137,19 @@ function editHospitalProfile(data) {
   return fetch(API_ENDPOINT.EDIT_HOSPITAL_PROFILE, {
     method: 'PATCH',
     body: data,
-    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+      // 'content-type': 'multipart/form-data',
+    },
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
+          console.log(json);
           // TODO: bikin kaya popup kecil yang gausah dipencet: 'berhasil update profil'
           // data-dismiss="modal"
           // $('#editHospitalModalSave').attr(data-dismiss, 'modal'); // TODO: ???
         } else if (json.error) {
+          console.log(json);
           alert(json.error.message);
         }
       })

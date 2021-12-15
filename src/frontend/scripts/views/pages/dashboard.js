@@ -53,16 +53,18 @@ const Dashboard = {
         address: $('#editHospitalModalAddress').val(),
         phone: $('#editHospitalModalPhone').val(),
         description: await checkDesc($('#editHospitalModalDesc').val()),
-        // picture: $('#editHospitalModalImage').val(),
-        picture: new File([$('#editHospitalModalImage').prop('files')], $('#editHospitalModalImage').val().split('\\').pop()),
+        picture: $('#editHospitalModalImage'),
+        // picture: new File([$('#editHospitalModalImage').prop('files')], $('#editHospitalModalImage').val().split('\\').pop()),
       };
-      const formData = serialize(data);
+      const datas = new FormData();
+      datas.append('picture', data.picture[0].files[0]);
+      // console.log(data.picture[0].files[0]);
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-      }
+      // for (const pair of formData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]);
+      // }
 
-      await api.editHospitalProfile(formData.entries());
+      await api.editHospitalProfile(datas);
       // console.log(data);
     });
 

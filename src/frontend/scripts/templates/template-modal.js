@@ -55,6 +55,7 @@ const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVa
             </div>
             <div class="modal-body">
 
+            <form enctype="multipart/form-data">
                 <div class="form-group row">
                     <label for="editHospitalModalName" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-10">
@@ -88,6 +89,7 @@ const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVa
                         Kosongkan jika deskripsi tetap sama
                     </div>
                 </div>
+            </form> 
 
 
             </div>
