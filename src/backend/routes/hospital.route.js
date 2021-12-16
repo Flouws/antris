@@ -24,5 +24,6 @@ router.delete('/poly/:polyId/appointment/:appointmentId', hospital.deleteAppoint
 router.get('/queue', hospital.getAllQueue);
 router.get('/queue/today', hospital.getTodayQueue);
 router.get('/queue/:queueId', hospital.getQueue);
+router.get('/queue/date/:queueDate', hospital.getByDateQueue);
 
 module.exports = router;

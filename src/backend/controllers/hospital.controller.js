@@ -982,6 +982,101 @@ exports.getQueue = async (req, res) => {
   }
 };
 
+exports.getByDateQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': req.params.queueDate,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any user queue at [${req.params.queueDate}].`);
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
