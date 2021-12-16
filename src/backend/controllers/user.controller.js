@@ -698,6 +698,47 @@ exports.deleteQueue = async (req, res) => {
   }
 };
 
+exports.getCurrentAppointmentQueue = async (req, res) => {
+  try {
+    const appointment = await Appointment.findOne({
+      where: {
+        id: req.params.appointmentId,
+      },
+    });
+
+    if (!appointment) {
+      return baseResponse.error(res, 404, 'Appointment not found.');
+    }
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queueHighest = await Queue.findOne({
+      where: {
+        'date': dateToday,
+        'appointmentId': appointment.id,
+        'queueStatusId': {
+          [Op.gt]: [1],
+        },
+      },
+      order: [
+        ['queue', 'DESC'],
+      ],
+      attributes: [
+        'queue',
+      ],
+    }) || false;
+
+    return baseResponse.ok(res, {
+      appointment: {
+        appointmentId: appointment.id,
+        date: dateToday,
+        currentQueue: queueHighest.queue || 0,
+      },
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
