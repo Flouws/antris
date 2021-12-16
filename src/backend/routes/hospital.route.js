@@ -21,4 +21,14 @@ router.get('/poly/:polyId/appointment/:appointmentId', hospital.getAppointment);
 router.patch('/poly/:polyId/appointment/:appointmentId', hospital.editAppointment);
 router.delete('/poly/:polyId/appointment/:appointmentId', hospital.deleteAppointment);
 
+router.get('/queue', hospital.getAllQueue);
+router.get('/queue/today', hospital.getTodayQueue);
+router.get('/queue/:queueId', hospital.getQueue);
+router.get('/queue/date/:queueDate', hospital.getByDateQueue);
+router.patch('/queue/:queueId/accept', hospital.acceptQueue);
+router.patch('/queue/:queueId/process', hospital.processQueue);
+router.patch('/queue/:queueId/finish', hospital.finishQueue);
+router.patch('/queue/:queueId/reject', hospital.rejectQueue);
+router.patch('/queue/reject-all-today', hospital.rejectAllTodayQueue);
+
 module.exports = router;

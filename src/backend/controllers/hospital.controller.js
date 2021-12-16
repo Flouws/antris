@@ -6,6 +6,8 @@ const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
 const Appointment = db.appointments;
+const Queue = db.queues;
+const QueueStatus = db.queueStatuses;
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -689,6 +691,770 @@ exports.deleteAppointment = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: `Appointment for poly id ${poly.id} and appointment id ${appointment.id} has been deleted successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getAllQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, 'You don\'t have any user queue.');
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getTodayQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': dateToday,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any user queue today [${dateToday}].`);
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    return baseResponse.ok(res, {
+      queue: queue,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getByDateQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': req.params.queueDate,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any user queue at [${req.params.queueDate}].`);
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.acceptQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+      }, {
+        model: User,
+        required: false,
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    if (!queue.appointment) {
+      return baseResponse.error(res, 404, `Appointment for user queue with id [${queue.id}] is not found or already deleted.`);
+    }
+
+    if (!queue.appointment.poly) {
+      return baseResponse.error(res, 404, `Poly for user queue with id [${queue.id}] and appointment id [${queue.appointment.id}] is not found or already deleted.`);
+    }
+
+    if (queue.queueStatusId !== 0) {
+      return baseResponse.error(res, 404, `Cannot accept user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
+    }
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queueHighestToday = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': dateToday,
+        'appointmentId': queue.appointmentId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }],
+      order: [
+        ['queue', 'DESC'],
+      ],
+      attributes: [
+        'queue',
+      ],
+    }) || false;
+
+    if (queueHighestToday.queue >= queue.appointment.poly.capacity) {
+      return baseResponse.error(res, 400, `Cannot accept queue because appointment with id [${queue.appointment.id}] has reached maximum capacity for today.`);
+    }
+
+    await Queue.update({
+      queue: queueHighestToday.queue+1,
+      queueStatusId: 1,
+    }, {
+      where: {
+        id: queue.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Queue with id [${queue.id}] has been accepted successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.processQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+      }, {
+        model: User,
+        required: false,
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    if (!queue.appointment) {
+      return baseResponse.error(res, 404, `Appointment for user queue with id [${queue.id}] is not found or already deleted.`);
+    }
+
+    if (!queue.appointment.poly) {
+      return baseResponse.error(res, 404, `Poly for user queue with id [${queue.id}] and appointment id [${queue.appointment.id}] is not found or already deleted.`);
+    }
+
+    if (queue.queueStatusId !== 1) {
+      return baseResponse.error(res, 404, `Cannot process user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: 2,
+    }, {
+      where: {
+        id: queue.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Queue with id [${queue.id}] has been processed successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.finishQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+      }, {
+        model: User,
+        required: false,
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    if (!queue.appointment) {
+      return baseResponse.error(res, 404, `Appointment for user queue with id [${queue.id}] is not found or already deleted.`);
+    }
+
+    if (!queue.appointment.poly) {
+      return baseResponse.error(res, 404, `Poly for user queue with id [${queue.id}] and appointment id [${queue.appointment.id}] is not found or already deleted.`);
+    }
+
+    if (queue.queueStatusId !== 2) {
+      return baseResponse.error(res, 404, `Cannot finish user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: 100,
+    }, {
+      where: {
+        id: queue.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Queue with id [${queue.id}] has been finished successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.rejectQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+      }, {
+        model: User,
+        required: false,
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    if (!queue.appointment) {
+      return baseResponse.error(res, 404, `Appointment for user queue with id [${queue.id}] is not found or already deleted.`);
+    }
+
+    if (!queue.appointment.poly) {
+      return baseResponse.error(res, 404, `Poly for user queue with id [${queue.id}] and appointment id [${queue.appointment.id}] is not found or already deleted.`);
+    }
+
+    if (queue.queueStatusId !== 0) {
+      return baseResponse.error(res, 404, `Cannot reject user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: -1,
+      rejectMessage: req.body.rejectMessage,
+    }, {
+      where: {
+        id: queue.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Queue with id [${queue.id}] has been rejected successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.rejectAllTodayQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': dateToday,
+        'queueStatusId': 0,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any wating user queue for today [${dateToday}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: -1,
+      rejectMessage: req.body.rejectMessage,
+    }, {
+      where: {
+        date: dateToday,
+        queueStatusId: 0,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `All queues today [${dateToday}] has been rejected successfully.`,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
