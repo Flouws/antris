@@ -133,6 +133,10 @@ search-bar{
     justify-content: space-around;
 }
 
+.api-poly-card-pict{
+    min-width: 192.75px;
+}
+
 /* Error Page */
 
 #error-page {

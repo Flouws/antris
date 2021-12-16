@@ -1,9 +1,9 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
 import '../../component/search-bar.js';
 import api from '../../global/api.js';
 import {addPolyModal, editHospitalModal} from '../../templates/template-modal.js';
-import {serialize} from 'object-to-formdata';
 
 const Dashboard = {
 
@@ -27,8 +27,10 @@ const Dashboard = {
             <h2><a href="#/edit_hospital_profile">RS Janji jiwa </a><a data-toggle="modal" data-target="#editHospitalModal" class="pointer"><img src="./images/edit-24.png" alt="edit"/></a></h2>
           </div>
             <hr class="mt-0 mx-3">
-          <div class="d-flex justify-content-center" id="dashboardPolyCardHolder">
-            
+          <div class="d-flex justify-content-center">
+            <div class="row row-cols-1 row-cols-md-2 g-4 mx-1 mb-3" id="dashboardPolyCardHolder">
+  
+            </div>
           </div>
         </div>
 
@@ -55,18 +57,15 @@ const Dashboard = {
         phone: $('#editHospitalModalPhone').val(),
         description: await checkDesc($('#editHospitalModalDesc').val()),
         picture: $('#editHospitalModalImage'),
-        // picture: new File([$('#editHospitalModalImage').prop('files')], $('#editHospitalModalImage').val().split('\\').pop()),
       };
       const datas = new FormData();
       datas.append('picture', data.picture[0].files[0]);
-      // console.log(data.picture[0].files[0]);
 
-      // for (const pair of formData.entries()) {
-      //   console.log(pair[0]+ ', ' + pair[1]);
-      // }
+      for ( const key in data ) {
+        datas.append(key, data[key]);
+      }
 
       await api.editHospitalProfile(datas);
-      // console.log(data);
     });
 
     // Add Polyclinic (Modal)
@@ -76,39 +75,27 @@ const Dashboard = {
         doctor: $('#addPolyModalDoctor').val(),
         capacity: $('#addPolyModalCapacity').val(),
         description: $('#addPolyModalDescription').val(),
-        // picture: $('#editHospitalModalImage').val(),
-        picture: new File([$('#addPolyModalImage').prop('files')], $('#addPolyModalImage').val().split('\\').pop()),
+        picture: $('#addPolyModalImage'),
       };
-      const formData = serialize(data);
+      const datas = new FormData();
+      datas.append('picture', data.picture[0].files[0]);
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
+      for ( const key in data ) { // TODO: bikin fungsi & benerin kode (guard in apalah itu)
+        datas.append(key, data[key]);
       }
 
-      // await api.editHospitalProfile(formData.entries());
-      // console.log(data);
+      const status = await api.addPoly(datas);
+      console.log(status);
+      if (status === true) {
+        console.log(status);
+        await renderPolyCards({addPolyCard, emptyCard});
+      }
     });
 
-    // Poly cards TODO: ilangin empty card kalo poly > 0
-    $('#dashboardPolyCardHolder').append(`
-      <div class="row row-cols-1 row-cols-md-2 g-4 mx-1 mb-3">
+    // Poly cards
+    // TODO: design break pas < 300 px
 
-        <div class="col">
-          <div class="card h-100">
-            <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" class="card-img-top" alt="Foto Poly">
-            <div class="card-body">
-              <h5 class="card-title mb-0">Poliklinik kesesatan</h5>
-              <small class="text-muted">Dokter Andreas</small>
-              <p class="card-text">Deskripsi dari dokter</p>
-            </div>
-          </div>
-        </div>
-
-        ${addPolyCard}
-        ${emptyCard}
-
-      </div>
-    `);
+    await renderPolyCards({addPolyCard, emptyCard});
   },
 };
 
@@ -121,6 +108,24 @@ async function checkDesc(desc) {
   }
 }
 
+async function renderPolyCards({addPolyCard, emptyCard}) {
+  $('#dashboardPolyCardHolder').empty();
+
+  const polys = await api.getAllPolys();
+
+  polys.forEach((poly) => {
+    $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description}));
+  });
+
+  // Kartu untuk add poly
+  $('#dashboardPolyCardHolder').append(addPolyCard);
+
+  // Kartu kosong biar design ga rusak
+  if (polys.length < 1) {
+    $('#dashboardPolyCardHolder').append(emptyCard);
+  }
+}
+
 // Pindahin
 const emptyCard = `
   <div class="col" id="emptyCard">
@@ -130,11 +135,24 @@ const emptyCard = `
 `;
 
 const addPolyCard = `
-  <div class="col">
-    <div class="card h-100 add-poly-card pointer" data-toggle="modal" data-target="#addPolyModal">
-        <img src="./images/icons8-plus-math-90.png" class="add-poly-card-img" alt="Foto Poly">
+<div class="col">
+  <div class="card h-100 add-poly-card pointer api-poly-card-pict" data-toggle="modal" data-target="#addPolyModal">
+      <img src="./images/icons8-plus-math-90.png" class="add-poly-card-img" alt="Foto Poly">
+  </div>
+</div>
+`;
+
+const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc}) => `
+<div class="col">
+  <div class="card h-100 api-poly-card-pict">
+    <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+    <div class="card-body">
+      <h5 class="card-title mb-0">${polyName}</h5>
+      <small class="text-muted">${polyDoctor}</small>
+      <p class="card-text">${polyDesc}</p>
     </div>
   </div>
+</div>
 `;
 
 export default Dashboard;

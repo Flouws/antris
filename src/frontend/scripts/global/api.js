@@ -13,7 +13,9 @@ const api = {
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
   editHospitalProfile: (data) => editHospitalProfile(data),
   getProfileImage: (pictName) => getProfileImage(pictName),
+  getPolyImage: (pictName) => getPolyImage(pictName),
   addPoly: (poly) => addPoly(poly),
+  getAllPolys: getAllPolys,
   run: run,
 };
 
@@ -140,7 +142,6 @@ function editHospitalProfile(data) {
     body: data,
     headers: {
       'x-access-token': sessionStorage.getItem('accessToken'),
-      // 'content-type': 'multipart/form-data',
     },
   }).then((response) => response.json())
       .then((json) => {
@@ -162,20 +163,39 @@ function getProfileImage(pictName) {
   return API_ENDPOINT.GET_PROFILE_IMAGE(pictName);
 }
 
+function getPolyImage(pictName) {
+  return API_ENDPOINT.GET_POLY_IMAGE(pictName);
+}
+
 function addPoly(poly) {
-  return fetch(API_ENDPOINT.SIGN_UP, {
+  return fetch(API_ENDPOINT.ADD_POLY, {
     method: 'POST',
-    body: JSON.stringify(poly),
-    headers: {'Content-type': 'application/json', 'x-access-token': sessionStorage.getItem('accessToken')},
+    body: poly,
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
       .then((json) => {
-        // if (json.success) {
-        //   alert(json.success.data.message);
-        //   window.location.href = '#/login';
-        // } else if (json.error) {
-        //   $('#registerApiInvalid').html(json.error.message);
-        //   $('#registerApiInvalid').show();
-        // }
+        if (json.success) {
+          return true;
+        } else if (json.error) {
+          alert(json.error.message);
+          return false;
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getAllPolys() {
+  return fetch(API_ENDPOINT.GET_ALL_POLYS, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.polys;
+        } else if (json.error) {
+          // window.location.href = '#/login';
+        }
       })
       .catch((err) => {
       });

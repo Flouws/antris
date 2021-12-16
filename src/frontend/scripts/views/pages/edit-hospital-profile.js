@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import api from '../../global/api';
 import {appendPages} from '../../global/public-function';
-import {detailBody} from '../../templates/template-creator';
+import {detailBody, polyCard} from '../../templates/template-creator';
 
 const EditHospitalProfile = {
   async render() {
@@ -65,10 +65,12 @@ const EditHospitalProfile = {
     // `);
 
     const polys = [];
+    const polyNames = [];
     const hospitalData = await api.getHospitalProfile();
     const thisHospitalData = await api.getDetailsOneHospital(hospitalData.uuid);
 
     thisHospitalData.polys.forEach((polyData) => {
+      console.log(polyData);
       polys.push(
           polyCard({polyImage: polyData.picture, polyName: polyData.name,
             polyDoctor: polyData.doctor, polyDesc: polyData.description, polyCapacity: polyData.capacity,

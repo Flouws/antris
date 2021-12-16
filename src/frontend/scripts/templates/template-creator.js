@@ -1,4 +1,4 @@
-import api from "../global/api";
+import api from '../global/api';
 
 /* eslint-disable max-len */
 const changePasswordBody = `
@@ -40,12 +40,12 @@ const changePasswordBody = `
 `;
 
 const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => {
-  if (polyImage === null) {
-    polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg'; // TODO: Cari gambar yang cocok
-  }
+  // if (polyImage === null) {
+  //   polyImage = 'http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg'; // TODO: Cari gambar yang cocok
+  // }
   return `
     <div class="profile-card-4 text-center">
-      <img src="${polyImage}" class="img img-responsive" alt="poly image">
+      <img src="${api.getPolyImage(polyImage)}" class="img img-responsive" alt="poly image">
       <div class="profile-content">
         <div class="profile-name">
           ${polyName}
@@ -71,7 +71,6 @@ const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity}) => 
 };
 
 const detailBody = ({thisHospitalData, city}) => { // TODO: Fix design
-  console.log('hos=' + thisHospitalData.picture);
   return `
   <div class="row justify-content-center">
     <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">

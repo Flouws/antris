@@ -14,7 +14,7 @@ const API_ENDPOINT = {
   GET_PROFILE_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/users/pictures/${pictName}`,
   GET_POLY_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/polys/pictures/${pictName}`,
   GET_QUEUE_IMAGE: (pictName) => `${CONFIG.BASE_URL}/uploads/queues/pictures/${pictName}`,
-  ADD_POLY: `${CONFIG.BASE_URL}/hospital/poly/`,
+  ADD_POLY: `${CONFIG.BASE_URL}/hospital/poly`,
+  GET_ALL_POLYS: `${CONFIG.BASE_URL}/hospital/poly`,
 };
-
 export default API_ENDPOINT;
