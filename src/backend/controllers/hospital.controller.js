@@ -1402,6 +1402,65 @@ exports.rejectQueue = async (req, res) => {
   }
 };
 
+exports.rejectAllTodayQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'date': dateToday,
+        'queueStatusId': 0,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, `You don\'t have any wating user queue for today [${dateToday}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: -1,
+      rejectMessage: req.body.rejectMessage,
+    }, {
+      where: {
+        date: dateToday,
+        queueStatusId: 0,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `All queues today [${dateToday}] has been rejected successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
