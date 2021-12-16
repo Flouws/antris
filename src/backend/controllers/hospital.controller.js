@@ -1182,6 +1182,79 @@ exports.acceptQueue = async (req, res) => {
   }
 };
 
+exports.processQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queue = await Queue.findOne({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+        'id': req.params.queueId,
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        include: {
+          model: Poly,
+          required: false,
+          include: {
+            model: User,
+            required: false,
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+      }, {
+        model: User,
+        required: false,
+      }],
+    });
+
+    if (!queue) {
+      return baseResponse.error(res, 404, `User queue with id [${req.params.queueId}] is not found.`);
+    }
+
+    if (!queue.appointment) {
+      return baseResponse.error(res, 404, `Appointment for user queue with id [${queue.id}] is not found or already deleted.`);
+    }
+
+    if (!queue.appointment.poly) {
+      return baseResponse.error(res, 404, `Poly for user queue with id [${queue.id}] and appointment id [${queue.appointment.id}] is not found or already deleted.`);
+    }
+
+    if (queue.queueStatusId !== 1) {
+      return baseResponse.error(res, 404, `Cannot process user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
+    }
+
+    await Queue.update({
+      queueStatusId: 2,
+    }, {
+      where: {
+        id: queue.id,
+      },
+    });
+
+    return baseResponse.ok(res, {
+      message: `Queue with id [${queue.id}] has been processed successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
 exports.home = (req, res) => {
   return baseResponse.ok(res, {
     message: 'User Home',
