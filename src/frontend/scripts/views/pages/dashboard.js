@@ -85,9 +85,8 @@ const Dashboard = {
       }
 
       const status = await api.addPoly(datas);
-      console.log(status);
+
       if (status === true) {
-        console.log(status);
         await renderPolyCards({addPolyCard, emptyCard});
       }
     });
