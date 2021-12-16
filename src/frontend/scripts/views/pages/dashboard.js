@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 import '../../component/search-bar.js';
 import api from '../../global/api.js';
-import {addPolyModal, editHospitalModal} from '../../templates/template-modal.js';
+import {addPolyModal, editHospitalModal, addAppointmentModal} from '../../templates/template-modal.js';
 
 const Dashboard = {
 
@@ -24,7 +24,7 @@ const Dashboard = {
         <div class="card flex-fill mx-3 my-4 width-500">
           <div class="card-body d-flex justify-content-center">
           <!-- TODO: panggil detail page dia, jgn bikin baru -->
-            <h2><a href="#/edit_hospital_profile">RS Janji jiwa </a><a data-toggle="modal" data-target="#editHospitalModal" class="pointer"><img src="./images/edit-24.png" alt="edit"/></a></h2>
+            <h2><a href="#/edit_hospital_profile">${hospitalData.name} </a><a data-toggle="modal" data-target="#editHospitalModal" class="pointer"><img src="./images/edit-24.png" alt="edit"/></a></h2>
           </div>
             <hr class="mt-0 mx-3">
           <div class="d-flex justify-content-center">
@@ -44,18 +44,22 @@ const Dashboard = {
 
       ${editHospitalModal({editHospitalModalNameVal: hospitalData.name, editHospitalModalAddressVal: hospitalData.address, editHospitalModalPhoneVal: hospitalData.phone})}
       ${addPolyModal()}
+      ${addAppointmentModal()}
       `;
     }
   },
 
   async afterRender() {
-    // Edit Hospital Profile (Modal)
+    // ------------ Edit Hospital Profile (Modal) -----------------
+    // TODO: render ulang judul pas save
+    const hospitalData = await api.getHospitalProfile();
+
     $('#editHospitalModalSave').on('click', async () => {
       const data = {
         name: $('#editHospitalModalName').val(),
         address: $('#editHospitalModalAddress').val(),
         phone: $('#editHospitalModalPhone').val(),
-        description: await checkDesc($('#editHospitalModalDesc').val()),
+        description: await checkDesc({desc: $('#editHospitalModalDesc').val(), hospitalData}),
         picture: $('#editHospitalModalImage'),
       };
       const datas = new FormData();
@@ -68,7 +72,7 @@ const Dashboard = {
       await api.editHospitalProfile(datas);
     });
 
-    // Add Polyclinic (Modal)
+    // ---------------- Add Polyclinic (Modal) ---------------------
     $('#addPolyModalSave').on('click', async () => {
       const data = {
         name: $('#addPolyModalName').val(),
@@ -91,15 +95,20 @@ const Dashboard = {
       }
     });
 
-    // Poly cards
+    // ---------------------- Poly cards --------------------
     // TODO: design break pas < 300 px
-
     await renderPolyCards({addPolyCard, emptyCard});
+
+    // ----------------------- Add Appointment ---------------------------
+    $('.dashboardPolyCard').on('click', async () => {
+      const param = `${hospitalData.uuid}_${$(event.currentTarget).attr('name')}`; // TODO: Fix Depreciated
+
+      window.location.href = `#/hospital/${param}`;
+    });
   },
 };
 
-async function checkDesc(desc) {
-  const hospitalData = await api.getHospitalProfile();
+async function checkDesc({desc, hospitalData}) {
   if (desc === '') {
     return hospitalData.description;
   } else {
@@ -113,7 +122,7 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   const polys = await api.getAllPolys();
 
   polys.forEach((poly) => {
-    $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description}));
+    $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id}));
   });
 
   // Kartu untuk add poly
@@ -135,15 +144,15 @@ const emptyCard = `
 
 const addPolyCard = `
 <div class="col">
-  <div class="card h-100 add-poly-card pointer api-poly-card-pict" data-toggle="modal" data-target="#addPolyModal">
+  <div class="card h-100 add-poly-card pointer min-w-192-75" data-toggle="modal" data-target="#addPolyModal">
       <img src="./images/icons8-plus-math-90.png" class="add-poly-card-img" alt="Foto Poly">
   </div>
 </div>
 `;
 
-const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc}) => `
+const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyId}) => `
 <div class="col">
-  <div class="card h-100 api-poly-card-pict">
+  <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
     <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
     <div class="card-body">
       <h5 class="card-title mb-0">${polyName}</h5>
