@@ -6,6 +6,8 @@ const db = require('../database/models');
 const User = db.users;
 const Poly = db.polys;
 const Appointment = db.appointments;
+const Queue = db.queues;
+const QueueStatus = db.queueStatuses;
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -689,6 +691,100 @@ exports.deleteAppointment = async (req, res) => {
 
     return baseResponse.ok(res, {
       message: `Appointment for poly id ${poly.id} and appointment id ${appointment.id} has been deleted successfully.`,
+    });
+  } catch (error) {
+    return baseResponse.error(res, 500, error.message);
+  }
+};
+
+exports.getAllQueue = async (req, res) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    return baseResponse.error(res, 403, 'No access token provided.');
+  }
+
+  try {
+    const decodedToken = jwt.decode(token);
+
+    const user = await User.findOne({
+      where: {
+        uuid: decodedToken.uuid,
+      },
+    });
+
+    const queues = await Queue.findAll({
+      where: {
+        '$Appointment.Poly.User.id$': user.id,
+      },
+      attributes: {
+        exclude: [
+          'userId',
+          'appointmentId',
+          'queueStatusId',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+      include: [{
+        model: Appointment,
+        required: false,
+        attributes: {
+          exclude: [
+            'polyId',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        include: {
+          model: Poly,
+          required: false,
+          attributes: {
+            exclude: [
+              'userId',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          include: {
+            model: User,
+            required: false,
+            attributes: [],
+          },
+        },
+      }, {
+        model: QueueStatus,
+        required: false,
+        attributes: {
+          exclude: [
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }, {
+        model: User,
+        required: false,
+        attributes: {
+          exclude: [
+            'id',
+            'email',
+            'password',
+            'description',
+            'roleId',
+            'isActive',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+      }],
+    });
+
+    if (!queues[0]) {
+      return baseResponse.error(res, 404, 'You don\'t have any user queue.');
+    }
+
+    return baseResponse.ok(res, {
+      queues: queues,
     });
   } catch (error) {
     return baseResponse.error(res, 500, error.message);
