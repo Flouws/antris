@@ -1134,11 +1134,10 @@ exports.acceptQueue = async (req, res) => {
       return baseResponse.error(res, 404, `Cannot accept user queue because queue status with id [${queue.id}] is [(${queue.queueStatus.id})-${queue.queueStatus.name}].`);
     }
 
-    const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
-    const queueHighestToday = await Queue.findOne({
+    const queueHighest = await Queue.findOne({
       where: {
         '$Appointment.Poly.User.id$': user.id,
-        'date': dateToday,
+        'date': queue.date,
         'appointmentId': queue.appointmentId,
       },
       include: [{
@@ -1161,12 +1160,12 @@ exports.acceptQueue = async (req, res) => {
       ],
     }) || false;
 
-    if (queueHighestToday.queue >= queue.appointment.poly.capacity) {
-      return baseResponse.error(res, 400, `Cannot accept queue because appointment with id [${queue.appointment.id}] has reached maximum capacity for today.`);
+    if (queueHighest.queue >= queue.appointment.poly.capacity) {
+      return baseResponse.error(res, 400, `Cannot accept queue because appointment with id [${queue.appointment.id}] has reached maximum capacity at [${queue.date}].`);
     }
 
     await Queue.update({
-      queue: queueHighestToday.queue+1,
+      queue: queueHighest.queue+1,
       queueStatusId: 1,
     }, {
       where: {
