@@ -4,13 +4,24 @@
 import API_ENDPOINT from '../global/api-endpoint.js';
 
 const api = {
-  getAllHospitals: getAllHospitals(),
+  getAllHospitals: getAllHospitals,
   getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
   signIn: (user) => signIn(user),
   signUp: (user) => signUp(user),
-  getProfile: getProfile(),
+  getUserProfile: getUserProfile,
+  getHospitalProfile: getHospitalProfile,
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
+  editHospitalProfile: (data) => editHospitalProfile(data),
+  getProfileImage: (pictName) => getProfileImage(pictName),
+  getPolyImage: (pictName) => getPolyImage(pictName),
+  addPoly: (poly) => addPoly(poly),
+  getAllPolys: getAllPolys,
+  run: run,
 };
+
+function run() {
+  console.log('jalan');
+}
 
 function getAllHospitals() {
   return fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
@@ -20,7 +31,7 @@ function getAllHospitals() {
         if (json.success) {
           return json.success.data.hospitals;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -35,7 +46,7 @@ function getDetailsOneHospital(uuid) {
         if (json.success) {
           return json.success.data.hospital;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -50,7 +61,9 @@ function signIn(user) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
+          sessionStorage.clear();
           sessionStorage.setItem('accessToken', json.success.data.accessToken);
+          sessionStorage.setItem('role', json.success.data.role);
           window.location.href = '#/dashboard';
         } else if (json.error) {
           $('#loginApiInvalid').html(json.error.message);
@@ -69,8 +82,8 @@ function signUp(user) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          sessionStorage.setItem('accessToken', json.success.data.accessToken);
-          window.location.href = '#/dashboard';
+          alert(json.success.data.message);
+          window.location.href = '#/login';
         } else if (json.error) {
           $('#registerApiInvalid').html(json.error.message);
           $('#registerApiInvalid').show();
@@ -80,8 +93,8 @@ function signUp(user) {
       });
 }
 
-function getProfile() {
-  return fetch(API_ENDPOINT.GET_PROFILE, {
+function getUserProfile() {
+  return fetch(API_ENDPOINT.GET_USER_PROFILE, {
     method: 'GET',
     headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
@@ -89,7 +102,23 @@ function getProfile() {
         if (json.success) {
           return json.success.data.user;
         } else if (json.error) {
-          window.location.href = '#/login';
+          // window.location.href = '#/login';
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getHospitalProfile() {
+  return fetch(API_ENDPOINT.GET_HOSPITAL_PROFILE, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.user;
+        } else if (json.error) {
+          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -102,6 +131,71 @@ function getDetailsOneHospitalPoly({hospitalUuid, polyId}) {
   }).then((response) => response.json())
       .then((json) => {
         return json;
+      })
+      .catch((err) => {
+      });
+}
+
+function editHospitalProfile(data) {
+  return fetch(API_ENDPOINT.EDIT_HOSPITAL_PROFILE, {
+    method: 'PATCH',
+    body: data,
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+    },
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          console.log(json);
+          // TODO: bikin kaya popup kecil yang gausah dipencet: 'berhasil update profil'
+          // data-dismiss="modal"
+          // $('#editHospitalModalSave').attr(data-dismiss, 'modal'); // TODO: ???
+        } else if (json.error) {
+          console.log(json);
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getProfileImage(pictName) {
+  return API_ENDPOINT.GET_PROFILE_IMAGE(pictName);
+}
+
+function getPolyImage(pictName) {
+  return API_ENDPOINT.GET_POLY_IMAGE(pictName);
+}
+
+function addPoly(poly) {
+  return fetch(API_ENDPOINT.ADD_POLY, {
+    method: 'POST',
+    body: poly,
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return true;
+        } else if (json.error) {
+          alert(json.error.message);
+          return false;
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getAllPolys() {
+  return fetch(API_ENDPOINT.GET_ALL_POLYS, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.polys;
+        } else if (json.error) {
+          // window.location.href = '#/login';
+        }
       })
       .catch((err) => {
       });

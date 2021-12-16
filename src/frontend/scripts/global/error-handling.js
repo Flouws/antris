@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-function checkError({register, user, rePassword, emailInvalidId, nameInvalidId,
+function checkError({register, user, rePassword, emailInvalidId, nameInvalidId, phoneInvalidId,
   passwordInvalidId, rePasswordInvalidId, cityInvalidId, zipInvalidId, addressInvalidId}) {
   const status = [];
   if (register === true) {
@@ -9,6 +9,7 @@ function checkError({register, user, rePassword, emailInvalidId, nameInvalidId,
     status[2] = checkPassword({password: user.password, passwordInvalidId});
     status[3] = checkRePassword({password: user.password, rePassword: rePassword, rePasswordInvalidId});
     status[4] = checkAddress({user, cityInvalidId, zipInvalidId, addressInvalidId});
+    status[5] = checkPhone({phone: user.phone, phoneInvalidId});
   } else {
     status[0] = checkEmail({email: user.email, emailInvalidId});
     status[1] = checkPassword({password: user.password, passwordInvalidId});
@@ -38,6 +39,17 @@ function checkName({name, nameInvalidId}) {
   } else {
     $(nameInvalidId).html('Please enter your name');
     $(nameInvalidId).show();
+    return false;
+  }
+}
+
+function checkPhone({phone, phoneInvalidId}) {
+  if (phone !== '') {
+    $(phoneInvalidId).hide();
+    return true;
+  } else {
+    $(phoneInvalidId).html('Please enter your phone number');
+    $(phoneInvalidId).show();
     return false;
   }
 }

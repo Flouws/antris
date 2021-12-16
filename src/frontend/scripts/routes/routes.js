@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 import Login from '../views/pages/login';
 import Register from '../views/pages/register';
 import Dashboard from '../views/pages/dashboard';
 import Profile from '../views/pages/profile';
 import Error from '../views/pages/error';
-import EditProfile from '../views/pages/edit-profile';
+import EditHospitalProfile from '../views/pages/edit-hospital-profile';
 import Detail from '../views/pages/detail';
 
 const routes = {
@@ -12,7 +13,7 @@ const routes = {
   '/register': Register,
   '/dashboard': Dashboard,
   '/profile': Profile,
-  // '/edit_profile': EditProfile, // TODO: namanya bener ga? ganti editProfile?
+  '/edit_hospital_profile': EditHospitalProfile, // TODO: namanya bener ga? ganti editProfile?
   '/error': Error, // TODO: Connect error to bad routes
   '/detail/:id': Detail,
 };

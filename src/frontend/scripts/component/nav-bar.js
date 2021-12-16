@@ -11,45 +11,34 @@ class NavigationBar extends HTMLElement {
 
   async render() {
     const dashboardLink = '#/dashboard';
-    const profileLink = '#/profile';
+    const antrisLink = '#/antris';
     const loginLink = '#/login';
+    const navType = 'dark'; // light, dark, primary
 
     this.innerHTML = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-      <a class="navbar-brand" href="/">ANTRIS</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="${dashboardLink}">Dashboard</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              Rumah Sakit
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Lihat Semua Rumah Sakit</a>
-              <a class="dropdown-item" href="#">Antrian</a>
-              <a class="dropdown-item" href="#">Sejarah</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="${profileLink}">Profil</a>
-          </li>
-          <li class="nav-item" id="logoutMobile">
-            <a class="nav-link" href="${loginLink}">Logout</a>
-          </li>
-        </ul>
-      </div>
-      <ul class="nav navbar-nav navbar-right" id="logoutDesktop">
-        <li><a href="${loginLink}"><img src="./images/icons8-logout-28.png"></img> Logout</a></li>
-      </ul>
-    </nav>
-`;
+      <nav class="navbar navbar-expand-lg navbar-${navType} bg-${navType}">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="${dashboardLink}">Antris</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <!-- Kalo ada text sebelah judul -->
+              <li class="nav-item" id="logoutMobile">
+                <a class="nav-link" href="${antrisLink}">Settings</a>
+              </li>
+              <li class="nav-item" id="logoutMobile">
+                <a class="nav-link" href="${loginLink}">Logout</a>
+              </li>
+            </ul>
+            <span class="navbar-text" id="logoutDesktop">
+              <a href="${antrisLink}" class="mx-2">About Us</a> <a href="${loginLink}" class="mx-1"><b>Logout</b></a>
+            </span>
+          </div>
+        </div>
+      </nav>
+    `;
   }
 }
 

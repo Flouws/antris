@@ -35,11 +35,17 @@ label {
     min-height: 80vh;
 }
 
-/* #tes{
-    max-width: 175px;
-    margin: auto;
-    max-height: 35px;
-} */
+.vh-90{
+    min-height: 90vh;
+}
+
+.width-500{
+    width: 500px;
+}
+
+.width-400{
+    width: 400px;
+}
 
 .poly-card-mid {
     margin: auto;
@@ -47,13 +53,47 @@ label {
 
 /* Search Bar */
 search-bar{
-    display: none;
     margin: 40px;
+}
+
+/* Page Bar */
+#pageBar a{
+    color: #adb8ff;
+}
+
+#pageBar {
+    color: #ffffff;
+}
+
+.bread-crumb-dark{
+    background-color: #3d4852;
 }
 
 #searchBar{
     width: 100%;
 }
+
+.add-poly-card{
+    background-color: #f0f0f0;
+    transition: transform .2s; /* Animation */
+    min-height: 280px;
+}
+
+.empty-poly-card{
+    border: 0;
+    min-height: 280px;
+    cursor: default;
+}
+
+.add-poly-card-img{
+    margin: auto;
+}
+
+.add-poly-card:hover {
+    transform: scale(1.025);
+  }
+
+
 
 /* Main Content */
 
@@ -89,6 +129,14 @@ search-bar{
     cursor: pointer
 }
 
+.justify-content-around{
+    justify-content: space-around;
+}
+
+.api-poly-card-pict{
+    min-width: 192.75px;
+}
+
 /* Error Page */
 
 #error-page {
@@ -97,7 +145,7 @@ search-bar{
 
 /* Detail Page */
 
-#detailPage {
+#detailPage, #editHospitalProfilePage {
     margin-top: 20px;
 }
 
@@ -113,7 +161,11 @@ search-bar{
     }
 }
 
-
+@media screen and (max-width: 767px) {
+    #emptyCard{
+        display: none;
+    }
+}
 
 @media screen and (min-width: 768px) {
     #profile {
