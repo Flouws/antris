@@ -16,4 +16,6 @@ router.get('/queue/:queueId', user.getQueue);
 router.get('/queue/date/:queueDate', user.getByDateQueue);
 router.delete('/queue/:queueId', user.deleteQueue);
 
+router.get('/appointment/:appointmentId/current-queue', user.getCurrentAppointmentQueue);
+
 module.exports = router;
