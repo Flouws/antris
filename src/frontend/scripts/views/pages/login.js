@@ -4,7 +4,8 @@ import {checkError} from '../../global/error-handling';
 
 const Login = {
   async render() {
-    $('nav').empty(); // remove navbar
+    $('nav-bar').hide(); // remove navbar
+    $('bread-crumb').hide(); // remove pagebar
     return `
     <section class="vh-80 d-flex flex-row align-items-center">
     <div class="container-fluid h-custom">

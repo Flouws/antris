@@ -1,25 +1,16 @@
 import 'regenerator-runtime';
-// import 'bootstrap';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap-select';
-// import 'bootstrap-select/dist/css/bootstrap-select.css';
-
+import 'bootstrap';
 
 import '../styles/main.scss';
 import '../styles/main.css';
 import '../styles/check.css';
-import './component/nav-bar.js';
-import './component/change-password.js';
-import './component/search-bar.js';
+
+import './component/nav-bar';
+import './component/change-password';
+import './component/search-bar';
+import './component/bread-crumb';
 
 import App from './views/app.js';
-
-// import 'bootstrap';
-// import 'bootstrap/dist/css/bootstrap.css';
-// require('bootstrap');
-// require('bootstrap/dist/css/bootstrap.css');
-// require('bootstrap-select/js/bootstrap-select');
-// require('bootstrap-select/dist/css/bootstrap-select.css');
 
 const app = new App({
   content: document.querySelector('#mainContent'),

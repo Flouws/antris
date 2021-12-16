@@ -3,6 +3,7 @@
 import api from '../global/api';
 
 // TODO: Rapihin & Masukin ke dashboard
+// TODO: Ganti searchbar ke bootstarp v.5
 class SearchBar extends HTMLElement {
   constructor() {
     super();
@@ -23,9 +24,8 @@ class SearchBar extends HTMLElement {
   }
 
   async afterRender() {
-    // const hospitals = [{id: 'aid', text: 'a'}, {id: 'bid', text: 'b'}]; // Dummy data
-    const hospitals = [];
-    const hospitalData = await api.getAllHospitals;
+    const hospitals = [{id: 'first', text: 'Find Hospitals'}];
+    const hospitalData = await api.getAllHospitals();
 
     hospitalData.forEach((element) => {
       const hospital = {

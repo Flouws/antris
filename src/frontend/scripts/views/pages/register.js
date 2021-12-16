@@ -5,9 +5,10 @@ import {checkError} from '../../global/error-handling';
 
 const Register = {
   async render() {
-    $('nav').empty(); // remove navbar
+    $('nav-bar').hide(); // remove navbar
+    $('bread-crumb').hide(); // remove pagebar
     return `
-    <section class="vh-80 d-flex flex-row align-items-center">
+    <section class="vh-90 d-flex flex-row align-items-center">
       <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-md-9 col-lg-6 col-xl-5">
@@ -27,6 +28,12 @@ const Register = {
                 <label>Name</label>
                 <input type="text" id="registerName" class="form-control form-control-lg" placeholder="Enter your name" />
                 <div class="invalid-feedback" id="registerNameInvalid"></div>
+              </div>
+
+              <div class="form-outline mb-3">
+                <label>Phone</label>
+                <input type="text" id="registerPhone" class="form-control form-control-lg" placeholder="Enter your phone number" />
+                <div class="invalid-feedback" id="registerPhoneInvalid"></div>
               </div>
 
               <div class="row mb-3">
@@ -69,6 +76,13 @@ const Register = {
                 <div class="invalid-feedback" id="registerRePasswordInvalid"></div>
               </div>
 
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="isHospital" id="registerCheckBox">
+                <label class="form-check-label" for="registerCheckBox">
+                  I am a hospital
+                </label>
+              </div>
+
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="button" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
                   id="RegisterButton">Register</button>
@@ -91,14 +105,17 @@ const Register = {
         email: $('#registerEmail').val(),
         password: $('#registerPassword').val(),
         address: `${$('#registerAddress').val()}, ${$('#registerCity').val()}, ${$('#registerZip').val()}`,
+        phone: $('#registerPhone').val(),
         picture: null,
-        roleId: '1', // user
-        isActive: null,
+        roleId: getRoleId($('#registerCheckBox').is(':checked')),
+        isActive: getisActive($('#registerCheckBox').is(':checked')),
+        description: 'No description yet',
       };
       const rePassword = $('#registerPasswordConfirm').val();
+      console.log(user);
 
       const checkErrorVal = checkError({register: true, user: user, rePassword: rePassword,
-        emailInvalidId: '#registerEmailInvalid', nameInvalidId: '#registerNameInvalid',
+        emailInvalidId: '#registerEmailInvalid', nameInvalidId: '#registerNameInvalid', phoneInvalidId: '#registerPhoneInvalid',
         passwordInvalidId: '#registerPasswordInvalid', rePasswordInvalidId: '#registerRePasswordInvalid',
         cityInvalidId: '#registerCityInvalid', zipInvalidId: '#registerZipInvalid', addressInvalidId: '#registerAddressInvalid',
       });
@@ -109,5 +126,21 @@ const Register = {
     });
   },
 };
+
+function getRoleId(state) {
+  if (state === true) {
+    return 2; // Hospital
+  } else {
+    return 1; // User
+  }
+}
+
+function getisActive(state) {
+  if (state === true) {
+    return 1; // Hospital
+  } else {
+    return null; // User
+  }
+}
 
 export default Register;

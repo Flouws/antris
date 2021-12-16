@@ -1,21 +1,39 @@
 /* eslint-disable max-len */
 import api from '../../global/api';
+import {appendPages} from '../../global/public-function';
 
 const Profile = {
   async render() {
-    const user = await api.getProfile; // TODO: Turunin ke after render soalnya kalo login pertama gadapet apinya
+    // TODO: improve design
+    const pages = [{link: '#/dashboard', text: 'Dashboard'}];
+    appendPages({pages, lastPageText: 'Profile'});
 
-    const firstName = user.name.split(' ').slice(0, -1).join(' ');
-    const lastName = user.name.split(' ').slice(-1).join(' ');
+    return `
+        <div class="container shadow-lg p-3 bg-white rounded" id="profile">
+          
+        </div>
+
+        <!-- Modal -->
+        <change-password></change-password>
+      `;
+  },
+
+  async afterRender() {
+    const role = sessionStorage.getItem('role');
+    let user;
+
+    if (role === 'user') {
+      user = await api.getUserProfile();
+    } else if (role === 'hospital') {
+      user = await api.getHospitalProfile();
+    }
+
     const city = user.address.split(',').slice(0, -1).slice(-1).join(',');
 
-    // TODO: implement change profile image and add phone number
+    // TODO: implement change profile image
     const userImageSrc = 'https://bootdey.com/img/Content/avatar/avatar6.png';
-    const phone = '0811 9898601';
 
-    // TODO: improve design
-    return `
-  <div class="container shadow-lg p-3 bg-white rounded" id="profile">
+    $('#profile').append(`
     <form>
       <div class="row mt-3 align-items-center">
         <div class="col-md-4 text-center mb-5">
@@ -27,7 +45,7 @@ const Profile = {
         <div class="col-sm">
           <div class="row align-items-center">
             <div class="col">
-              <h2 class="mb-1">${firstName} ${lastName}</h2>
+              <h2 class="mb-1">${user.name}</h2>
               <h3 class="">${city}</h3>
             </div>
           </div>
@@ -36,12 +54,8 @@ const Profile = {
             <table class="table table-borderless">
               <tbody>
                 <tr>
-                  <th>First Name</th>
-                  <td>${firstName}</td>
-                </tr>
-                <tr>
-                  <th>Last Name</th>
-                  <td>${lastName}</td>
+                  <th>Name</th>
+                  <td>${user.name}</td>
                 </tr>
                 <tr>
                   <th>Alamat</th>
@@ -62,22 +76,14 @@ const Profile = {
                 </tr>
                 <tr>
                   <th>Phone</th>
-                  <td>${phone}</td>
+                  <td>${user.phone}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-    </form>
-  </div>
-
-  <!-- Modal -->
-  <change-password></change-password>
-      `;
-  },
-
-  async afterRender() {
+    </form>`);
   },
 };
 

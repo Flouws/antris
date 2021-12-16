@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 function dayConverter(day) {
   switch (day) {
@@ -18,4 +19,13 @@ function dayConverter(day) {
   }
 }
 
-export {dayConverter};
+function appendPages({pages, lastPageText}) {
+  pages.forEach((page) => {
+    $('#pageBar').append(`<a href="${page.link}">${page.text}</a>`);
+    $('#pageBar').append(' <img src="./images/icons8-right-20.png" alt="arrow"/> ');
+  });
+
+  $('#pageBar').append(lastPageText);
+}
+
+export {dayConverter, appendPages};
