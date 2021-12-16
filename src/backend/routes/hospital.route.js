@@ -22,5 +22,6 @@ router.patch('/poly/:polyId/appointment/:appointmentId', hospital.editAppointmen
 router.delete('/poly/:polyId/appointment/:appointmentId', hospital.deleteAppointment);
 
 router.get('/queue', hospital.getAllQueue);
+router.get('/queue/today', hospital.getTodayQueue);
 
 module.exports = router;
