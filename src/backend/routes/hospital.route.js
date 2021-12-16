@@ -27,5 +27,6 @@ router.get('/queue/:queueId', hospital.getQueue);
 router.get('/queue/date/:queueDate', hospital.getByDateQueue);
 router.patch('/queue/:queueId/accept', hospital.acceptQueue);
 router.patch('/queue/:queueId/process', hospital.processQueue);
+router.patch('/queue/:queueId/finish', hospital.finishQueue);
 
 module.exports = router;
