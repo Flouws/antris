@@ -160,19 +160,44 @@ const addAppointmentModal = () => `
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Polyclinic</h5>
+                    <h5 class="modal-title">Add Appointment Schedule</h5>
                     <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
                 </div>
                 <div class="modal-body">
 
 
-
+                    <form>
+                        <div class="form-group">
+                            <label>Day</label>
+                            <select class="form-control" id="addAppointmentModalSelect">
+                                <option value="1">Senin</option>
+                                <option value="2">Selasa</option>
+                                <option value="3">Rabu</option>
+                                <option value="4">Kamis</option>
+                                <option value="5">Jumat</option>
+                                <option value="6">Sabtu</option>
+                                <option value="7">Minggu</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-2">
+                            <div class="row">
+                                <div class="col">
+                                    <label>Start Time</label>
+                                    <input type="text" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart"> <!-- TODO: buat pemisah jam menit detik -->
+                                </div>
+                                <div class="col">
+                                    <label>End Time</label>
+                                    <input type="text" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addPolyModalSave" data-dismiss="modal">Save Changes</button>
+                    <button type="button" class="btn btn-primary" id="addAppointmentModalSave" data-dismiss="modal">Save Changes</button>
                 </div>
             </div>
         </div>

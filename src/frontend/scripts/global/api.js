@@ -16,6 +16,9 @@ const api = {
   getPolyImage: (pictName) => getPolyImage(pictName),
   addPoly: (poly) => addPoly(poly),
   getAllPolys: getAllPolys,
+  getDetailsOnePoly: (polyId) => getDetailsOnePoly(polyId),
+  getAllAppointments: (polyId) => getAllAppointments(polyId),
+  addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
   run: run,
 };
 
@@ -195,6 +198,58 @@ function getAllPolys() {
           return json.success.data.polys;
         } else if (json.error) {
           // window.location.href = '#/login';
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getDetailsOnePoly(polyId) {
+  return fetch(API_ENDPOINT.GET_DETAILS_ONE_POLY(polyId), {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.poly;
+        } else if (json.error) {
+          // window.location.href = '#/login';
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getAllAppointments(polyId) {
+  return fetch(API_ENDPOINT.GET_ALL_APPOINTMENTS(polyId), {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
+        console.log(json)
+        if (json.success) {
+          return json.success.data.appointments;
+        } else if (json.error) {
+          // window.location.href = '#/login';
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function addAppointment({polyId, appointment}) {
+  return fetch(API_ENDPOINT.ADD_APPOINTMENT(polyId), {
+    method: 'POST',
+    body: JSON.stringify(appointment),
+    headers: {'x-access-token': sessionStorage.getItem('accessToken'), 'Content-Type': 'application/json'},
+  }).then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        if (json.success) {
+          return true;
+        } else if (json.error) {
+          return false;
         }
       })
       .catch((err) => {

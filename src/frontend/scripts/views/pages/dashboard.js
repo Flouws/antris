@@ -3,7 +3,8 @@
 /* eslint-disable max-len */
 import '../../component/search-bar.js';
 import api from '../../global/api.js';
-import {addPolyModal, editHospitalModal, addAppointmentModal} from '../../templates/template-modal.js';
+import {addPolyCard, dashboardPolyCard, emptyCard} from '../../templates/template-creator.js';
+import {addPolyModal, editHospitalModal} from '../../templates/template-modal.js';
 
 const Dashboard = {
 
@@ -44,7 +45,6 @@ const Dashboard = {
 
       ${editHospitalModal({editHospitalModalNameVal: hospitalData.name, editHospitalModalAddressVal: hospitalData.address, editHospitalModalPhoneVal: hospitalData.phone})}
       ${addPolyModal()}
-      ${addAppointmentModal()}
       `;
     }
   },
@@ -134,33 +134,5 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   }
 }
 
-// Pindahin
-const emptyCard = `
-  <div class="col" id="emptyCard">
-    <div class="card h-100 empty-poly-card pointer">
-    </div>
-  </div>
-`;
-
-const addPolyCard = `
-<div class="col">
-  <div class="card h-100 add-poly-card pointer min-w-192-75" data-toggle="modal" data-target="#addPolyModal">
-      <img src="./images/icons8-plus-math-90.png" class="add-poly-card-img" alt="Foto Poly">
-  </div>
-</div>
-`;
-
-const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyId}) => `
-<div class="col">
-  <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
-    <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
-    <div class="card-body">
-      <h5 class="card-title mb-0">${polyName}</h5>
-      <small class="text-muted">${polyDoctor}</small>
-      <p class="card-text">${polyDesc}</p>
-    </div>
-  </div>
-</div>
-`;
 
 export default Dashboard;
