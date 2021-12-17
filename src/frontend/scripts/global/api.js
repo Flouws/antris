@@ -227,12 +227,6 @@ function getAllAppointments(polyId) {
   }).then((response) => response.json())
       .then((json) => {
         return json;
-        console.log(json)
-        if (json.success) {
-          return json.success.data.appointments;
-        } else if (json.error) {
-          // window.location.href = '#/login';
-        }
       })
       .catch((err) => {
       });
