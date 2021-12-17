@@ -67,12 +67,12 @@ label {
     transform: scale(1.025);
 }
 
-.dashboardPolyCard {
+.dashboardPolyCard, .detailPolyCard {
     transition: transform .2s;
     /* Animation */
 }
 
-.dashboardPolyCard:hover {
+.dashboardPolyCard:hover, .detailPolyCard:hover {
     transform: scale(1.025);
 }
 

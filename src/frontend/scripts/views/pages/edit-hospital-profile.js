@@ -72,7 +72,7 @@ const EditHospitalProfile = {
     thisHospitalData.polys.forEach((polyData) => {
       console.log(polyData);
       polys.push(
-          polyCard({polyImage: polyData.picture, polyName: polyData.name,
+          polyCard({polyImage: polyData.picture, polyName: polyData.name, polyId: polyData.id,
             polyDoctor: polyData.doctor, polyDesc: polyData.description, polyCapacity: polyData.capacity,
           }),
       );

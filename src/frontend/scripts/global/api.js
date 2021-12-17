@@ -19,6 +19,7 @@ const api = {
   getDetailsOnePoly: (polyId) => getDetailsOnePoly(polyId),
   getAllAppointments: (polyId) => getAllAppointments(polyId),
   addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
+  addQueue: (data) => addQueue(data),
   run: run,
 };
 
@@ -239,12 +240,29 @@ function addAppointment({polyId, appointment}) {
     headers: {'x-access-token': sessionStorage.getItem('accessToken'), 'Content-Type': 'application/json'},
   }).then((response) => response.json())
       .then((json) => {
-        console.log(json);
         if (json.success) {
           return true;
         } else if (json.error) {
           return false;
         }
+      })
+      .catch((err) => {
+      });
+}
+
+function addQueue(data) {
+  return fetch(API_ENDPOINT.ADD_QUEUE, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {'x-access-token': sessionStorage.getItem('accessToken'), 'Content-Type': 'application/json'},
+  }).then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        // if (json.success) {
+        //   return true;
+        // } else if (json.error) {
+        //   return false;
+        // }
       })
       .catch((err) => {
       });

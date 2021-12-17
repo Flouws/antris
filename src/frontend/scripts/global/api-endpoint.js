@@ -19,6 +19,7 @@ const API_ENDPOINT = {
   GET_DETAILS_ONE_POLY: (polyId) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}`,
   GET_ALL_APPOINTMENTS: (polyId) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}/appointment`,
   ADD_APPOINTMENT: (polyId) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}/appointment`,
+  ADD_QUEUE: `${CONFIG.BASE_URL}/user/queue`,
 };
 
 export default API_ENDPOINT;

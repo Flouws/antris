@@ -11,26 +11,31 @@ const makeAppointmentModal = `
 
                 <form class="was-validated">
 
-                    <div class="form-group mb-2">
-                        <label>Rumah Sakit</label>
-                        <select class="form-select" id="makeAppointmentModalRSSelect" disabled>
-                        </select>
+                    <div class="form-group row mb-2">
+                        <label class="col-sm-4 col-form-label">Rumah Sakit</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" id="makeAppointmentModalRSSelect" disabled></select>
+                        </div>
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label>Poliklinik</label>
-                        <select class="form-select" required id="makeAppointmentModalPolySelect">
-                            <option selected disabled>Pilih poliklinik</option>
-                        </select>
-                        <div class="invalid-feedback">Mohon pilih poliklinik yang tersedia</div>
+                    <div class="form-group row mb-2">
+                        <label class="col-sm-4 col-form-label">Poliklinik</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" required id="makeAppointmentModalPolySelect">
+                                <option selected disabled>Pilih poliklinik</option>
+                            </select>
+                            <div class="invalid-feedback">Mohon pilih poliklinik yang tersedia</div>
+                        </div>
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label>Waktu Tersedia</label>
-                        <select class="form-select" required id="makeAppointmentModalTimeSelect">
-                            <option value="" selected disabled>Pilih Waktu</option>
-                        </select>
-                        <div class="invalid-feedback" id="makeAppointmentModalTimeInvalid">Mohon pilih waktu yang tersedia</div>
+                    <div class="form-group row mb-2">
+                        <label class="col-sm-4 col-form-label">Waktu Tersedia</label>
+                        <div class="col-sm-8">
+                            <select class="form-select" required id="makeAppointmentModalTimeSelect">
+                                <option selected disabled>Pilih Waktu</option>
+                            </select>
+                            <div class="invalid-feedback" id="makeAppointmentModalTimeInvalid">Mohon pilih waktu yang tersedia</div>
+                        </div>
                     </div>
 
                 </form>
@@ -38,7 +43,7 @@ const makeAppointmentModal = `
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Buat Appointment</button> // TODO: Konek ke backend
+                <button type="button" class="btn btn-primary" id="makeAppointmentModalSave" data-dismiss="modal">Buat Appointment</button>
             </div>
         </div>
     </div>

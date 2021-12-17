@@ -5,7 +5,7 @@ import UrlParser from '../../routes/url-parser';
 import {detailBody, polyCard} from '../../templates/template-creator';
 import {makeAppointmentModal} from '../../templates/template-modal';
 import api from '../../global/api';
-import {dayConverter} from '../../global/public-function';
+import {appendPages, dayConverter} from '../../global/public-function';
 
 const Detail = {
   // TODO: Rapihin Design
@@ -13,6 +13,9 @@ const Detail = {
     const uuid = UrlParser.parseActiveUrlWithoutCombiner().id;
     const thisHospitalData = await api.getDetailsOneHospital(uuid);
     const city = thisHospitalData.address.split(',').slice(0, -1).slice(-1).join(',');
+
+    const pages = [{link: '#/dashboard', text: 'Dashboard'}];
+    appendPages({pages, lastPageText: thisHospitalData.name});
 
     return `
   <div class="container" id="detailPage">
@@ -35,7 +38,7 @@ const Detail = {
 
     thisHospitalData.polys.forEach((polyData) => { // TODO: Bikin screen 'no poly' kalo gada poly
       polys.push(
-          polyCard({polyImage: polyData.picture, polyName: polyData.name,
+          polyCard({polyImage: polyData.picture, polyName: polyData.name, polyId: polyData.id,
             polyDoctor: polyData.doctor, polyDesc: polyData.description, polyCapacity: polyData.capacity,
           }),
       );
@@ -77,6 +80,31 @@ const Detail = {
 
     $('#makeAppointmentModalRSSelect').append(hospitalNames);
     $('#makeAppointmentModalPolySelect').append(polyNames);
+
+    // ---------------------------------------------
+
+    const test = thisHospitalData.polys[1];
+    console.log(test);
+
+
+    // ------------ Add Queue --------------
+    $('#makeAppointmentModalSave').on('click', async () => {
+      // const appointmentId = event.currentTarget.attr('name'); // TODO: Fix Depreciated
+
+      // console.log(appointmentId);
+      const data = {
+        appointmentId: '6',
+        isAssurance: null,
+      };
+      // const datas = new FormData();
+      // datas.append('picture', data.picture[0].files[0]);
+
+      const status = await api.addQueue(data);
+
+      if (status === true) {
+        console.log('success');
+      }
+    });
   },
 };
 
