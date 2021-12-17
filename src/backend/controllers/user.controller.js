@@ -215,7 +215,7 @@ exports.addQueue = async (req, res) => {
     const dayToday = new Date(dateToday).getDay();
     if (dayToday !== 0) {
       if (dayToday !== appointment.day) {
-        return baseResponse.error(res, 400, `Current date [${dayToday}] is not valid for appointment date [${appointment.id}] for appointment id [${appointment.id}].`);
+        return baseResponse.error(res, 400, `Current date [${dayToday}] is not valid for appointment date [${appointment.day}] for appointment id [${appointment.id}].`);
       }
     } else {
       if (dayToday !== appointment.day-7) {
