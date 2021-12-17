@@ -10,7 +10,6 @@ import {dayConverter} from '../../global/public-function';
 const HospitalPolyDetail = {
   async render() {
     const param = UrlParser.parseActiveUrlWithoutCombiner().id;
-    const hospitalUuid = param.split('_')[0];
     const polyId = param.split('_')[1];
 
     const polyData = await api.getDetailsOnePoly(polyId);
