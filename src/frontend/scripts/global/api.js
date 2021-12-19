@@ -253,16 +253,15 @@ function addAppointment({polyId, appointment}) {
 function addQueue(data) {
   return fetch(API_ENDPOINT.ADD_QUEUE, {
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: {'x-access-token': sessionStorage.getItem('accessToken'), 'Content-Type': 'application/json'},
+    body: data,
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
       .then((json) => {
-        console.log(json);
-        // if (json.success) {
-        //   return true;
-        // } else if (json.error) {
-        //   return false;
-        // }
+        if (json.success) {
+          alert(json.success.data.message);
+        } else if (json.error) {
+          alert(json.error.message);
+        }
       })
       .catch((err) => {
       });

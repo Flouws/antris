@@ -9,7 +9,7 @@ const makeAppointmentModal = `
             </div>
             <div class="modal-body">
 
-                <form class="was-validated">
+                <form enctype="multipart/form-data">
 
                     <div class="form-group row mb-2">
                         <label class="col-sm-4 col-form-label">Rumah Sakit</label>
@@ -21,7 +21,7 @@ const makeAppointmentModal = `
                     <div class="form-group row mb-2">
                         <label class="col-sm-4 col-form-label">Poliklinik</label>
                         <div class="col-sm-8">
-                            <select class="form-select" required id="makeAppointmentModalPolySelect">
+                            <select class="form-select" id="makeAppointmentModalPolySelect">
                                 <option selected disabled>Pilih poliklinik</option>
                             </select>
                             <div class="invalid-feedback">Mohon pilih poliklinik yang tersedia</div>
@@ -36,6 +36,39 @@ const makeAppointmentModal = `
                             </select>
                             <div class="invalid-feedback" id="makeAppointmentModalTimeInvalid">Mohon pilih waktu yang tersedia</div>
                         </div>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="makeAppointmentModalAsuransi" 
+                            data-bs-toggle="collapse" href="#makeAppointmentModalCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <label class="form-check-label" for="makeAppointmentModalAsuransi">
+                            Apakah anda memiliki asuransi?
+                        </label>
+                    </div>
+
+                    <div class="collapse" id="makeAppointmentModalCollapse">
+                        <hr>
+                        <div class="form-group">
+                            <label class="form-label">Foto Asuransi</label>
+                            <input class="form-control" type="file" id="makeAppointmentModalImage1">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <input class="form-control" type="file" id="makeAppointmentModalImage2">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <input class="form-control" type="file" id="makeAppointmentModalImage3">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <input class="form-control" type="file" id="makeAppointmentModalImage4">
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <input class="form-control" type="file" id="makeAppointmentModalImage5">
+                        </div>
+
                     </div>
 
                 </form>
@@ -117,7 +150,6 @@ const addPolyModal = () => `
                 </div>
                 <div class="modal-body">
 
-
                     <div class="form-group row">
                         <label for="addPolyModalName" class="col-sm-2 col-form-label">Polyclinic</label>
                         <div class="col-sm-10">
@@ -148,7 +180,6 @@ const addPolyModal = () => `
                         <label for="addPolyModalImage" class="form-label">Polyclinic Image</label>
                         <input class="form-control" type="file" id="addPolyModalImage">
                     </div>
-
 
                 </div>
                 <div class="modal-footer">

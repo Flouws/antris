@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable require-jsdoc */
 /* eslint-disable new-cap */
 /* eslint-disable max-len */
@@ -36,6 +37,16 @@ const Detail = {
     const uuid = UrlParser.parseActiveUrlWithoutCombiner().id;
     const thisHospitalData = await api.getDetailsOneHospital(uuid);
 
+
+    // -------------- Get poly id when a card is clicked ----------------
+    // let clickedPolyId;
+
+    // $('.detailPolyCard').on('click', async () => {
+    //   clickedPolyId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+    // });
+
+
+    // ----------------- render poly cards ------------------
     thisHospitalData.polys.forEach((polyData) => { // TODO: Bikin screen 'no poly' kalo gada poly
       polys.push(
           polyCard({polyImage: polyData.picture, polyName: polyData.name, polyId: polyData.id,
@@ -47,6 +58,8 @@ const Detail = {
     });
     $('#polyCard').append(polys);
 
+
+    // ----------------- modal ------------------
     hospitalNames.push(`<option selected>${thisHospitalData.name}</option>`);
     // polyNames.push(`<option selected>${thisHospitalData.polyData}</option>`); // TODO: bikin fitur biar poly yang mau, langsung keselected
 
@@ -81,25 +94,31 @@ const Detail = {
     $('#makeAppointmentModalRSSelect').append(hospitalNames);
     $('#makeAppointmentModalPolySelect').append(polyNames);
 
-    // ---------------------------------------------
-
-    const test = thisHospitalData.polys[1];
-    console.log(test);
-
 
     // ------------ Add Queue --------------
     $('#makeAppointmentModalSave').on('click', async () => {
-      // const appointmentId = event.currentTarget.attr('name'); // TODO: Fix Depreciated
-
-      // console.log(appointmentId);
       const data = {
-        appointmentId: '6',
-        isAssurance: null,
+        appointmentId: $('#makeAppointmentModalTimeSelect').val(),
+        isAssurance: checkToNum($('#makeAppointmentModalAsuransi').is(':checked')),
+        picture1: $('#makeAppointmentModalImage1'),
+        picture2: $('#makeAppointmentModalImage2'),
+        picture3: $('#makeAppointmentModalImage3'),
+        picture4: $('#makeAppointmentModalImage4'),
+        picture5: $('#makeAppointmentModalImage4'),
       };
-      // const datas = new FormData();
-      // datas.append('picture', data.picture[0].files[0]);
 
-      const status = await api.addQueue(data);
+      const datas = new FormData();
+      datas.append('picture1', data.picture1[0].files[0]);
+      datas.append('picture2', data.picture2[0].files[0]);
+      datas.append('picture3', data.picture3[0].files[0]);
+      datas.append('picture4', data.picture4[0].files[0]);
+      datas.append('picture5', data.picture5[0].files[0]);
+
+      for ( const key in data ) { // TODO: bikin fungsi & benerin kode (guard in apalah itu)
+        datas.append(key, data[key]);
+      }
+
+      const status = await api.addQueue(datas);
 
       if (status === true) {
         console.log('success');
@@ -107,6 +126,14 @@ const Detail = {
     });
   },
 };
+
+function checkToNum(checked) {
+  if (checked) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 
 export default Detail;
