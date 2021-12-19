@@ -16,10 +16,8 @@ class SearchBar extends HTMLElement {
 
   async render() {
     this.innerHTML = `
-  <div class="container">
-    <select class="js-example-responsive" id="searchBar">
-    </select>
-  </div>
+      <select class="js-example-responsive" id="searchBar">
+      </select>
     `;
   }
 
@@ -50,5 +48,3 @@ class SearchBar extends HTMLElement {
 }
 
 customElements.define('search-bar', SearchBar);
-
-

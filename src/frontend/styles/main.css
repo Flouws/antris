@@ -15,6 +15,16 @@
     top: 0;
 }
 
+html,
+body {
+  height: 100%;
+}
+
+.datalist {
+    height:5.1em;
+    overflow:hidden;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -103,10 +113,10 @@ label {
     transform: scale(1.025);
 }
 
-/* Search Bar */
-search-bar {
-    margin: 40px;
-}
+.reverse {
+    flex-direction: row-reverse;
+  }
+
 
 /* Page Bar */
 #pageBar a {

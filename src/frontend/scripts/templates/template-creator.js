@@ -116,6 +116,19 @@ const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyId}) 
 </div>
 `;
 
+const dashboardHospitalCard = ({hospitalImage, hospitalName, hospitalPhone, hospitalDesc, hospitalId}) => `
+<div class="col">
+  <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${hospitalId}">
+    <img src="${api.getProfileImage(hospitalImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+    <div class="card-body">
+      <h5 class="card-title mb-0">${hospitalName}</h5>
+      <small class="text-muted">${hospitalPhone}</small>
+      <p class="card-text">${hospitalDesc}</p>
+    </div>
+  </div>
+</div>
+`;
+
 export {
   changePasswordBody,
   polyCard,
@@ -123,5 +136,6 @@ export {
   emptyCard,
   addPolyCard,
   dashboardPolyCard,
+  dashboardHospitalCard,
 };
 
