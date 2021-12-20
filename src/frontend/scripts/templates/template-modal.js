@@ -140,6 +140,56 @@ const editHospitalModal = ({editHospitalModalNameVal, editHospitalModalAddressVa
 </div>
 `;
 
+const editProfileModal = ({editProfileModalName, editProfileModalAddress, editProfileModalPhone}) => `
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+            </div>
+            <div class="modal-body">
+
+
+                <form enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <label for="editProfileModalName" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext px-1" id="editProfileModalName" value="${editProfileModalName}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="editProfileModalAddress" class="col-sm-2 col-form-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext px-1" id="editProfileModalAddress" value="${editProfileModalAddress}"> <!-- TODO: Buat terpisah. addr, city, zip -->
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="editProfileModalPhone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext px-1" id="editProfileModalPhone" value="${editProfileModalPhone}">
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="editProfileModalImage" class="form-label">Profile Image</label>
+                        <input class="form-control" type="file" id="editProfileModalImage">
+                    </div>
+                </form> 
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editProfileModalSave" data-dismiss="modal">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+`;
+
 const addPolyModal = () => `
     <div class="modal fade" id="addPolyModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -246,4 +296,5 @@ export {
   editHospitalModal,
   addPolyModal,
   addAppointmentModal,
+  editProfileModal,
 };

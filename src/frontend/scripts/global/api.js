@@ -12,6 +12,7 @@ const api = {
   getHospitalProfile: getHospitalProfile,
   getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
   editHospitalProfile: (data) => editHospitalProfile(data),
+  editUserProfile: (data) => editUserProfile(data),
   getProfileImage: (pictName) => getProfileImage(pictName),
   getPolyImage: (pictName) => getPolyImage(pictName),
   addPoly: (poly) => addPoly(poly),
@@ -22,6 +23,7 @@ const api = {
   addQueue: (data) => addQueue(data),
   run: run,
 };
+
 
 function run() {
   console.log('jalan');
@@ -259,6 +261,25 @@ function addQueue(data) {
       .then((json) => {
         if (json.success) {
           alert(json.success.data.message);
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function editUserProfile(data) {
+  return fetch(API_ENDPOINT.EDIT_USER_PROFILE, {
+    method: 'PATCH',
+    body: data,
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+    },
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return true;
         } else if (json.error) {
           alert(json.error.message);
         }

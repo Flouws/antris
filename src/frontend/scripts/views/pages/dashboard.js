@@ -92,6 +92,12 @@ const Dashboard = {
       if (shuffledHospitals.length === 0) {
         // TODO: tambah text no hospital
       }
+
+      $('.dashboardPolyCard').on('click', async () => {
+        const param = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+
+        window.location.href = `#/detail/${param}`;
+      });
     } else if (role === 'hospital') {
       await afterRenderHospital();
     }
