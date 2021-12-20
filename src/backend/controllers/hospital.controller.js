@@ -715,7 +715,7 @@ exports.getAllQueue = async (req, res) => {
 
     const queues = await Queue.findAll({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
       },
       attributes: {
         exclude: [
@@ -810,7 +810,7 @@ exports.getTodayQueue = async (req, res) => {
     const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
     const queues = await Queue.findAll({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'date': dateToday,
       },
       attributes: {
@@ -905,7 +905,7 @@ exports.getQueue = async (req, res) => {
 
     const queue = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'id': req.params.queueId,
       },
       attributes: {
@@ -1000,7 +1000,7 @@ exports.getByDateQueue = async (req, res) => {
 
     const queues = await Queue.findAll({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'date': req.params.queueDate,
       },
       attributes: {
@@ -1095,7 +1095,7 @@ exports.acceptQueue = async (req, res) => {
 
     const queue = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'id': req.params.queueId,
       },
       include: [{
@@ -1136,7 +1136,7 @@ exports.acceptQueue = async (req, res) => {
 
     const queueHighest = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'date': queue.date,
         'appointmentId': queue.appointmentId,
       },
@@ -1199,7 +1199,7 @@ exports.processQueue = async (req, res) => {
 
     const queue = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'id': req.params.queueId,
       },
       include: [{
@@ -1272,7 +1272,7 @@ exports.finishQueue = async (req, res) => {
 
     const queue = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'id': req.params.queueId,
       },
       include: [{
@@ -1345,7 +1345,7 @@ exports.rejectQueue = async (req, res) => {
 
     const queue = await Queue.findOne({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'id': req.params.queueId,
       },
       include: [{
@@ -1420,7 +1420,7 @@ exports.rejectAllTodayQueue = async (req, res) => {
     const dateToday = new Date().toLocaleDateString('en-CA', {timeZone: process.env.APP_TIMEZONE_STRING});
     const queues = await Queue.findAll({
       where: {
-        '$Appointment.Poly.User.id$': user.id,
+        '$appointment.poly.user.id$': user.id,
         'date': dateToday,
         'queueStatusId': 0,
       },
