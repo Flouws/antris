@@ -40,9 +40,7 @@ const HospitalPolyDetail = {
               <h3 class="title-grey mx-auto mb-3">Appointment Schedule</h3>
 
               <div class="flex-grow-1 d-flex flex-wrap mx-2 flex-column" id="hospitalDetailAppointmentCardHolder">
-              ${hospitalDetailAppointmentCard}
-              ${hospitalDetailAppointmentCard}
-              ${addAppointmentCard}
+
               </div>
 
             </div>
@@ -84,13 +82,22 @@ async function renderPolyCards(addAppointmentCard) {
 
   const appointmentStatus = await api.getAllAppointments(polyId);
 
+  for (let i = 1; i < 8; i++) {
+    $('#hospitalDetailAppointmentCardHolder').append(hospitalDetailAppointmentCard({
+      day: dayConverter(i),
+    }));
+  }
+
+
+
   if (appointmentStatus.success) {
     appointmentStatus.success.data.appointments.forEach((appointment) => {
-      $('#hospitalDetailAppointmentCardHolder').append(hospitalDetailAppointmentCard({
-        day: dayConverter(appointment.day),
-        timeStart: appointment.timeStart,
-        timeEnd: appointment.timeEnd,
-      }));
+      console.log(appointment)
+      $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
+        <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-primary rounded px-2" id="#hospitalDetailAppointmentCard_${appointment.id}">4</a> 
+          ${appointment.timeStart} - ${appointment.timeEnd}</h5>
+        `
+      );
     });
   } else {
     console.log('no app'); // TODO: bikin kaya screen poly no appointment
@@ -108,13 +115,21 @@ const addAppointmentCard = `
   </div>
 `;
 
-const hospitalDetailAppointmentCard = ({day, timeStart, timeEnd}) => `
+const hospitalDetailAppointmentCard = ({day}) => `
   <div class="card w-100 my-1">
-    <div class="card-body">
-      <h5 class="d-inline">${day}:</h5>
-      <h5 class="card-subtitle mb-2 text-muted d-inline">Jam ${timeStart} - ${timeEnd}</h5>
+    <div class="card-body" id="hospitalDetailAppointmentCard_${day}">
+      <h5 class="">${day}:</h5>
     </div>
   </div>
 `;
+
+// const hospitalDetailAppointmentCard = ({day, timeStart, timeEnd}) => `
+//   <div class="card w-100 my-1">
+//     <div class="card-body">
+//       <h5 class="">${day}:</h5>
+//       <h5 class="card-subtitle mb-2 text-muted">${timeStart} - ${timeEnd}</h5>
+//     </div>
+//   </div>
+// `;
 
 export default HospitalPolyDetail;
