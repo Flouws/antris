@@ -88,11 +88,35 @@ async function renderPolyCards(addAppointmentCard) {
     }));
   }
 
-
-
+  
   if (appointmentStatus.success) {
+    const queueData = await api.getAllQueue();
+    // console.log(queueData);
+
+    // queueData.success.data.queues.forEach((queue) => {
+    //   const data = {
+    //     queue: queue,
+    //     appointmentId: queue.appointment.id
+    //   };
+    //   // console.log(data)
+    // });
+
+// --------------------------------------------------------------------------
     appointmentStatus.success.data.appointments.forEach((appointment) => {
-      console.log(appointment)
+
+      queueData.success.data.queues.forEach((queue) => {
+        const data = {
+          queue: queue,
+          appointmentId: queue.appointment.id
+        };
+        if(appointment.id === queue.appointment.id){
+          console.log(queue)
+        }
+      });
+
+      // console.log(appointment.id)
+      // if(appointment.id === queueData.success.data.queues)
+
       $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
         <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-primary rounded px-2" id="#hospitalDetailAppointmentCard_${appointment.id}">4</a> 
           ${appointment.timeStart} - ${appointment.timeEnd}</h5>

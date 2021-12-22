@@ -21,6 +21,7 @@ const api = {
   getAllAppointments: (polyId) => getAllAppointments(polyId),
   addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
   addQueue: (data) => addQueue(data),
+  getAllQueue: getAllQueue,
   run: run,
 };
 
@@ -283,6 +284,19 @@ function editUserProfile(data) {
         } else if (json.error) {
           alert(json.error.message);
         }
+      })
+      .catch((err) => {
+      });
+}
+
+function getAllQueue(){
+  return fetch(API_ENDPOINT.GET_ALL_QUEUE, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        // console.log(json)
+        return json;
       })
       .catch((err) => {
       });
