@@ -98,8 +98,14 @@ async function renderPolyCards(addAppointmentCard) {
       appointmentIdArray[appointment.id] = 0;
 
       queueData.success.data.queues.forEach((queue) => {
-        if (appointment.id === queue.appointment.id) {
-          appointmentIdArray[appointment.id] ++;
+        if (appointment.id == queue.appointment.id) {
+          if (queue.queueStatus.id > 0) {
+            // process
+          } else if (queue.queueStatus.id < 0) {
+            // rejected
+          } else {
+            appointmentIdArray[appointment.id] ++;
+          }
         }
       });
 

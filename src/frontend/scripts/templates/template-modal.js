@@ -331,6 +331,35 @@ const appointmentDetailModal = () => `
     </div>
 `;
 
+const appointmentDetailDeclineModal = () => `
+    <div class="modal fade" id="appointmentDetailDeclineModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are You Sure?</h5>
+                    <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+                </div>
+                <div class="modal-body">
+
+
+                <form>
+                    <div class="mb-3">
+                        <label>Decline Message</label>
+                        <textarea class="form-control" id="appointmentDetailDeclineModalReason" placeholder="Kenapa anda tolak?"></textarea>
+                    </div>
+                </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="appointmentDetailDeclineModalSave" data-dismiss="modal">Decline</button>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
 
 export {
   makeAppointmentModal,
@@ -339,4 +368,5 @@ export {
   addAppointmentModal,
   editProfileModal,
   appointmentDetailModal,
+  appointmentDetailDeclineModal,
 };

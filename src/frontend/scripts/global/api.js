@@ -3,35 +3,6 @@
 /* eslint-disable require-jsdoc */
 import API_ENDPOINT from '../global/api-endpoint.js';
 
-const api = {
-  getAllHospitals: getAllHospitals,
-  getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
-  signIn: (user) => signIn(user),
-  signUp: (user) => signUp(user),
-  getUserProfile: getUserProfile,
-  getHospitalProfile: getHospitalProfile,
-  getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
-  editHospitalProfile: (data) => editHospitalProfile(data),
-  editUserProfile: (data) => editUserProfile(data),
-  getProfileImage: (pictName) => getProfileImage(pictName),
-  getPolyImage: (pictName) => getPolyImage(pictName),
-  getQueueImage: (pictName) => getQueueImage(pictName),
-  addPoly: (poly) => addPoly(poly),
-  getAllPolys: getAllPolys,
-  getDetailsOnePoly: (polyId) => getDetailsOnePoly(polyId),
-  getAllAppointments: (polyId) => getAllAppointments(polyId),
-  addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
-  addQueue: (data) => addQueue(data),
-  getAllQueue: getAllQueue,
-  getDetailsOneAppointment: ({polyId, appointmentId}) => getDetailsOneAppointment({polyId, appointmentId}),
-  run: run,
-};
-
-
-function run() {
-  console.log('jalan');
-}
-
 function getAllHospitals() {
   return fetch(API_ENDPOINT.GET_ALL_HOSPITALS, {
     method: 'GET',
@@ -319,5 +290,103 @@ function getDetailsOneAppointment({polyId, appointmentId}) {
       .catch((err) => {
       });
 }
+
+function acceptOneQueue(queueId) {
+  return fetch(API_ENDPOINT.ACCEPT_ONE_QUEUE(queueId), {
+    method: 'PATCH',
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+    },
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function processOneQueue(queueId) {
+  return fetch(API_ENDPOINT.PROCESS_ONE_QUEUE(queueId), {
+    method: 'PATCH',
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+    },
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.message;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function finishOneQueue(queueId) {
+  return fetch(API_ENDPOINT.FINISH_ONE_QUEUE(queueId), {
+    method: 'PATCH',
+    headers: {
+      'x-access-token': sessionStorage.getItem('accessToken'),
+    },
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.message;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function rejectOneQueue({queueId, rejectMessage = 'Sorry, your queue was rejected'}) {
+  return fetch(API_ENDPOINT.REJECT_ONE_QUEUE(queueId), {
+    method: 'PATCH',
+    body: JSON.stringify(rejectMessage),
+    headers: {'x-access-token': sessionStorage.getItem('accessToken'), 'Content-Type': 'application/json'},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+const api = {
+  getAllHospitals: getAllHospitals,
+  getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
+  signIn: (user) => signIn(user),
+  signUp: (user) => signUp(user),
+  getUserProfile: getUserProfile,
+  getHospitalProfile: getHospitalProfile,
+  getDetailsOneHospitalPoly: ({hospitalUuid, polyId}) => getDetailsOneHospitalPoly({hospitalUuid, polyId}),
+  editHospitalProfile: (data) => editHospitalProfile(data),
+  editUserProfile: (data) => editUserProfile(data),
+  getProfileImage: (pictName) => getProfileImage(pictName),
+  getPolyImage: (pictName) => getPolyImage(pictName),
+  getQueueImage: (pictName) => getQueueImage(pictName),
+  addPoly: (poly) => addPoly(poly),
+  getAllPolys: getAllPolys,
+  getDetailsOnePoly: (polyId) => getDetailsOnePoly(polyId),
+  getAllAppointments: (polyId) => getAllAppointments(polyId),
+  addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
+  addQueue: (data) => addQueue(data),
+  getAllQueue: getAllQueue,
+  getDetailsOneAppointment: ({polyId, appointmentId}) => getDetailsOneAppointment({polyId, appointmentId}),
+  acceptOneQueue: (queueId) => acceptOneQueue(queueId),
+  processOneQueue: (queueId) => processOneQueue(queueId),
+  finishOneQueue: (queueId) => finishOneQueue(queueId),
+  rejectOneQueue: ({queueId, rejectMessage}) => rejectOneQueue({queueId, rejectMessage}),
+};
 
 export default api;

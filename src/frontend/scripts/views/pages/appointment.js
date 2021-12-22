@@ -5,7 +5,7 @@
 import api from '../../global/api';
 import {appendPages, dayConverter} from '../../global/public-function';
 import UrlParser from '../../routes/url-parser';
-import {appointmentDetailModal} from '../../templates/template-modal';
+import {appointmentDetailDeclineModal, appointmentDetailModal} from '../../templates/template-modal';
 
 const AppointmentPage = {
   async render() {
@@ -27,13 +27,23 @@ const AppointmentPage = {
 
             <div class="card w-100 mt-4">
                 <div class="card-header">
-                    <b>Queue List</b>
+                    <b>Waiting Queue List</b>
                 </div>
                 <ul class="list-group list-group-flush" id="appointmentPageQueueList">
                 </ul>
             </div>
+
+            <div class="card w-100 mt-4">
+                <div class="card-header">
+                    <b>Accepted Queue List</b>
+                </div>
+                <ul class="list-group list-group-flush" id="appointmentPageAcceptedQueueList">
+                </ul>
+            </div>
+
         </div>
         ${appointmentDetailModal()}
+        ${appointmentDetailDeclineModal()}
       `;
   },
 
@@ -41,19 +51,25 @@ const AppointmentPage = {
     const param = UrlParser.parseActiveUrlWithoutCombiner().id;
     const appointmentId = param.split('_')[2];
     const thisAppointmentQueue = [];
+    const thisAcceptedQueue = [];
 
     const queueData = await api.getAllQueue();
 
     queueData.success.data.queues.forEach((queue) => {
       if (appointmentId == queue.appointment.id) {
-        thisAppointmentQueue.push(queue);
+        if (queue.queueStatus.id > 0) {
+          thisAcceptedQueue.push(queue); // process
+        } else if (queue.queueStatus.id < 0) {
+          // rejected
+        } else {
+          thisAppointmentQueue.push(queue); // belum accepted
+        }
       }
     });
 
-    thisAppointmentQueue.forEach((queue) => {
-      $('#appointmentPageQueueList').append(`<li class="list-group-item">${appointmentPageQueue({queue})}</li>`);
-    });
+    renderLists({thisAppointmentQueue, thisAcceptedQueue});
 
+    // ------------------ Detail -------------------
     $('.appointmentPageDetail').on('click', async () => {
       const thisAppointmentId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
 
@@ -71,7 +87,6 @@ const AppointmentPage = {
               return element != null;
             });
 
-            //  console.log(queuePictureFiltered.length);
             $('#appointmentDetailModalPictureDiv').empty();
             $('#appointmentDetailModalPictureDiv').append(`
                 <hr>
@@ -91,6 +106,34 @@ const AppointmentPage = {
         }
       });
     });
+
+    // ------------ Accept -------------
+    $('.appointmentPageAccept').on('click', async () => {
+      const thisAppointmentId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+
+      const status = await api.acceptOneQueue(thisAppointmentId);
+      if (status.success) {
+        this.afterRender();
+      }
+    });
+
+    // ------------ Decline ------------
+    $('.appointmentPageDecline').on('click', async () => {
+      const thisAppointmentId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+
+      $('#appointmentDetailDeclineModalSave').on('click', async () => {
+        const declineMessage = $('#appointmentDetailDeclineModalReason').val();
+
+        const status = await api.rejectOneQueue({queueId: thisAppointmentId, rejectMessage: {'rejectMessage': declineMessage}});
+        if (status.success) {
+          this.afterRender();
+        }
+      });
+    //   const status = await api.acceptOneQueue(thisAppointmentId);
+    //   if (status.success) {
+    //     this.afterRender();
+    //   }
+    });
   },
 };
 
@@ -107,8 +150,22 @@ const appointmentPageQueue = ({queue}) => `
             <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
         </div>
         <div class="col-auto ms-auto mt-1">
-            <button type="button" class="btn btn-success btn-sm">Accept</button>
-            <button type="button" class="btn btn-outline-danger btn-sm">Decline</button>
+            <button type="button" class="btn btn-success btn-sm appointmentPageAccept" id="appointmentPageAccept" name="${queue.id}">Accept</button>
+            <button type="button" class="btn btn-outline-danger btn-sm appointmentPageDecline" id="appointmentPageDecline" name="${queue.id}" data-toggle="modal" data-target="#appointmentDetailDeclineModal">Decline</button>
+        </div>
+    </div>
+`;
+
+const appointmentPageQueueAccepted = ({queue}) => `
+    <div class="row">
+        <div class="col-auto">
+            <h5 class="mb-0 pt-1">${queue.user.name} (ID-${queue.id})</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-auto">
+            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
         </div>
     </div>
 `;
@@ -162,13 +219,19 @@ function checkPicture(queuePictureFiltered) {
   }
 }
 
-function checkUndefined(picture) {
-  if (picture === 'https://antris.apps.nyrat.id/api/v1/uploads/queues/pictures/undefined') {
-    console.log('woooh');
-    return '/images/1px-img.png';
-  } else {
-    return picture;
-  }
+function renderLists({thisAppointmentQueue, thisAcceptedQueue}) {
+  $('#appointmentPageQueueList').empty();
+  $('#appointmentPageAcceptedQueueList').empty();
+
+  // --------------- Append waiting to list ----------------
+  thisAppointmentQueue.forEach((queue) => {
+    $('#appointmentPageQueueList').append(`<li class="list-group-item">${appointmentPageQueue({queue})}</li>`);
+  });
+
+  // --------------- Append accepted to list ----------------
+  thisAcceptedQueue.forEach((queue) => {
+    $('#appointmentPageAcceptedQueueList').append(`<li class="list-group-item">${appointmentPageQueueAccepted({queue})}</li>`);
+  });
 }
 
 export default AppointmentPage;
