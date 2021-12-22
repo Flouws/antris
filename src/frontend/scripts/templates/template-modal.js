@@ -290,6 +290,47 @@ const addAppointmentModal = () => `
     </div>
 `;
 
+const appointmentDetailModal = () => `
+    <div class="modal fade" id="appointmentDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Queue ID - 1</h5>
+                    <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
+                </div>
+                <div class="modal-body">
+
+
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Time Slot</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" value="20.00 - 21.00" disabled id="appointmentDetailModalTime">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Is Assurance</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" value="yes" disabled id="appointmentDetailModalAssurance">
+                        </div>
+                    </div>
+
+                    <div id="appointmentDetailModalPictureDiv">
+                    
+                    </div>
+                </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
 
 export {
   makeAppointmentModal,
@@ -297,4 +338,5 @@ export {
   addPolyModal,
   addAppointmentModal,
   editProfileModal,
+  appointmentDetailModal,
 };

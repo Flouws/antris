@@ -15,6 +15,7 @@ const api = {
   editUserProfile: (data) => editUserProfile(data),
   getProfileImage: (pictName) => getProfileImage(pictName),
   getPolyImage: (pictName) => getPolyImage(pictName),
+  getQueueImage: (pictName) => getQueueImage(pictName),
   addPoly: (poly) => addPoly(poly),
   getAllPolys: getAllPolys,
   getDetailsOnePoly: (polyId) => getDetailsOnePoly(polyId),
@@ -22,6 +23,7 @@ const api = {
   addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
   addQueue: (data) => addQueue(data),
   getAllQueue: getAllQueue,
+  getDetailsOneAppointment: ({polyId, appointmentId}) => getDetailsOneAppointment({polyId, appointmentId}),
   run: run,
 };
 
@@ -174,6 +176,10 @@ function getPolyImage(pictName) {
   return API_ENDPOINT.GET_POLY_IMAGE(pictName);
 }
 
+function getQueueImage(pictName) {
+  return API_ENDPOINT.GET_QUEUE_IMAGE(pictName);
+}
+
 function addPoly(poly) {
   return fetch(API_ENDPOINT.ADD_POLY, {
     method: 'POST',
@@ -289,7 +295,7 @@ function editUserProfile(data) {
       });
 }
 
-function getAllQueue(){
+function getAllQueue() {
   return fetch(API_ENDPOINT.GET_ALL_QUEUE, {
     method: 'GET',
     headers: {'x-access-token': sessionStorage.getItem('accessToken')},
@@ -297,6 +303,18 @@ function getAllQueue(){
       .then((json) => {
         // console.log(json)
         return json;
+      })
+      .catch((err) => {
+      });
+}
+
+function getDetailsOneAppointment({polyId, appointmentId}) {
+  return fetch(API_ENDPOINT.GET_DETAILS_ONE_APPOINTMENT({polyId, appointmentId}), {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json.success.data.appointment;
       })
       .catch((err) => {
       });

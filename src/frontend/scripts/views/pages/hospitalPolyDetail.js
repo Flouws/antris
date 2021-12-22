@@ -24,9 +24,6 @@ const HospitalPolyDetail = {
       console.log('no app'); // TODO: bikin kaya screen poly no appointment
     }
 
-
-    // console.log(appointmentDatas);
-
     return `
       <div class="container my-5">
         <div class="card">
@@ -88,39 +85,29 @@ async function renderPolyCards(addAppointmentCard) {
     }));
   }
 
-  
+
   if (appointmentStatus.success) {
+    const param = UrlParser.parseActiveUrlWithoutCombiner().id;
+    const hospitalId = param.split('_')[0];
     const queueData = await api.getAllQueue();
-    // console.log(queueData);
 
-    // queueData.success.data.queues.forEach((queue) => {
-    //   const data = {
-    //     queue: queue,
-    //     appointmentId: queue.appointment.id
-    //   };
-    //   // console.log(data)
-    // });
+    // --------------------------------------------------------------------------
+    const appointmentIdArray = [];
 
-// --------------------------------------------------------------------------
     appointmentStatus.success.data.appointments.forEach((appointment) => {
+      appointmentIdArray[appointment.id] = 0;
 
       queueData.success.data.queues.forEach((queue) => {
-        const data = {
-          queue: queue,
-          appointmentId: queue.appointment.id
-        };
-        if(appointment.id === queue.appointment.id){
-          console.log(queue)
+        if (appointment.id === queue.appointment.id) {
+          appointmentIdArray[appointment.id] ++;
         }
       });
 
-      // console.log(appointment.id)
-      // if(appointment.id === queueData.success.data.queues)
-
       $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
-        <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-primary rounded px-2" id="#hospitalDetailAppointmentCard_${appointment.id}">4</a> 
+        <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-danger rounded-circle px-2 pointer" 
+          id="#hospitalDetailAppointmentCard_${appointment.id}" href="#/appointment/${hospitalId}_${polyId}_${appointment.id}">${appointmentIdArray[appointment.id]}</a> 
           ${appointment.timeStart} - ${appointment.timeEnd}</h5>
-        `
+        `,
       );
     });
   } else {
