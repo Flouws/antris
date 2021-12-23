@@ -329,42 +329,45 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   $('#dashboardPolyCardHolder').empty();
   const polys = await api.getAllPolys();
 
-  polys.forEach(async (poly) => {
+  const queueData = await api.getAllQueue();
+  console.log(queueData);
+
+  if (polys == undefined) {
+    console.log('polys');
+  } else {
+    polys.forEach(async (poly) => {
     // TODO: PENTING
-    // const appointmentStatus = await api.getAllAppointments(poly.id);
-    // const queueData = await api.getAllQueue();
-    // const appointmentIdArray = [];
+      // const appointmentStatus = await api.getAllAppointments(poly.id);
+      // const queueData = await api.getAllQueue();
+      // const appointmentIdArray = [];
 
-    // appointmentStatus.success.data.appointments.forEach((appointment) => {
-    //   appointmentIdArray[appointment.id] = 0;
+      // console.log(queueData);
 
-    //   queueData.success.data.queues.forEach((queue) => {
-    //     if (appointment.id == queue.appointment.id) {
-    //       console.log(appointment.id);
-    //       console.log(queue.appointment.id);
-    //       if (queue.queueStatus.id > 0) {
-    //         // process
-    //       } else if (queue.queueStatus.id < 0) {
-    //         // rejected
-    //       } else {
-    //         appointmentIdArray[appointment.id] ++;
-    //       }
-    //     }
-    //   });
-    // });
-    // console.log(appointmentIdArray);
+      // appointmentStatus.success.data.appointments.forEach((appointment) => {
+      //   appointmentIdArray[appointment.id] = 0;
+
+      //   queueData.success.data.queues.forEach((queue) => {
+      //     if (appointment.id == queue.appointment.id) {
+      //       console.log(appointment.id);
+      //       console.log(queue.appointment.id);
+      //       if (queue.queueStatus.id > 0) {
+      //         // process
+      //       } else if (queue.queueStatus.id < 0) {
+      //         // rejected
+      //       } else {
+      //         appointmentIdArray[appointment.id] ++;
+      //       }
+      //     }
+      //   });
+      // });
+      // console.log(appointmentIdArray);
 
 
-    $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id}));
-  });
-
+      $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id, queueSum: 2}));
+    });
+  }
   // Kartu untuk add poly
   $('#dashboardPolyCardHolder').append(addPolyCard);
-
-  // Kartu kosong biar design ga rusak
-  if (polys.length < 1) {
-    $('#dashboardPolyCardHolder').append(emptyCard);
-  }
 }
 
 

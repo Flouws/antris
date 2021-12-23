@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import api from '../global/api';
 
 /* eslint-disable max-len */
@@ -90,7 +91,7 @@ const detailBody = ({thisHospitalData, city}) => { // TODO: Fix design
 
 const emptyCard = `
   <div class="col" id="emptyCard">
-    <div class="card h-100 empty-poly-card pointer">
+    <div class="card h-100 empty-poly-card min-w-192-75">
     </div>
   </div>
 `;
@@ -103,21 +104,34 @@ const addPolyCard = `
 </div>
 `;
 
-const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyId}) => `
-<div class="col">
-  <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
-    <div class="topright mt-2">
-      <a class="border border-danger rounded-circle px-2 pointer fill-red">2</a> // TODO: PENTING
+function dashboardPolyCard({polyImage, polyName, polyDoctor, polyDesc, polyId, queueSum}) {
+  let imgSrc;
+  let spanSum;
+
+  if (polyImage == null) {
+    imgSrc = '/images/poly-img.png';
+  } else {
+    imgSrc = api.getPolyImage(polyImage);
+  }
+
+  if (queueSum > 0) {
+    spanSum = `<span class="border border-danger rounded-circle px-2 pointer fill-red">${queueSum}</span>`;
+  } else {
+    spanSum = '';
+  }
+  return `
+    <div class="col">
+      <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
+        <img src="${imgSrc}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+        <div class="card-body">
+          <h5 class="card-title mb-0">${polyName} ${spanSum}</h5>
+          <small class="text-muted">${polyDoctor}</small>
+          <p class="card-text">${polyDesc}</p>
+        </div>
+      </div>
     </div>
-    <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
-    <div class="card-body">
-      <h5 class="card-title mb-0">${polyName}</h5>
-      <small class="text-muted">${polyDoctor}</small>
-      <p class="card-text">${polyDesc}</p>
-    </div>
-  </div>
-</div>
-`;
+  `;
+}
 
 const dashboardHospitalCard = ({hospitalImage, hospitalName, hospitalPhone, hospitalDesc, hospitalId}) => `
 <div class="col">
