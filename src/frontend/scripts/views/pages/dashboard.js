@@ -38,7 +38,7 @@ const Dashboard = {
               <div id="dashboardHospitalStatus">
                 <div class="card w-100">
                   <div class="card-header">
-                    <b>Today</b>
+                    <b>Hari Ini</b>
                   </div>
                   <ul class="list-group list-group-flush" id="dashboardUserStatusTodayList">
 
@@ -74,7 +74,7 @@ const Dashboard = {
             <div id="dashboardHospitalStatus">
               <div class="card w-100">
                 <div class="card-header">
-                  <b>Today</b>
+                  <b>Hari Ini</b>
                 </div>
                 <ul class="list-group list-group-flush" id="dashboardHospitalStatusTodayList">
 
@@ -129,7 +129,7 @@ async function afterRenderUser() {
     window.location.href = `#/detail/${param}`;
   });
 
-  // ---------------------- Status ------------------------ // dashboardUserStatusTodayList
+  // ---------------------- Status ------------------------
   const queueDataStatus = await api.getAllUserQueue();
 
   if (queueDataStatus.success) {
@@ -139,21 +139,6 @@ async function afterRenderUser() {
          <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
     });
   }
-  // const currentQueue = await api.getAllTodayQueue();
-  // if (todayQueueDataStatus.success) {
-  //   $('#dashboardHospitalStatusTodayList').empty();
-  //   todayQueueDataStatus.success.data.queues.forEach((queue) => {
-  //     if (queue.queueStatus.id > 0 && queue.queueStatus.id < 3) {
-  //       $('#dashboardHospitalStatusTodayList').append(`
-  //       <li class="list-group-item">${statusList({queueData: queue})}</li>`);
-  //     }
-  //   });
-  // } else {
-  //   $('#dashboardHospitalStatusTodayList').empty();
-  //   $('#dashboardHospitalStatusTodayList').append(`<li class="list-group-item">
-  //     <h6 class="mb-0">No queue for today</h6>
-  //     </li>`);
-  // }
 }
 
 async function afterRenderHospital() {
@@ -238,7 +223,7 @@ async function renderHospitalStatus() {
     const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
     const status = await api.processOneQueue(queueId);
     if (status.success) {
-      await renderStatus();
+      await renderHospitalStatus();
     }
   });
 
@@ -246,7 +231,7 @@ async function renderHospitalStatus() {
     const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
     const status = await api.finishOneQueue(queueId);
     if (status.success) {
-      await renderStatus();
+      await renderHospitalStatus();
     }
   });
 }
@@ -329,42 +314,35 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   $('#dashboardPolyCardHolder').empty();
   const polys = await api.getAllPolys();
 
-  polys.forEach(async (poly) => {
-    // TODO: PENTING
-    // const appointmentStatus = await api.getAllAppointments(poly.id);
-    // const queueData = await api.getAllQueue();
-    // const appointmentIdArray = [];
+  const queueData = await api.getAllQueue();
+  console.log(queueData);
 
-    // appointmentStatus.success.data.appointments.forEach((appointment) => {
-    //   appointmentIdArray[appointment.id] = 0;
+  if (queueData.success) {
 
-    //   queueData.success.data.queues.forEach((queue) => {
-    //     if (appointment.id == queue.appointment.id) {
-    //       console.log(appointment.id);
-    //       console.log(queue.appointment.id);
-    //       if (queue.queueStatus.id > 0) {
-    //         // process
-    //       } else if (queue.queueStatus.id < 0) {
-    //         // rejected
-    //       } else {
-    //         appointmentIdArray[appointment.id] ++;
-    //       }
-    //     }
-    //   });
-    // });
-    // console.log(appointmentIdArray);
+  }
 
+  if (polys == undefined) {
+    console.log('polys');
+  } else {
+    const queueArray = [];
+    polys.forEach(async (poly) => {
+      queueArray[poly.id] = 0;
 
-    $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id}));
-  });
+      if (queueData.success) {
+        queueData.success.data.queues.forEach((queue) => {
+          if (poly.id == queue.appointment.poly.id && queue.queueStatus.id == 0) {
+            if (queue.queueStatus.id == 0) {
+              queueArray[poly.id] ++;
+            }
+          }
+        });
+      }
 
+      $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id, queueSum: queueArray[poly.id]}));
+    });
+  }
   // Kartu untuk add poly
   $('#dashboardPolyCardHolder').append(addPolyCard);
-
-  // Kartu kosong biar design ga rusak
-  if (polys.length < 1) {
-    $('#dashboardPolyCardHolder').append(emptyCard);
-  }
 }
 
 

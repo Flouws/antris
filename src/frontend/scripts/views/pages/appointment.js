@@ -27,7 +27,7 @@ const AppointmentPage = {
 
             <div class="card w-100 mt-4">
                 <div class="card-header">
-                    <b>Waiting Queue List</b>
+                    <b>Antrian Menunggu</b>
                 </div>
                 <ul class="list-group list-group-flush" id="appointmentPageQueueList">
                 </ul>
@@ -35,7 +35,7 @@ const AppointmentPage = {
 
             <div class="card w-100 mt-4">
                 <div class="card-header">
-                    <b>Accepted Queue List</b>
+                    <b>Antrian Selesai</b>
                 </div>
                 <ul class="list-group list-group-flush" id="appointmentPageAcceptedQueueList">
                 </ul>
@@ -147,7 +147,7 @@ const appointmentPageQueue = ({queue}) => `
 
     <div class="row">
         <div class="col-auto">
-            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
+            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">detail</a>
         </div>
         <div class="col-auto ms-auto mt-1">
             <button type="button" class="btn btn-success btn-sm appointmentPageAccept" id="appointmentPageAccept" name="${queue.id}">Accept</button>
@@ -165,7 +165,7 @@ const appointmentPageQueueAccepted = ({queue}) => `
 
     <div class="row">
         <div class="col-auto">
-            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
+            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">detail</a>
         </div>
     </div>
 `;
@@ -228,10 +228,18 @@ function renderLists({thisAppointmentQueue, thisAcceptedQueue}) {
     $('#appointmentPageQueueList').append(`<li class="list-group-item">${appointmentPageQueue({queue})}</li>`);
   });
 
+  if (thisAppointmentQueue.length == 0) {
+    $('#appointmentPageQueueList').append(`<li class="list-group-item"><h6 class="m-0">Tidak ada antrian menunggu</h6></li>`);
+  }
+
   // --------------- Append accepted to list ----------------
   thisAcceptedQueue.forEach((queue) => {
     $('#appointmentPageAcceptedQueueList').append(`<li class="list-group-item">${appointmentPageQueueAccepted({queue})}</li>`);
   });
+
+  if (thisAcceptedQueue.length == 0) {
+    $('#appointmentPageAcceptedQueueList').append(`<li class="list-group-item"><h6 class="m-0">Belum ada antrian diterima</h6></li>`);
+  }
 }
 
 export default AppointmentPage;

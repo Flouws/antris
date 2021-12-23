@@ -13,16 +13,9 @@ const HospitalPolyDetail = {
     const polyId = param.split('_')[1];
 
     const polyData = await api.getDetailsOnePoly(polyId);
-    const appointmentStatus = await api.getAllAppointments(polyId);
 
     const pages = [{link: '#/dashboard', text: 'Dashboard'}];
     appendPages({pages, lastPageText: polyData.name});
-
-    if (appointmentStatus.success) {
-      console.log('sukses');
-    } else {
-      console.log('no app'); // TODO: bikin kaya screen poly no appointment
-    }
 
     return `
       <div class="container my-5">
@@ -34,7 +27,7 @@ const HospitalPolyDetail = {
             </div>
 
             <div class="flex-grow-1 d-flex flex-wrap mx-5 flex-column">
-              <h3 class="title-grey mx-auto mb-3">Appointment Schedule</h3>
+              <h3 class="title-grey mx-auto mb-3">Jadwal Appointment</h3>
 
               <div class="flex-grow-1 d-flex flex-wrap mx-2 flex-column" id="hospitalDetailAppointmentCardHolder">
 
@@ -97,27 +90,31 @@ async function renderPolyCards(addAppointmentCard) {
     appointmentStatus.success.data.appointments.forEach((appointment) => {
       appointmentIdArray[appointment.id] = 0;
 
-      queueData.success.data.queues.forEach((queue) => {
-        if (appointment.id == queue.appointment.id) {
-          if (queue.queueStatus.id > 0) {
-            // process
-          } else if (queue.queueStatus.id < 0) {
-            // rejected
-          } else {
-            appointmentIdArray[appointment.id] ++;
+      if (queueData.success) {
+        queueData.success.data.queues.forEach((queue) => {
+          if (appointment.id == queue.appointment.id) {
+            if (queue.queueStatus.id > 0) {
+              // process
+            } else if (queue.queueStatus.id < 0) {
+              // rejected
+            } else {
+              appointmentIdArray[appointment.id] ++;
+            }
           }
-        }
-      });
+        });
+      }
+
 
       $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
-        <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-danger rounded-circle px-2 pointer" 
-          id="#hospitalDetailAppointmentCard_${appointment.id}" href="#/appointment/${hospitalId}_${polyId}_${appointment.id}">${appointmentIdArray[appointment.id]}</a> 
-          ${appointment.timeStart} - ${appointment.timeEnd}</h5>
+      <a id="#hospitalDetailAppointmentCard_${appointment.id}" href="#/appointment/${hospitalId}_${polyId}_${appointment.id}" class="">
+        <h5 class="card-subtitle mb-2 mt-1 text-muted">
+            <span class="border border-danger rounded-circle px-2 pointer fill-red">${appointmentIdArray[appointment.id]}</span>
+          ${appointment.timeStart} - ${appointment.timeEnd}
+        </h5>
+      </a> 
         `,
       );
     });
-  } else {
-    console.log('no app'); // TODO: bikin kaya screen poly no appointment
   }
 
   // Kartu untuk add poly
@@ -127,7 +124,7 @@ async function renderPolyCards(addAppointmentCard) {
 const addAppointmentCard = `
   <div class="card w-100 my-1 add-appointment-card pointer" data-toggle="modal" data-target="#addAppointmentModal">
     <div class="card-body">
-      <h5 class="d-inline text-muted">Add Appointment Schedule</h5>
+      <h5 class="d-inline text-muted">Tambah Jadwal Appointment</h5>
     </div>
   </div>
 `;

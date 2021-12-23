@@ -11,7 +11,7 @@ class NavigationBar extends HTMLElement {
 
   async render() {
     const dashboardLink = '#/dashboard';
-    const antrisLink = '#/antris';
+    const antrisLink = 'https://github.com/TheSkinnyRat/antris';
     const loginLink = '#/login';
     const navType = 'dark'; // light, dark, primary
 
@@ -26,14 +26,14 @@ class NavigationBar extends HTMLElement {
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <!-- Kalo ada text sebelah judul -->
               <li class="nav-item" id="logoutMobile">
-                <a class="nav-link" href="${antrisLink}">Settings</a>
+                <a class="nav-link" href="${antrisLink}">Tentang Kami</a>
               </li>
               <li class="nav-item" id="logoutMobile">
-                <a class="nav-link" href="${loginLink}">Logout</a>
+                <a class="nav-link" href="${loginLink}">Keluar</a>
               </li>
             </ul>
             <span class="navbar-text" id="logoutDesktop">
-              <a href="${antrisLink}" class="mx-2">About Us</a> <a href="${loginLink}" class="mx-1"><b>Logout</b></a>
+              <a href="${antrisLink}" class="mx-2">Tentang Kami</a> <a href="${loginLink}" class="mx-1"><b>Keluar</b></a>
             </span>
           </div>
         </div>

@@ -131,9 +131,9 @@ label {
     font: 32px Arial, sans-serif;
 }
 
-.topright {
+.botRight {
     position: absolute;
-    top: 8px;
+    bottom: 8px;
     right: 16px;
     font-size: 18px;
   }
@@ -201,7 +201,7 @@ label {
 }
 
 .min-w-192-75 {
-    min-width: 192.75px;
+    min-width: 225.75px;
 }
 
 /* Error Page */

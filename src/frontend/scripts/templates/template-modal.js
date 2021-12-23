@@ -246,7 +246,7 @@ const addAppointmentModal = () => `
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Appointment Schedule</h5>
+                    <h5 class="modal-title">Tambah Jadwal Appointment</h5>
                     <img src="./images/close-24.png" data-dismiss="modal" class="pointer" alt="close" />
                 </div>
                 <div class="modal-body">
@@ -254,7 +254,7 @@ const addAppointmentModal = () => `
 
                     <form>
                         <div class="form-group">
-                            <label>Day</label>
+                            <label>Hari</label>
                             <select class="form-control" id="addAppointmentModalSelect">
                                 <option value="1">Senin</option>
                                 <option value="2">Selasa</option>
@@ -268,11 +268,11 @@ const addAppointmentModal = () => `
                         <div class="form-group mt-2">
                             <div class="row">
                                 <div class="col">
-                                    <label>Start Time</label>
+                                    <label>Waktu Mulai</label>
                                     <input type="text" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart"> <!-- TODO: buat pemisah jam menit detik -->
                                 </div>
                                 <div class="col">
-                                    <label>End Time</label>
+                                    <label>Waktu Akhir</label>
                                     <input type="text" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
                                 </div>
                             </div>
@@ -303,7 +303,7 @@ const appointmentDetailModal = () => `
 
                 <form>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Time Slot</label>
+                        <label class="col-sm-3 col-form-label">Slot Waktu</label>
                         <div class="col-sm-9">
                             <input type="text" readonly class="form-control-plaintext" value="20.00 - 21.00" disabled id="appointmentDetailModalTime">
                         </div>
