@@ -22,7 +22,7 @@ const AppointmentPage = {
 
     return `
         <div class ="container mt-4">
-            <h3 class="title-grey mb-1">Appointment Slot ${appointmentId}</h3>
+            <h3 class="title-grey mb-1">Appointment Slot ${appointmentId} <button type="button" class="btn btn-danger btn-sm" id="appointmentPageDelete">Delete</button></h3>
             <h5 class="title-grey">${dayConverter(appointmentData.day)}, ${appointmentData.timeStart} - ${appointmentData.timeEnd}</h5>
 
             <div class="card w-100 mt-4">
@@ -49,6 +49,7 @@ const AppointmentPage = {
 
   async afterRender() {
     const param = UrlParser.parseActiveUrlWithoutCombiner().id;
+    const polyId = param.split('_')[1];
     const appointmentId = param.split('_')[2];
     const thisAppointmentQueue = [];
     const thisAcceptedQueue = [];
@@ -129,10 +130,12 @@ const AppointmentPage = {
           this.afterRender();
         }
       });
-    //   const status = await api.acceptOneQueue(thisAppointmentId);
-    //   if (status.success) {
-    //     this.afterRender();
-    //   }
+    });
+
+    // ------------ Delete -----------
+    $('#appointmentPageDelete').on('click', async () => {
+      await api.deleteAppointment({polyId, appointmentId});
+      window.location.href = `#/dashboard`;
     });
   },
 };

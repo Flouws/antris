@@ -41,8 +41,6 @@ class SearchBar extends HTMLElement {
     $('#searchBar').on('select2:select', (e) => {
       const uuid = e.params.data.id;
       window.location.href = `#/detail/${uuid}`;
-
-      // console.log(uuid); // TODO: Kalo udah selected, gabisa pilih itu lagi. soalnya udah 'selected'
     });
   }
 }

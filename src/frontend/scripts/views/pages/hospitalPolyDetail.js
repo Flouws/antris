@@ -19,7 +19,7 @@ const HospitalPolyDetail = {
 
     return `
       <div class="container my-5">
-        <div class="card">
+        <div class="shadow p-3 mb-5 bg-white rounded">
 
           <div class="d-flex justify-content-center my-3 flex-wrap">
             <div class="row row-cols-1 row-cols-md-1 g-4 mx-1 mb-3 no-zoom flex-shrink-0" id="HospitalDetailScreenCard">

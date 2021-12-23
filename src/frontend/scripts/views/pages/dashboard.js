@@ -20,10 +20,11 @@ const Dashboard = {
           <h2><a href="#/profile">${userData.name}</a></h2>
         </div>
         <div class="container d-flex justify-content-center align-content-start flex-wrap reverse">
-          <div class="card flex-fill mx-3 my-4 width-500">
+          <div class="shadow p-3 mb-5 bg-white rounded flex-fill mx-3 my-4 width-500">
             <search-bar class="mx-4 mt-4"></search-bar>
-
-            <h3 class="title-grey mx-auto mt-3 mb-2">Featured Hospitals</h3>
+            <div class = "w-100 d-flex justify-content-center">
+              <h3 class="title-grey mx-auto mt-3 mb-2">Featured Hospitals</h3>
+            </div>
             <div class="d-flex justify-content-center">
               <div class="row row-cols-1 row-cols-md-2 g-4 mx-1 mb-3" id="dashboardNearYouCardHolder">
 
@@ -55,7 +56,7 @@ const Dashboard = {
       return `
       <div class="container d-flex justify-content-center align-content-start flex-wrap">
 
-        <div class="card flex-fill mx-3 my-4 width-500">
+        <div class="shadow p-3 mb-5 bg-white rounded flex-fill mx-3 my-4 width-500">
           <div class="card-body d-flex justify-content-center">
             <h2><a href="#/edit_hospital_profile">${hospitalData.name} </a><a data-toggle="modal" data-target="#editHospitalModal" class="pointer"><img src="./images/edit-24.png" alt="edit"/></a></h2>
           </div>
