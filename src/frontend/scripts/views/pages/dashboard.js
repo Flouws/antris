@@ -248,10 +248,46 @@ async function checkDesc({desc, hospitalData}) {
 
 async function renderPolyCards({addPolyCard, emptyCard}) {
   $('#dashboardPolyCardHolder').empty();
-
   const polys = await api.getAllPolys();
 
-  polys.forEach((poly) => {
+
+  // const queueData = await api.getAllQueue();
+  // const queueWaiting = [];
+  // // queueWaiting[queue.id] = 0;
+  // console.log(queueData.success.data.queues);
+  // queueData.success.data.queues.forEach((queue) => {
+  //   if (queue.queueStatus.id == 0) {
+  //     queueWaiting[queue.id] = 1;
+  //   }
+  //   console.log(queueWaiting[28]);
+  // });
+
+  polys.forEach(async (poly) => {
+    // TODO: PENTING
+    // const appointmentStatus = await api.getAllAppointments(poly.id);
+    // const queueData = await api.getAllQueue();
+    // const appointmentIdArray = [];
+
+    // appointmentStatus.success.data.appointments.forEach((appointment) => {
+    //   appointmentIdArray[appointment.id] = 0;
+
+    //   queueData.success.data.queues.forEach((queue) => {
+    //     if (appointment.id == queue.appointment.id) {
+    //       console.log(appointment.id);
+    //       console.log(queue.appointment.id);
+    //       if (queue.queueStatus.id > 0) {
+    //         // process
+    //       } else if (queue.queueStatus.id < 0) {
+    //         // rejected
+    //       } else {
+    //         appointmentIdArray[appointment.id] ++;
+    //       }
+    //     }
+    //   });
+    // });
+    // console.log(appointmentIdArray);
+
+
     $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id}));
   });
 
