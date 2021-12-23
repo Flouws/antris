@@ -147,7 +147,7 @@ const appointmentPageQueue = ({queue}) => `
 
     <div class="row">
         <div class="col-auto">
-            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
+            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">detail</a>
         </div>
         <div class="col-auto ms-auto mt-1">
             <button type="button" class="btn btn-success btn-sm appointmentPageAccept" id="appointmentPageAccept" name="${queue.id}">Accept</button>
@@ -165,7 +165,7 @@ const appointmentPageQueueAccepted = ({queue}) => `
 
     <div class="row">
         <div class="col-auto">
-            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">details</a>
+            <a class="pb-1 pointer link-primary appointmentPageDetail" data-toggle="modal" data-target="#appointmentDetailModal" name="${queue.id}">detail</a>
         </div>
     </div>
 `;

@@ -27,7 +27,7 @@ const HospitalPolyDetail = {
             </div>
 
             <div class="flex-grow-1 d-flex flex-wrap mx-5 flex-column">
-              <h3 class="title-grey mx-auto mb-3">Appointment Schedule</h3>
+              <h3 class="title-grey mx-auto mb-3">Jadwal Appointment</h3>
 
               <div class="flex-grow-1 d-flex flex-wrap mx-2 flex-column" id="hospitalDetailAppointmentCardHolder">
 
@@ -124,7 +124,7 @@ async function renderPolyCards(addAppointmentCard) {
 const addAppointmentCard = `
   <div class="card w-100 my-1 add-appointment-card pointer" data-toggle="modal" data-target="#addAppointmentModal">
     <div class="card-body">
-      <h5 class="d-inline text-muted">Add Appointment Schedule</h5>
+      <h5 class="d-inline text-muted">Tambah Jadwal Appointment</h5>
     </div>
   </div>
 `;
