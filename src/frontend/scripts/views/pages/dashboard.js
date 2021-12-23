@@ -32,8 +32,19 @@ const Dashboard = {
           </div>
 
           <div class="card mx-3 my-4 width-400">
-            <div class="card-body d-flex justify-content-center">
-              <h2 class="title-grey">Your Application</h2>
+            <div class="card-body d-flex justify-content-top flex-column">
+              <h2 class="title-grey mx-auto">Application Status</h2>
+              <hr class="mx-3">
+              <div id="dashboardHospitalStatus">
+                <div class="card w-100">
+                  <div class="card-header">
+                    <b>Today</b>
+                  </div>
+                  <ul class="list-group list-group-flush" id="dashboardUserStatusTodayList">
+
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -85,35 +96,65 @@ const Dashboard = {
     const role = sessionStorage.getItem('role');
 
     if (role === 'user') {
-      const hospitals = await api.getAllHospitals();
-      let shuffledHospitals = hospitals.sort(() => Math.floor(Math.random() * hospitals.length)); // TODO: shuffle masih gagal
-
-      shuffledHospitals = shuffledHospitals.slice(0, 4);
-      $('#dashboardNearYouCardHolder').empty();
-
-      shuffledHospitals.forEach((hospital) => {
-        $('#dashboardNearYouCardHolder').append(dashboardHospitalCard({hospitalImage: hospital.picture, hospitalName: hospital.name, hospitalPhone: hospital.phone, hospitalDesc: hospital.description, hospitalId: hospital.uuid}));
-      });
-
-      // Kartu kosong biar design ga rusak
-      if (shuffledHospitals.length === 1) {
-        $('#dashboardNearYouCardHolder').append(emptyCard);
-      }
-
-      if (shuffledHospitals.length === 0) {
-        // TODO: tambah text no hospital
-      }
-
-      $('.dashboardPolyCard').on('click', async () => {
-        const param = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
-
-        window.location.href = `#/detail/${param}`;
-      });
+      await afterRenderUser();
     } else if (role === 'hospital') {
       await afterRenderHospital();
     }
   },
 };
+
+async function afterRenderUser() {
+  const hospitals = await api.getAllHospitals();
+  let shuffledHospitals = hospitals.sort(() => Math.floor(Math.random() * hospitals.length)); // TODO: shuffle masih gagal
+
+  shuffledHospitals = shuffledHospitals.slice(0, 4);
+  $('#dashboardNearYouCardHolder').empty();
+
+  shuffledHospitals.forEach((hospital) => {
+    $('#dashboardNearYouCardHolder').append(dashboardHospitalCard({hospitalImage: hospital.picture, hospitalName: hospital.name, hospitalPhone: hospital.phone, hospitalDesc: hospital.description, hospitalId: hospital.uuid}));
+  });
+
+  // Kartu kosong biar design ga rusak
+  if (shuffledHospitals.length === 1) {
+    $('#dashboardNearYouCardHolder').append(emptyCard);
+  }
+
+  if (shuffledHospitals.length === 0) {
+    // TODO: tambah text no hospital
+  }
+
+  $('.dashboardPolyCard').on('click', async () => {
+    const param = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+
+    window.location.href = `#/detail/${param}`;
+  });
+
+  // ---------------------- Status ------------------------ // dashboardUserStatusTodayList
+  const queueDataStatus = await api.getAllUserQueue();
+
+  if (queueDataStatus.success) {
+    $('#dashboardUserStatusTodayList').empty();
+    queueDataStatus.success.data.queues.forEach(async (queue) => {
+      $('#dashboardUserStatusTodayList').append(`
+         <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
+    });
+  }
+  // const currentQueue = await api.getAllTodayQueue();
+  // if (todayQueueDataStatus.success) {
+  //   $('#dashboardHospitalStatusTodayList').empty();
+  //   todayQueueDataStatus.success.data.queues.forEach((queue) => {
+  //     if (queue.queueStatus.id > 0 && queue.queueStatus.id < 3) {
+  //       $('#dashboardHospitalStatusTodayList').append(`
+  //       <li class="list-group-item">${statusList({queueData: queue})}</li>`);
+  //     }
+  //   });
+  // } else {
+  //   $('#dashboardHospitalStatusTodayList').empty();
+  //   $('#dashboardHospitalStatusTodayList').append(`<li class="list-group-item">
+  //     <h6 class="mb-0">No queue for today</h6>
+  //     </li>`);
+  // }
+}
 
 async function afterRenderHospital() {
   // ------------ Edit Hospital Profile (Modal) -----------------
@@ -173,10 +214,10 @@ async function afterRenderHospital() {
   });
 
   // ----------------------- Status -----------------------------
-  await renderStatus();
+  await renderHospitalStatus();
 }
 
-async function renderStatus() {
+async function renderHospitalStatus() {
   const todayQueueDataStatus = await api.getAllTodayQueue();
   if (todayQueueDataStatus.success) {
     $('#dashboardHospitalStatusTodayList').empty();
@@ -238,6 +279,44 @@ function statusList({queueData}) {
 `;
 }
 
+async function userStatusList({queueData}) {
+  let color;
+  let display = 'block';
+  let notDisplay = 'none';
+  let mt = 2;
+
+  const currectQueue = await api.getCurrentAppointmentQueue(queueData.appointment.id);
+  console.log(currectQueue);
+
+  if (queueData.queueStatus.id == 100) { // Finished
+    color = 'green';
+  } else if (queueData.queueStatus.id == -1) { // Finished
+    color = 'red';
+    display = 'none';
+    notDisplay = 'block';
+    mt = 0;
+  }
+  return `
+    <div class="row">
+        <div class="col-auto">
+          <h6 class="mb-0 mt-${mt}">${queueData.appointment.poly.name}</h6>
+        </div>
+        <div class="col-auto ms-auto">
+          <span class="title-grey" style="color:${color};">${queueData.queueStatus.name}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-auto">
+          <span style="display:${display};">Urutan <b>${queueData.queue}</b> dari <b>${currectQueue.currentQueue}</b></span>
+          <span style="display:${notDisplay};">Reject Message: <b>${queueData.rejectMessage}</b></span>
+        </div>
+        <div class="col-auto ms-auto">
+        </div>
+    </div>
+`;
+}
+
 async function checkDesc({desc, hospitalData}) {
   if (desc === '') {
     return hospitalData.description;
@@ -249,18 +328,6 @@ async function checkDesc({desc, hospitalData}) {
 async function renderPolyCards({addPolyCard, emptyCard}) {
   $('#dashboardPolyCardHolder').empty();
   const polys = await api.getAllPolys();
-
-
-  // const queueData = await api.getAllQueue();
-  // const queueWaiting = [];
-  // // queueWaiting[queue.id] = 0;
-  // console.log(queueData.success.data.queues);
-  // queueData.success.data.queues.forEach((queue) => {
-  //   if (queue.queueStatus.id == 0) {
-  //     queueWaiting[queue.id] = 1;
-  //   }
-  //   console.log(queueWaiting[28]);
-  // });
 
   polys.forEach(async (poly) => {
     // TODO: PENTING

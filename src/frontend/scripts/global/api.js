@@ -374,6 +374,38 @@ function rejectOneQueue({queueId, rejectMessage = 'Sorry, your queue was rejecte
       });
 }
 
+function getAllUserQueue() {
+  return fetch(API_ENDPOINT.GET_ALL_USER_QUEUE, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
+function getCurrentAppointmentQueue(appointmentId) {
+  return fetch(API_ENDPOINT.GET_CURRENT_APPOINTMENT_QUEUE(appointmentId), {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          return json.success.data.appointment;
+        } else if (json.error) {
+          alert(json.error.message);
+        }
+      })
+      .catch((err) => {
+      });
+}
+
 const api = {
   getAllHospitals: getAllHospitals,
   getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
@@ -400,6 +432,8 @@ const api = {
   processOneQueue: (queueId) => processOneQueue(queueId),
   finishOneQueue: (queueId) => finishOneQueue(queueId),
   rejectOneQueue: ({queueId, rejectMessage}) => rejectOneQueue({queueId, rejectMessage}),
+  getAllUserQueue: getAllUserQueue,
+  getCurrentAppointmentQueue: (appointmentId) => getCurrentAppointmentQueue(appointmentId),
 };
 
 export default api;
