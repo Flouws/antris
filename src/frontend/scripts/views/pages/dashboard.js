@@ -57,8 +57,19 @@ const Dashboard = {
         </div>
 
         <div class="card mx-3 my-4 width-400">
-          <div class="card-body d-flex justify-content-center">
-            <h2 class="title-grey">Status card</h2>
+          <div class="card-body d-flex justify-content-top flex-column">
+            <h2 class="title-grey mx-auto">Status</h2>
+            <hr class="mx-3">
+            <div id="dashboardHospitalStatus">
+              <div class="card w-100">
+                <div class="card-header">
+                  <b>Today</b>
+                </div>
+                <ul class="list-group list-group-flush" id="dashboardHospitalStatusTodayList">
+
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -160,6 +171,71 @@ async function afterRenderHospital() {
 
     window.location.href = `#/hospital/${param}`;
   });
+
+  // ----------------------- Status -----------------------------
+  await renderStatus();
+}
+
+async function renderStatus() {
+  const todayQueueDataStatus = await api.getAllTodayQueue();
+  if (todayQueueDataStatus.success) {
+    $('#dashboardHospitalStatusTodayList').empty();
+    todayQueueDataStatus.success.data.queues.forEach((queue) => {
+      if (queue.queueStatus.id > 0 && queue.queueStatus.id < 3) {
+        $('#dashboardHospitalStatusTodayList').append(`
+        <li class="list-group-item">${statusList({queueData: queue})}</li>`);
+      }
+    });
+  } else {
+    $('#dashboardHospitalStatusTodayList').empty();
+    $('#dashboardHospitalStatusTodayList').append(`<li class="list-group-item">
+      <h6 class="mb-0">No queue for today</h6>
+      </li>`);
+  }
+
+  $('.statusListStartProcess').on('click', async () => {
+    const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+    const status = await api.processOneQueue(queueId);
+    if (status.success) {
+      await renderStatus();
+    }
+  });
+
+  $('.statusListFinishProcess').on('click', async () => {
+    const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
+    const status = await api.finishOneQueue(queueId);
+    if (status.success) {
+      await renderStatus();
+    }
+  });
+}
+
+function statusList({queueData}) {
+  let statusButton;
+  if (queueData.queueStatus.id == 1) {
+    statusButton = `<button type="button" class="btn btn-success btn-sm statusListStartProcess" id="statusListStartProcess" name="${queueData.id}">Start Process</button>`;
+  } else if (queueData.queueStatus.id == 2) {
+    statusButton = `<button type="button" class="btn btn-warning btn-sm statusListFinishProcess" id="statusListFinishProcess" name="${queueData.id}">Finish Process</button>`;
+  }
+  return `
+    <div class="row">
+        <div class="col-auto">
+          <h6 class="mb-0 mt-2">${queueData.appointment.poly.name} (No. urut ${queueData.queue})</h6>
+        </div>
+        <div class="col-auto ms-auto">
+          <span class="title-grey">${queueData.queueStatus.name}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-auto">
+        <span class="">${queueData.user.name}</span>
+        </div>
+        <div class="col-auto ms-auto">
+            ${statusButton}
+        </div>
+    </div>
+`;
 }
 
 async function checkDesc({desc, hospitalData}) {

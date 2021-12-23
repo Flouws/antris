@@ -17,12 +17,12 @@
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 .datalist {
-    height:5.1em;
-    overflow:hidden;
+    height: 5.1em;
+    overflow: hidden;
 }
 
 .pointer {
@@ -86,16 +86,16 @@ label {
     transform: scale(1.025);
 }
 
-#HospitalDetailScreenCard{
+#HospitalDetailScreenCard {
     min-width: 300px;
     max-width: 500px;
 }
 
-.title-grey{
+.title-grey {
     color: #616161;
 }
 
-.w-30{
+.w-30 {
     width: 30%;
 }
 
@@ -115,9 +115,9 @@ label {
 
 .reverse {
     flex-direction: row-reverse;
-  }
+}
 
-  .numberCircle {
+.numberCircle {
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -130,6 +130,17 @@ label {
 
     font: 32px Arial, sans-serif;
 }
+
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+  }
+  .fill-red{
+      background-color: #dd3e49;
+      color: #eef0f3;
+  }
 
 
 /* Page Bar */

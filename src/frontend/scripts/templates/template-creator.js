@@ -106,6 +106,9 @@ const addPolyCard = `
 const dashboardPolyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyId}) => `
 <div class="col">
   <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
+    <div class="topright mt-2">
+      <a class="border border-danger rounded-circle px-2 pointer fill-red">2</a> // TODO: PENTING
+    </div>
     <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
     <div class="card-body">
       <h5 class="card-title mb-0">${polyName}</h5>

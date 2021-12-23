@@ -22,11 +22,13 @@ const API_ENDPOINT = {
   ADD_APPOINTMENT: (polyId) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}/appointment`,
   ADD_QUEUE: `${CONFIG.BASE_URL}/user/queue`,
   GET_ALL_QUEUE: `${CONFIG.BASE_URL}/hospital/queue`,
+  GET_ALL_TODAY_QUEUE: `${CONFIG.BASE_URL}/hospital/queue/today`,
   GET_DETAILS_ONE_APPOINTMENT: ({polyId, appointmentId}) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}/appointment/${appointmentId}`,
   ACCEPT_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/accept`,
   PROCESS_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/process`,
   FINISH_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/finish`,
   REJECT_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/reject`,
+
 };
 
 export default API_ENDPOINT;

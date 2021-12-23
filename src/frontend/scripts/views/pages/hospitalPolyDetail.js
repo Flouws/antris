@@ -140,13 +140,4 @@ const hospitalDetailAppointmentCard = ({day}) => `
   </div>
 `;
 
-// const hospitalDetailAppointmentCard = ({day, timeStart, timeEnd}) => `
-//   <div class="card w-100 my-1">
-//     <div class="card-body">
-//       <h5 class="">${day}:</h5>
-//       <h5 class="card-subtitle mb-2 text-muted">${timeStart} - ${timeEnd}</h5>
-//     </div>
-//   </div>
-// `;
-
 export default HospitalPolyDetail;

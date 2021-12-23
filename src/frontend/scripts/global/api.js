@@ -279,6 +279,18 @@ function getAllQueue() {
       });
 }
 
+function getAllTodayQueue() {
+  return fetch(API_ENDPOINT.GET_ALL_TODAY_QUEUE, {
+    method: 'GET',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
+      })
+      .catch((err) => {
+      });
+}
+
 function getDetailsOneAppointment({polyId, appointmentId}) {
   return fetch(API_ENDPOINT.GET_DETAILS_ONE_APPOINTMENT({polyId, appointmentId}), {
     method: 'GET',
@@ -318,7 +330,7 @@ function processOneQueue(queueId) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          return json.success.data.message;
+          return json;
         } else if (json.error) {
           alert(json.error.message);
         }
@@ -336,7 +348,7 @@ function finishOneQueue(queueId) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          return json.success.data.message;
+          return json;
         } else if (json.error) {
           alert(json.error.message);
         }
@@ -382,6 +394,7 @@ const api = {
   addAppointment: ({polyId, appointment}) => addAppointment({polyId, appointment}),
   addQueue: (data) => addQueue(data),
   getAllQueue: getAllQueue,
+  getAllTodayQueue: getAllTodayQueue,
   getDetailsOneAppointment: ({polyId, appointmentId}) => getDetailsOneAppointment({polyId, appointmentId}),
   acceptOneQueue: (queueId) => acceptOneQueue(queueId),
   processOneQueue: (queueId) => processOneQueue(queueId),
