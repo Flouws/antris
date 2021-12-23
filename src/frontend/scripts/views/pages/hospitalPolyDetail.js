@@ -97,17 +97,20 @@ async function renderPolyCards(addAppointmentCard) {
     appointmentStatus.success.data.appointments.forEach((appointment) => {
       appointmentIdArray[appointment.id] = 0;
 
-      queueData.success.data.queues.forEach((queue) => {
-        if (appointment.id == queue.appointment.id) {
-          if (queue.queueStatus.id > 0) {
-            // process
-          } else if (queue.queueStatus.id < 0) {
-            // rejected
-          } else {
-            appointmentIdArray[appointment.id] ++;
+      if (queueData.success) {
+        queueData.success.data.queues.forEach((queue) => {
+          if (appointment.id == queue.appointment.id) {
+            if (queue.queueStatus.id > 0) {
+              // process
+            } else if (queue.queueStatus.id < 0) {
+              // rejected
+            } else {
+              appointmentIdArray[appointment.id] ++;
+            }
           }
-        }
-      });
+        });
+      }
+
 
       $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
         <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-danger rounded-circle px-2 pointer" 

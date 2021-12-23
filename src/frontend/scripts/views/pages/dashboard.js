@@ -332,38 +332,28 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   const queueData = await api.getAllQueue();
   console.log(queueData);
 
+  if (queueData.success) {
+
+  }
+
   if (polys == undefined) {
     console.log('polys');
   } else {
+    const queueArray = [];
     polys.forEach(async (poly) => {
-    // TODO: PENTING
-      // const appointmentStatus = await api.getAllAppointments(poly.id);
-      // const queueData = await api.getAllQueue();
-      // const appointmentIdArray = [];
+      queueArray[poly.id] = 0;
 
-      // console.log(queueData);
+      if (queueData.success) {
+        queueData.success.data.queues.forEach((queue) => {
+          if (poly.id == queue.appointment.poly.id && queue.queueStatus.id == 0) {
+            if (queue.queueStatus.id == 0) {
+              queueArray[poly.id] ++;
+            }
+          }
+        });
+      }
 
-      // appointmentStatus.success.data.appointments.forEach((appointment) => {
-      //   appointmentIdArray[appointment.id] = 0;
-
-      //   queueData.success.data.queues.forEach((queue) => {
-      //     if (appointment.id == queue.appointment.id) {
-      //       console.log(appointment.id);
-      //       console.log(queue.appointment.id);
-      //       if (queue.queueStatus.id > 0) {
-      //         // process
-      //       } else if (queue.queueStatus.id < 0) {
-      //         // rejected
-      //       } else {
-      //         appointmentIdArray[appointment.id] ++;
-      //       }
-      //     }
-      //   });
-      // });
-      // console.log(appointmentIdArray);
-
-
-      $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id, queueSum: 2}));
+      $('#dashboardPolyCardHolder').append(dashboardPolyCard({polyImage: poly.picture, polyName: poly.name, polyDoctor: poly.doctor, polyDesc: poly.description, polyId: poly.id, queueSum: queueArray[poly.id]}));
     });
   }
   // Kartu untuk add poly
