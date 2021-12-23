@@ -406,6 +406,42 @@ function getCurrentAppointmentQueue(appointmentId) {
       });
 }
 
+function deleteHospitalProfile() {
+  return fetch(API_ENDPOINT.DELETE_HOSPITAL_PROFILE, {
+    method: 'DELETE',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
+      })
+      .catch((err) => {
+      });
+}
+
+function deletePoly(polyId) {
+  return fetch(API_ENDPOINT.DELETE_POLY(polyId), {
+    method: 'DELETE',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
+      })
+      .catch((err) => {
+      });
+}
+
+function deleteAppointment({polyId, appointmentId}) {
+  return fetch(API_ENDPOINT.DELETE_APPOINTMENT({polyId, appointmentId}), {
+    method: 'DELETE',
+    headers: {'x-access-token': sessionStorage.getItem('accessToken')},
+  }).then((response) => response.json())
+      .then((json) => {
+        return json;
+      })
+      .catch((err) => {
+      });
+}
+
 const api = {
   getAllHospitals: getAllHospitals,
   getDetailsOneHospital: (uuid) => getDetailsOneHospital(uuid),
@@ -434,6 +470,9 @@ const api = {
   rejectOneQueue: ({queueId, rejectMessage}) => rejectOneQueue({queueId, rejectMessage}),
   getAllUserQueue: getAllUserQueue,
   getCurrentAppointmentQueue: (appointmentId) => getCurrentAppointmentQueue(appointmentId),
+  deleteHospitalProfile: deleteHospitalProfile,
+  deletePoly: (polyId) => deletePoly(polyId),
+  deleteAppointment: ({polyId, appointmentId}) => deleteAppointment({polyId, appointmentId}),
 };
 
 export default api;

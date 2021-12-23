@@ -69,7 +69,7 @@ const detailBody = ({thisHospitalData, city}) => { // TODO: Fix design
   if (thisHospitalData.picture == null) {
     hospitalImgSrc = '/images/hospital-img.png';
   } else {
-    hospitalImgSrc = api.getHospitalImage(thisHospitalData.picture);
+    hospitalImgSrc = api.getProfileImage(thisHospitalData.picture);
   }
 
   return `
@@ -155,7 +155,7 @@ function dashboardHospitalCard({hospitalImage, hospitalName, hospitalPhone, hosp
   if (hospitalImage == null) {
     hospitalImgSrc = '/images/hospital-img.png';
   } else {
-    hospitalImgSrc = api.getHospitalImage(thisHospitalData.picture);
+    hospitalImgSrc = api.getProfileImage(hospitalImage);
   }
   return `
     <div class="col">

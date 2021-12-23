@@ -30,6 +30,9 @@ const API_ENDPOINT = {
   REJECT_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/reject`,
   GET_ALL_USER_QUEUE: `${CONFIG.BASE_URL}/user/queue`,
   GET_CURRENT_APPOINTMENT_QUEUE: (appointmentId) => `${CONFIG.BASE_URL}/user/appointment/${appointmentId}/current-queue`,
+  DELETE_HOSPITAL_PROFILE: `${CONFIG.BASE_URL}/hospital/profile`,
+  DELETE_POLY: (polyId) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}`,
+  DELETE_APPOINTMENT: ({polyId, appointmentId}) => `${CONFIG.BASE_URL}/hospital/poly/${polyId}/appointment/${appointmentId}`,
 };
 
 export default API_ENDPOINT;
