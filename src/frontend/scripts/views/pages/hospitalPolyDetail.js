@@ -13,16 +13,9 @@ const HospitalPolyDetail = {
     const polyId = param.split('_')[1];
 
     const polyData = await api.getDetailsOnePoly(polyId);
-    const appointmentStatus = await api.getAllAppointments(polyId);
 
     const pages = [{link: '#/dashboard', text: 'Dashboard'}];
     appendPages({pages, lastPageText: polyData.name});
-
-    if (appointmentStatus.success) {
-      console.log('sukses');
-    } else {
-      console.log('no app'); // TODO: bikin kaya screen poly no appointment
-    }
 
     return `
       <div class="container my-5">
@@ -122,8 +115,6 @@ async function renderPolyCards(addAppointmentCard) {
         `,
       );
     });
-  } else {
-    console.log('no app'); // TODO: bikin kaya screen poly no appointment
   }
 
   // Kartu untuk add poly
