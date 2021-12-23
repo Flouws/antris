@@ -38,7 +38,7 @@ const Dashboard = {
               <div id="dashboardHospitalStatus">
                 <div class="card w-100">
                   <div class="card-header">
-                    <b>Today</b>
+                    <b>Hari Ini</b>
                   </div>
                   <ul class="list-group list-group-flush" id="dashboardUserStatusTodayList">
 
@@ -74,7 +74,7 @@ const Dashboard = {
             <div id="dashboardHospitalStatus">
               <div class="card w-100">
                 <div class="card-header">
-                  <b>Today</b>
+                  <b>Hari Ini</b>
                 </div>
                 <ul class="list-group list-group-flush" id="dashboardHospitalStatusTodayList">
 
@@ -129,7 +129,7 @@ async function afterRenderUser() {
     window.location.href = `#/detail/${param}`;
   });
 
-  // ---------------------- Status ------------------------ // dashboardUserStatusTodayList
+  // ---------------------- Status ------------------------
   const queueDataStatus = await api.getAllUserQueue();
 
   if (queueDataStatus.success) {
@@ -139,21 +139,6 @@ async function afterRenderUser() {
          <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
     });
   }
-  // const currentQueue = await api.getAllTodayQueue();
-  // if (todayQueueDataStatus.success) {
-  //   $('#dashboardHospitalStatusTodayList').empty();
-  //   todayQueueDataStatus.success.data.queues.forEach((queue) => {
-  //     if (queue.queueStatus.id > 0 && queue.queueStatus.id < 3) {
-  //       $('#dashboardHospitalStatusTodayList').append(`
-  //       <li class="list-group-item">${statusList({queueData: queue})}</li>`);
-  //     }
-  //   });
-  // } else {
-  //   $('#dashboardHospitalStatusTodayList').empty();
-  //   $('#dashboardHospitalStatusTodayList').append(`<li class="list-group-item">
-  //     <h6 class="mb-0">No queue for today</h6>
-  //     </li>`);
-  // }
 }
 
 async function afterRenderHospital() {
@@ -238,7 +223,7 @@ async function renderHospitalStatus() {
     const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
     const status = await api.processOneQueue(queueId);
     if (status.success) {
-      await renderStatus();
+      await renderHospitalStatus();
     }
   });
 
@@ -246,7 +231,7 @@ async function renderHospitalStatus() {
     const queueId = $(event.currentTarget).attr('name'); // TODO: Fix Depreciated
     const status = await api.finishOneQueue(queueId);
     if (status.success) {
-      await renderStatus();
+      await renderHospitalStatus();
     }
   });
 }
