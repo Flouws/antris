@@ -13,7 +13,13 @@ const Profile = {
     const user = await api.getUserProfile();
     const city = user.address.split(',').slice(0, -1).slice(-1).join(',');
 
-    // console.log(await api.getUserProfile(user.picture))
+    let userImgSrc;
+
+    if (user.picture == null) {
+      userImgSrc = '/images/user-img.png';
+    } else {
+      userImgSrc = api.getProfileImage(user.picture);
+    }
 
     return `
       <div class="container shadow-lg p-3 bg-white rounded" id="profile">
@@ -21,7 +27,7 @@ const Profile = {
           <div class="row mt-3 align-items-center">
             <div class="col-md-4 text-center mb-5">
               <div class="avatar avatar-xl">
-                <img src="${api.getUserProfile(user.picture)}" alt="profile picture"
+                <img src="${userImgSrc}" alt="profile picture"
                   class="avatar-img rounded-circle"/>
               </div>
             </div>
@@ -46,7 +52,7 @@ const Profile = {
                     </tr>
                     <tr>
                       <th>Password</th>
-                      <td><a href="" class="link-primary" data-toggle="modal" data-target="#changePasswordModal">Change Password</a></td> <!-- TODO: Tambah fitur change password -->
+                      <td><span>Password tidak dapat diganti</span></td> <!-- TODO: Tambah fitur change password -->
                     </tr>
                   </tbody>
                 </table>

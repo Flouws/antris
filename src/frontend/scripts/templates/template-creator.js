@@ -41,10 +41,18 @@ const changePasswordBody = `
 `;
 
 const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity, polyId}) => {
+  let polyImgSrc;
+
+  if (polyImage == null) {
+    polyImgSrc = '/images/poly-img.png';
+  } else {
+    polyImgSrc = api.getPolyImage(polyImage);
+  }
+
   return `
   <div class="col">
     <div class="card h-100 min-w-192-75 pointer detailPolyCard" name="${polyId}" data-toggle="modal" data-target="#makeAppointmentModal">
-      <img src="${api.getPolyImage(polyImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+      <img src="${polyImgSrc}" class="card-img-top img-fluid w-100" alt="Foto Poly">
       <div class="card-body">
         <h5 class="card-title mb-0">${polyName}</h5>
         <small class="text-muted">${polyDoctor}</small>
@@ -56,11 +64,19 @@ const polyCard = ({polyImage, polyName, polyDoctor, polyDesc, polyCapacity, poly
 };
 
 const detailBody = ({thisHospitalData, city}) => { // TODO: Fix design
+  let hospitalImgSrc;
+
+  if (thisHospitalData.picture == null) {
+    hospitalImgSrc = '/images/hospital-img.png';
+  } else {
+    hospitalImgSrc = api.getHospitalImage(thisHospitalData.picture);
+  }
+
   return `
   <div class="row justify-content-center">
     <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
       <div class="card">
-        <img src="${api.getProfileImage(thisHospitalData.picture)}" alt="Gambar RS">
+        <img src="${hospitalImgSrc}" alt="Gambar RS">
         <div class="card-body p-1-9 p-xl-5">
           <div class="mb-4">
             <h3 class="h4 mb-0">${thisHospitalData.name}</h3>
@@ -105,13 +121,13 @@ const addPolyCard = `
 `;
 
 function dashboardPolyCard({polyImage, polyName, polyDoctor, polyDesc, polyId, queueSum}) {
-  let imgSrc;
+  let polyImgSrc;
   let spanSum;
 
   if (polyImage == null) {
-    imgSrc = '/images/poly-img.png';
+    polyImgSrc = '/images/poly-img.png';
   } else {
-    imgSrc = api.getPolyImage(polyImage);
+    polyImgSrc = api.getPolyImage(polyImage);
   }
 
   if (queueSum > 0) {
@@ -122,7 +138,7 @@ function dashboardPolyCard({polyImage, polyName, polyDoctor, polyDesc, polyId, q
   return `
     <div class="col">
       <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${polyId}">
-        <img src="${imgSrc}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+        <img src="${polyImgSrc}" class="card-img-top img-fluid w-100" alt="Foto Poly">
         <div class="card-body">
           <h5 class="card-title mb-0">${polyName} ${spanSum}</h5>
           <small class="text-muted">${polyDoctor}</small>
@@ -133,18 +149,27 @@ function dashboardPolyCard({polyImage, polyName, polyDoctor, polyDesc, polyId, q
   `;
 }
 
-const dashboardHospitalCard = ({hospitalImage, hospitalName, hospitalPhone, hospitalDesc, hospitalId}) => `
-<div class="col">
-  <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${hospitalId}">
-    <img src="${api.getProfileImage(hospitalImage)}" class="card-img-top img-fluid w-100" alt="Foto Poly">
-    <div class="card-body">
-      <h5 class="card-title mb-0">${hospitalName}</h5>
-      <small class="text-muted">${hospitalPhone}</small>
-      <p class="card-text">${hospitalDesc}</p>
+function dashboardHospitalCard({hospitalImage, hospitalName, hospitalPhone, hospitalDesc, hospitalId}) {
+  let hospitalImgSrc;
+
+  if (hospitalImage == null) {
+    hospitalImgSrc = '/images/hospital-img.png';
+  } else {
+    hospitalImgSrc = api.getHospitalImage(thisHospitalData.picture);
+  }
+  return `
+    <div class="col">
+      <div class="card h-100 min-w-192-75 pointer dashboardPolyCard" name="${hospitalId}">
+        <img src="${hospitalImgSrc}" class="card-img-top img-fluid w-100" alt="Foto Poly">
+        <div class="card-body">
+          <h5 class="card-title mb-0">${hospitalName}</h5>
+          <small class="text-muted">${hospitalPhone}</small>
+          <p class="card-text">${hospitalDesc}</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 `;
+}
 
 export {
   changePasswordBody,
