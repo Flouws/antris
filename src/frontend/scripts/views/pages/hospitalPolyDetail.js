@@ -113,9 +113,12 @@ async function renderPolyCards(addAppointmentCard) {
 
 
       $(`#hospitalDetailAppointmentCard_${dayConverter(appointment.day)}`).append(`
-        <h5 class="card-subtitle mb-2 mt-1 text-muted"><a class="border border-danger rounded-circle px-2 pointer" 
-          id="#hospitalDetailAppointmentCard_${appointment.id}" href="#/appointment/${hospitalId}_${polyId}_${appointment.id}">${appointmentIdArray[appointment.id]}</a> 
-          ${appointment.timeStart} - ${appointment.timeEnd}</h5>
+      <a id="#hospitalDetailAppointmentCard_${appointment.id}" href="#/appointment/${hospitalId}_${polyId}_${appointment.id}" class="">
+        <h5 class="card-subtitle mb-2 mt-1 text-muted">
+            <span class="border border-danger rounded-circle px-2 pointer fill-red">${appointmentIdArray[appointment.id]}</span>
+          ${appointment.timeStart} - ${appointment.timeEnd}
+        </h5>
+      </a> 
         `,
       );
     });
