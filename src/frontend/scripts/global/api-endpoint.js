@@ -28,7 +28,8 @@ const API_ENDPOINT = {
   PROCESS_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/process`,
   FINISH_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/finish`,
   REJECT_ONE_QUEUE: (queueId) => `${CONFIG.BASE_URL}/hospital/queue/${queueId}/reject`,
-
+  GET_ALL_USER_QUEUE: `${CONFIG.BASE_URL}/user/queue`,
+  GET_CURRENT_APPOINTMENT_QUEUE: (appointmentId) => `${CONFIG.BASE_URL}/user/appointment/${appointmentId}/current-queue`,
 };
 
 export default API_ENDPOINT;
