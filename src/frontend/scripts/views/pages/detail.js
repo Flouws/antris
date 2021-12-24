@@ -121,7 +121,6 @@ const Detail = {
       const status = await api.addQueue(datas);
 
       if (status === true) {
-        console.log('success');
       }
     });
   },

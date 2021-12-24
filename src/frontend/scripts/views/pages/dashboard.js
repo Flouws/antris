@@ -284,7 +284,6 @@ async function userStatusList({queueData}) {
   let mt = 2;
 
   const currectQueue = await api.getCurrentAppointmentQueue(queueData.appointment.id);
-  console.log(currectQueue);
 
   if (queueData.queueStatus.id == 100) { // Finished
     color = 'green';
@@ -328,14 +327,12 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   const polys = await api.getAllPolys();
 
   const queueData = await api.getAllQueue();
-  console.log(queueData);
 
   if (queueData.success) {
 
   }
 
   if (polys == undefined) {
-    console.log('polys');
   } else {
     const queueArray = [];
     polys.forEach(async (poly) => {

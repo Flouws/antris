@@ -112,7 +112,6 @@ const Register = {
         description: 'No description yet',
       };
       const rePassword = $('#registerPasswordConfirm').val();
-      console.log(user);
 
       const checkErrorVal = checkError({register: true, user: user, rePassword: rePassword,
         emailInvalidId: '#registerEmailInvalid', nameInvalidId: '#registerNameInvalid', phoneInvalidId: '#registerPhoneInvalid',
