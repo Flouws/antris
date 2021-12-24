@@ -11,7 +11,7 @@ function getAllHospitals() {
         if (json.success) {
           return json.success.data.hospitals;
         } else if (json.error) {
-          // window.location.href = '#/login';
+
         }
       })
       .catch((err) => {
@@ -26,7 +26,7 @@ function getDetailsOneHospital(uuid) {
         if (json.success) {
           return json.success.data.hospital;
         } else if (json.error) {
-          // window.location.href = '#/login';
+
         }
       })
       .catch((err) => {
@@ -82,7 +82,7 @@ function getUserProfile() {
         if (json.success) {
           return json.success.data.user;
         } else if (json.error) {
-          // window.location.href = '#/login';
+
         }
       })
       .catch((err) => {
@@ -98,7 +98,7 @@ function getHospitalProfile() {
         if (json.success) {
           return json.success.data.user;
         } else if (json.error) {
-          // window.location.href = '#/login';
+
         }
       })
       .catch((err) => {
@@ -126,12 +126,10 @@ function editHospitalProfile(data) {
   }).then((response) => response.json())
       .then((json) => {
         if (json.success) {
-          console.log(json);
           // TODO: bikin kaya popup kecil yang gausah dipencet: 'berhasil update profil'
           // data-dismiss="modal"
           // $('#editHospitalModalSave').attr(data-dismiss, 'modal'); // TODO: ???
         } else if (json.error) {
-          console.log(json);
           alert(json.error.message);
         }
       })
@@ -178,7 +176,6 @@ function getAllPolys() {
         if (json.success) {
           return json.success.data.polys;
         } else if (json.error) {
-          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -194,7 +191,6 @@ function getDetailsOnePoly(polyId) {
         if (json.success) {
           return json.success.data.poly;
         } else if (json.error) {
-          // window.location.href = '#/login';
         }
       })
       .catch((err) => {
@@ -223,6 +219,7 @@ function addAppointment({polyId, appointment}) {
         if (json.success) {
           return true;
         } else if (json.error) {
+          alert(json.error.message);
           return false;
         }
       })
@@ -272,7 +269,6 @@ function getAllQueue() {
     headers: {'x-access-token': sessionStorage.getItem('accessToken')},
   }).then((response) => response.json())
       .then((json) => {
-        // console.log(json)
         return json;
       })
       .catch((err) => {
@@ -383,7 +379,6 @@ function getAllUserQueue() {
         if (json.success) {
           return json;
         } else if (json.error) {
-          alert(json.error.message);
         }
       })
       .catch((err) => {
@@ -399,7 +394,6 @@ function getCurrentAppointmentQueue(appointmentId) {
         if (json.success) {
           return json.success.data.appointment;
         } else if (json.error) {
-          alert(json.error.message);
         }
       })
       .catch((err) => {

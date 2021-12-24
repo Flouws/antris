@@ -162,7 +162,7 @@ const editProfileModal = ({editProfileModalName, editProfileModalAddress, editPr
                     <div class="form-group row">
                         <label for="editProfileModalAddress" class="col-sm-2 col-form-label">Address</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control-plaintext px-1" id="editProfileModalAddress" value="${editProfileModalAddress}"> <!-- TODO: Buat terpisah. addr, city, zip -->
+                            <input type="text" class="form-control-plaintext px-1" id="editProfileModalAddress" value="${editProfileModalAddress}">
                         </div>
                     </div>
 
@@ -269,11 +269,11 @@ const addAppointmentModal = () => `
                             <div class="row">
                                 <div class="col">
                                     <label>Waktu Mulai</label>
-                                    <input type="text" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart"> <!-- TODO: buat pemisah jam menit detik -->
+                                    <input type="time" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart">
                                 </div>
                                 <div class="col">
                                     <label>Waktu Akhir</label>
-                                    <input type="text" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
+                                    <input type="time" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
                                 </div>
                             </div>
                         </div>

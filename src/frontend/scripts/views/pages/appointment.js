@@ -137,6 +137,11 @@ const AppointmentPage = {
       await api.deleteAppointment({polyId, appointmentId});
       window.location.href = `#/dashboard`;
     });
+
+    // -------- 15 sec loop ---------
+    await setInterval(async () => {
+      await this.afterRender();
+    }, 15000);
   },
 };
 

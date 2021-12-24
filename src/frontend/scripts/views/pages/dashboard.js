@@ -131,15 +131,11 @@ async function afterRenderUser() {
   });
 
   // ---------------------- Status ------------------------
-  const queueDataStatus = await api.getAllUserQueue();
+  await renderUserStatus();
 
-  if (queueDataStatus.success) {
-    $('#dashboardUserStatusTodayList').empty();
-    queueDataStatus.success.data.queues.forEach(async (queue) => {
-      $('#dashboardUserStatusTodayList').append(`
-         <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
-    });
-  }
+  await setInterval(async () => {
+    await renderUserStatus();
+  }, 15000);
 }
 
 async function afterRenderHospital() {
@@ -201,6 +197,10 @@ async function afterRenderHospital() {
 
   // ----------------------- Status -----------------------------
   await renderHospitalStatus();
+
+  await setInterval(async () => {
+    await renderHospitalStatus();
+  }, 15000);
 }
 
 async function renderHospitalStatus() {
@@ -265,6 +265,18 @@ function statusList({queueData}) {
 `;
 }
 
+async function renderUserStatus() {
+  const queueDataStatus = await api.getAllUserQueue();
+
+  if (queueDataStatus.success) {
+    $('#dashboardUserStatusTodayList').empty();
+    queueDataStatus.success.data.queues.forEach(async (queue) => {
+      $('#dashboardUserStatusTodayList').append(`
+         <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
+    });
+  }
+}
+
 async function userStatusList({queueData}) {
   let color;
   let display = 'block';
@@ -272,7 +284,6 @@ async function userStatusList({queueData}) {
   let mt = 2;
 
   const currectQueue = await api.getCurrentAppointmentQueue(queueData.appointment.id);
-  console.log(currectQueue);
 
   if (queueData.queueStatus.id == 100) { // Finished
     color = 'green';
@@ -316,14 +327,12 @@ async function renderPolyCards({addPolyCard, emptyCard}) {
   const polys = await api.getAllPolys();
 
   const queueData = await api.getAllQueue();
-  console.log(queueData);
 
   if (queueData.success) {
 
   }
 
   if (polys == undefined) {
-    console.log('polys');
   } else {
     const queueArray = [];
     polys.forEach(async (poly) => {
