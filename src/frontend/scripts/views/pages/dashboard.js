@@ -131,15 +131,11 @@ async function afterRenderUser() {
   });
 
   // ---------------------- Status ------------------------
-  const queueDataStatus = await api.getAllUserQueue();
+  await renderUserStatus();
 
-  if (queueDataStatus.success) {
-    $('#dashboardUserStatusTodayList').empty();
-    queueDataStatus.success.data.queues.forEach(async (queue) => {
-      $('#dashboardUserStatusTodayList').append(`
-         <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
-    });
-  }
+  await setInterval(async () => {
+    await renderUserStatus();
+  }, 15000);
 }
 
 async function afterRenderHospital() {
@@ -201,6 +197,10 @@ async function afterRenderHospital() {
 
   // ----------------------- Status -----------------------------
   await renderHospitalStatus();
+
+  await setInterval(async () => {
+    await renderHospitalStatus();
+  }, 15000);
 }
 
 async function renderHospitalStatus() {
@@ -263,6 +263,18 @@ function statusList({queueData}) {
         </div>
     </div>
 `;
+}
+
+async function renderUserStatus() {
+  const queueDataStatus = await api.getAllUserQueue();
+
+  if (queueDataStatus.success) {
+    $('#dashboardUserStatusTodayList').empty();
+    queueDataStatus.success.data.queues.forEach(async (queue) => {
+      $('#dashboardUserStatusTodayList').append(`
+         <li class="list-group-item">${await userStatusList({queueData: queue})}</li>`);
+    });
+  }
 }
 
 async function userStatusList({queueData}) {
