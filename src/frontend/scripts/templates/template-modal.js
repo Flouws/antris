@@ -269,11 +269,11 @@ const addAppointmentModal = () => `
                             <div class="row">
                                 <div class="col">
                                     <label>Waktu Mulai</label>
-                                    <input type="text" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart"> <!-- TODO: buat pemisah jam menit detik -->
+                                    <input type="time" class="form-control" placeholder="09:30:00" id="addAppointmentModalStart"> <!-- TODO: buat pemisah jam menit detik -->
                                 </div>
                                 <div class="col">
                                     <label>Waktu Akhir</label>
-                                    <input type="text" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
+                                    <input type="time" class="form-control" placeholder="10:40:00" id="addAppointmentModalEnd">
                                 </div>
                             </div>
                         </div>
