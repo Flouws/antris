@@ -5,11 +5,9 @@
 ![Preview Image](https://img.shields.io/github/languages/top/theskinnyrat/antris?style=flat-square)
 
 Antris is a project for SIB Dicoding Capstone 2021.
-<!-- > ![Preview Image](https://github.com/theskinnyrat/si-warung-makan/raw/master/preview.png) -->
 
-```diff
-- [img preview here]
-```
+> ![image](https://user-images.githubusercontent.com/26319163/147365183-a288fb73-b0b1-40c0-8111-dd2225895b10.png)
+> ![image](https://user-images.githubusercontent.com/26319163/147365184-04caf806-bcec-4785-927d-edb44e90c53e.png)
 
 ## Online Preview
 
